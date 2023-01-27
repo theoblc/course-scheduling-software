@@ -1,6 +1,0 @@
-environnement
-*.pyc
-*~
-.coverage
-__pycache__
-.vscode

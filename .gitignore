@@ -1,0 +1,24 @@
+# Backend
+environnement
+*.pyc
+*~
+.coverage
+__pycache__
+.vscode
+
+# Frontend
+code/frontend/package-lock.json
+code/frontend/package.json
+code/frontend/node_modules/
+code/frontend/.pnp
+code/frontend/.pnp.js
+code/frontend/coverage
+code/frontend/build
+code/frontend/.DS_Store
+code/frontend/.env.local
+code/frontend/.env.development.local
+code/frontend/.env.test.local
+code/frontend/.env.production.local
+code/frontend/npm-debug.log*
+code/frontend/yarn-debug.log*
+code/frontend/yarn-error.log*
