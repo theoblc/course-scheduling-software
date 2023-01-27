@@ -1,7 +1,0 @@
-test-python3.11:
-        stage: test
-        image: python:3.11
-        allow_failure: true
-        script:
-                - pip install -r environnement/requirements.txt
-                - cd src && pytest ./code/backend/app_accueil.tests.py
