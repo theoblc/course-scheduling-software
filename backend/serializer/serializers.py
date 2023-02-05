@@ -3,6 +3,7 @@ from app_enseignant.models import Enseignant
 from app_module.models import Module
 from app_seance.models import Seance
 from app_salle.models import Salle
+from app_cours.models import Cours
 
 class EnseignantSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,3 +25,7 @@ class SalleSerializer(serializers.ModelSerializer):
         model = Salle   
         fields = '__all__'
 
+class CoursSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cours   
+        fields = '__all__'
