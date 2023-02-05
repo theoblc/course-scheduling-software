@@ -33,7 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'app_enseignant.apps.AppEnseignantConfig', 
     'app_module.apps.AppModuleConfig', 
-    'app_seance.apps.AppSeanceConfig', 
+    'app_seance.apps.AppSeanceConfig',
+    'app_salle.apps.AppSalleConfig', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
