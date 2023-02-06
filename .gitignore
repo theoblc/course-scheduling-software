@@ -5,6 +5,7 @@ environnement
 .coverage
 __pycache__
 .vscode
+clean.ps1
 
 # Frontend
 code/frontend/package-lock.json
