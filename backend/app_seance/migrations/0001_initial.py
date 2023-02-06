@@ -8,19 +8,16 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('app_module', '0001_initial'),
-        ('app_seance', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Enseignant',
+            name='Seance',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nom', models.TextField()),
-                ('prenom', models.TextField()),
-                ('module', models.ManyToManyField(to='app_module.module')),
-                ('seances', models.ManyToManyField(to='app_seance.seance')),
+                ('date_debut', models.DateTimeField()),
+                ('date_fin', models.DateTimeField()),
+                ('numero_groupe_td', models.IntegerField()),
             ],
         ),
     ]
