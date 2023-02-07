@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -135,6 +136,11 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# Désactivation du CORS pour toutes les adresses pour limiter les domaines qui peuvent accéder à l'API
+CORS_ORIGIN_ALLOW_ALL = False
+
+# Liste des domaines qui peuvent voir accès à l'API
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]

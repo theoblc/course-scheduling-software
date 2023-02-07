@@ -8,12 +8,12 @@ from app_cours.models import Cours
 class EnseignantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enseignant   
-        fields = ('nom' ,'prenom')
+        fields = ('nom' ,'prenom','module','seances')
 
 class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Module   
-        fields = ('code' ,'nom','nb_heures_total','nb_heures_tp','nb_heures_be','nb_heures_ci')
+        fields = ('code' ,'nom','seances','cours','nb_heures_total','nb_heures_tp','nb_heures_be','nb_heures_ci')
 
 class SeanceSerializer(serializers.ModelSerializer):
     class Meta:
