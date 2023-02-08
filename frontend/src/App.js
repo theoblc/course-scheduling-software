@@ -1,55 +1,81 @@
 import React, { Component } from "react"
 
+import Cours from "./Entity/Cours";
+import Enseignant from "./Entity/Enseignant";
+import Module from "./Entity/Module";
+import Salle from "./Entity/Salle";
+import Seance from "./Entity/Seance";
+
+
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      module: {
-        code: "",
-        nom: "",
-        cours:[],
-        seances:[],
-        nb_heures_total: 0,
-        nb_heures_tp: 0,
-        nb_heures_be: 0,
-        nb_heures_ci: 0,
-      },
-      modules: []
+      cours: [],
+      enseignants: [],
+      modules: [],
+      salles: [],
+      seances: [],
       };
   }
 
     async componentDidMount() {
       try {
-        const res = await fetch('http://localhost:8000/api/modules/');
-        const modules = await res.json();
+        const resMod = await fetch('http://localhost:8000/api/modules/');
+        const resCou = await fetch('http://localhost:8000/api/cours/');
+
+        const modules = await resMod.json();
+        const cours = await resCou.json();
+
         console.log(modules)
+        console.log(cours)
+
         this.setState({
-          modules
+          modules,
+          cours
         });
       } catch (e) {
         console.log(e);
     }
     }
-    renderItems = () => {
-      const newItems = this.state.modules;
-      return newItems.map(item => (
+
+    renderModules = () => {
+      const newModules = this.state.modules;
+      return newModules.map(module => (
         <li 
-          key={item.id}
+          key={module.id}
           className="list-group-item d-flex justify-content-between align-items-center"
         >
-          <span 
-            className={`todo-title mr-2`}
-            title={item.code}
-            >
-              Nom : {item.nom} <br></br>
-              Cours : {item.cours} <br></br>
-              Seances : {item.seances} <br></br>
-              {item.nb_heures_total} =
-              {item.nb_heures_tp} +
-              {item.nb_heures_be} +
-              {item.nb_heures_ci}
-            </span>
+          <Module code={module.code} 
+            nom={module.nom}
+            cours={module.cours}
+            seances={module.seances}
+            nb_heures_be={module.nb_heures_be}
+            nb_heures_ci={module.nb_heures_ci}
+            nb_heures_tp={module.nb_heures_tp}
+            nb_heures_total={module.nb_heures_total}/>
+            <br></br>
         </li>
+        
+
+      ));
+    };
+
+    renderCours = () => {
+      const newCours = this.state.cours;
+      return newCours.map(cours => (
+        <li 
+          key={cours.id}
+          className="list-group-item d-flex justify-content-between align-items-center"
+        >
+          <Cours nom={cours.nom}
+            seances={cours.seances}
+            nb_heures={cours.nb_heures}/>
+            <br></br>
+        </li>
+        
+
       ));
     };
 
@@ -60,7 +86,14 @@ class App extends Component {
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
               <ul className="list-group list-group-flush">
-                {this.renderItems()}
+                {this.renderModules()}
+              </ul>
+            </div>
+          </div>
+          <div className="col-md-6 col-sm-10 mx-auto p-0">
+            <div className="card p-3">
+              <ul className="list-group list-group-flush">
+                {this.renderCours()}
               </ul>
             </div>
           </div>
