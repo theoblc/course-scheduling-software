@@ -7,12 +7,6 @@ import Salle from "./components/salle";
 import Seance from "./components/seance";
 import Enseignant from "./components/enseignant";
 
-import Cours from "./Entity/Cours";
-import Enseignant from "./Entity/Enseignant";
-import Module from "./Entity/Module";
-import Salle from "./Entity/Salle";
-import Seance from "./Entity/Seance";
-
 class App extends Component {
   render() {
     return (
