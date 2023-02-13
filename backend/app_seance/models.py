@@ -1,8 +1,9 @@
 from django.db import models
 
 class Seance(models.Model):
-   date_debut = models.DateTimeField()
-   date_fin = models.DateTimeField()
+   id = models.AutoField(primary_key=True)
+   date_debut = models.CharField(max_length=50)
+   date_fin = models.CharField(max_length=50)
    numero_groupe_td = models.IntegerField()
 
    def _str_(self):
