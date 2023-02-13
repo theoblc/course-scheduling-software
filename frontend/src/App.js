@@ -6,6 +6,7 @@ import Module from "./components/module";
 import Salle from "./components/salle";
 import Seance from "./components/seance";
 import Enseignant from "./components/enseignant";
+import "bootstrap/dist/css/bootstrap.css";
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
         <Navbar />
         <div className="container">
           <Routes>
+            <Route path="/" element={<Cours />} />
             <Route path="/Cours" element={<Cours />} />
             <Route path="/Module" element={<Module />} />
             <Route path="/Salle" element={<Salle />} />
