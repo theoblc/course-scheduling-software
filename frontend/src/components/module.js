@@ -13,10 +13,12 @@ class Module extends Component {
       module: {
         code: "",
         nom: "",
-        nb_heures_total: 0,
         nb_heures_tp: 0,
+        nb_heures_td: 0,
         nb_heures_be: 0,
         nb_heures_ci: 0,
+        nb_heures_cm: 0,
+        nb_heures_total: 0,
       },
     };
   }
@@ -43,10 +45,12 @@ class Module extends Component {
     const module = {
       code: "",
       nom: "",
-      nb_heures_total: "",
       nb_heures_tp: 0,
+      nb_heures_td: 0,
       nb_heures_be: 0,
       nb_heures_ci: 0,
+      nb_heures_cm: 0,
+      nb_heures_total: 0,
     };
     this.setState({ module: module });
     this.toggleModalCreate();
@@ -64,8 +68,9 @@ class Module extends Component {
       });
   };
 
-  editModule = (itemModified) => {
-    this.toggleModalEdit();
+  editModule = (itemModified, sum) => {
+    this.toggleModalEdit(itemModified);
+    itemModified.nb_heures_total = sum;
     axios
       .patch(this.baseURL + itemModified.id + "/", itemModified)
       .then((response) => {
@@ -97,8 +102,12 @@ class Module extends Component {
         <span className={`todo-title mr-2`} title={item.code}>
           Code : {item.code} <br></br>
           Nom : {item.nom} <br></br>
-          {item.nb_heures_total} ={item.nb_heures_tp} +{item.nb_heures_be} +
-          {item.nb_heures_ci}
+          Nombre d'heures de TP : {item.nb_heures_tp} <br></br>
+          Nombre d'heures de TD : {item.nb_heures_td} <br></br>
+          Nombre d'heures de BE : {item.nb_heures_be} <br></br>
+          Nombre d'heures de CI : {item.nb_heures_ci} <br></br>
+          Nombre d'heures de CM : {item.nb_heures_cm} <br></br>
+          Nombre d'heures total : {item.nb_heures_total} <br></br>
         </span>
         <button
           onClick={() => this.toggleModalEdit(item)}

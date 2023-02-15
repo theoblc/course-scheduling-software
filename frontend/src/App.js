@@ -21,6 +21,7 @@ class App extends Component {
             <Route path="/Salle" element={<Salle />} />
             <Route path="/Seance" element={<Seance />} />
             <Route path="/Enseignant" element={<Enseignant />} />
+            <Route path="*" element={<Cours />} />
           </Routes>
         </div>
       </>

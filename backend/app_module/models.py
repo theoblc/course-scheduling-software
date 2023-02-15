@@ -10,8 +10,11 @@ class Module(models.Model):
    cours = models.ForeignKey(Cours, on_delete=models.CASCADE, null=True, related_name='module', blank=True)
    nb_heures_total = models.DecimalField(max_digits=4,decimal_places=1)
    nb_heures_tp = models.DecimalField(max_digits=4,decimal_places=1)
+   nb_heures_td = models.DecimalField(max_digits=4,decimal_places=1)
    nb_heures_be = models.DecimalField(max_digits=4,decimal_places=1)
    nb_heures_ci = models.DecimalField(max_digits=4,decimal_places=1)
+   nb_heures_cm = models.DecimalField(max_digits=4,decimal_places=1)
+
 
    def _str_(self):
      return self.code

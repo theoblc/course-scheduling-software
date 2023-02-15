@@ -14,6 +14,7 @@ class Enseignant extends Component {
         id: null,
         nom: "",
         prenom: "",
+        departement: "",
       },
     };
   }
@@ -87,6 +88,7 @@ class Enseignant extends Component {
         <span className={`todo-title mr-2`}>
           Nom : {item.nom} <br></br>
           Prenom : {item.prenom} <br></br>
+          Département : {item.departement} <br></br>
         </span>
         <button
           onClick={() => this.toggleModalEdit(item)}

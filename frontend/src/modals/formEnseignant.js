@@ -51,6 +51,19 @@ export default class CustomModal extends Component {
                 onChange={this.handleChange}
               />
             </FormGroup>
+            <FormGroup>
+              <Label for="departement">Département</Label>
+              <Input
+                type="select"
+                name="departement"
+                value={this.state.activeItem.departement}
+                onChange={this.handleChange}
+              >
+                <option value="EPH">EPH</option>
+                <option value="Vacataire">Vacataire</option>
+                <option value="Autre">Autre</option>
+              </Input>
+            </FormGroup>
           </Form>
         </ModalBody>
         <ModalFooter>
