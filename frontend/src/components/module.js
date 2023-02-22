@@ -7,74 +7,36 @@ class Module extends Component {
     super(props);
     this.baseURL = "http://localhost:8000/api/modules/";
     this.state = {
-      modalCreate: false,
       modalEdit: false,
-      liste_modules: [],
-      module: {
-        code: "",
-        nom: "",
-        nb_heures_tp: 0,
-        nb_heures_td: 0,
-        nb_heures_be: 0,
-        nb_heures_ci: 0,
-        nb_heures_cm: 0,
-        nb_heures_total: 0,
-      },
+      id: this.props.module.id,
+      code: this.props.module.code,
+      nom: this.props.module.nom,
+      nb_heures_tp: this.props.module.nb_heures_tp,
+      nb_heures_td: this.props.module.nb_heures_td,
+      nb_heures_be: this.props.module.nb_heures_be,
+      nb_heures_ci: this.props.module.nb_heures_ci,
+      nb_heures_cm: this.props.module.nb_heures_cm,
+      nb_heures_total: this.props.module.nb_heures_total,
     };
   }
 
-  async componentDidMount() {
+  async update() {
     try {
       const res = await fetch(this.baseURL);
       const liste_modules = await res.json();
-      this.setState({ liste_modules: liste_modules });
+      this.props.updateList(liste_modules);
     } catch (e) {
       console.log(e);
     }
   }
 
-  toggleModalCreate = () => {
-    this.setState({ modalCreate: !this.state.modalCreate });
-  };
-
-  toggleModalEdit = (item) => {
-    this.setState({ modalEdit: !this.state.modalEdit, module: item });
-  };
-
-  triggerCreation = () => {
-    const module = {
-      code: "",
-      nom: "",
-      nb_heures_tp: 0,
-      nb_heures_td: 0,
-      nb_heures_be: 0,
-      nb_heures_ci: 0,
-      nb_heures_cm: 0,
-      nb_heures_total: 0,
-    };
-    this.setState({ module: module });
-    this.toggleModalCreate();
-  };
-
-  createModule = (item) => {
-    this.toggleModalCreate();
-    axios
-      .post(this.baseURL, item)
-      .then((response) => {
-        this.componentDidMount();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
   editModule = (itemModified, sum) => {
-    this.toggleModalEdit(itemModified);
+    this.toggleModalEdit();
     itemModified.nb_heures_total = sum;
     axios
       .patch(this.baseURL + itemModified.id + "/", itemModified)
-      .then((response) => {
-        this.componentDidMount();
+      .then(() => {
+        this.update();
       })
       .catch((error) => {
         console.error(error);
@@ -84,89 +46,55 @@ class Module extends Component {
   removeModule = (item) => {
     axios
       .delete(this.baseURL + item.id + "/")
-      .then((response) => {
-        this.componentDidMount();
+      .then(() => {
+        this.update();
       })
       .catch((error) => {
         console.error(error);
       });
   };
 
-  renderItems = () => {
-    const newItems = this.state.liste_modules;
-    return newItems.map((item) => (
+  toggleModalEdit = () => {
+    this.setState({ modalEdit: !this.state.modalEdit });
+  };
+
+  render() {
+    return (
       <li
-        key={item.id}
+        key={this.state.id}
         className="list-group-item d-flex justify-content-between align-items-center"
       >
-        <span className={`todo-title mr-2`} title={item.code}>
-          Code : {item.code} <br></br>
-          Nom : {item.nom} <br></br>
-          Nombre d'heures de TP : {item.nb_heures_tp} <br></br>
-          Nombre d'heures de TD : {item.nb_heures_td} <br></br>
-          Nombre d'heures de BE : {item.nb_heures_be} <br></br>
-          Nombre d'heures de CI : {item.nb_heures_ci} <br></br>
-          Nombre d'heures de CM : {item.nb_heures_cm} <br></br>
-          Nombre d'heures total : {item.nb_heures_total} <br></br>
+        <span className={`todo-title mr-2`} title={this.state.code}>
+          Code : {this.state.code} <br></br>
+          Nom : {this.state.nom} <br></br>
+          Nombre d'heures de TP : {this.state.nb_heures_tp} <br></br>
+          Nombre d'heures de TD : {this.state.nb_heures_td} <br></br>
+          Nombre d'heures de BE : {this.state.nb_heures_be} <br></br>
+          Nombre d'heures de CI : {this.state.nb_heures_ci} <br></br>
+          Nombre d'heures de CM : {this.state.nb_heures_cm} <br></br>
+          Nombre d'heures total : {this.state.nb_heures_total} <br></br>
         </span>
         <button
-          onClick={() => this.toggleModalEdit(item)}
+          onClick={() => this.toggleModalEdit(this.state)}
           className="btn btn-warning"
         >
           Modifier
         </button>
         <button
-          onClick={() => this.removeModule(item)}
+          onClick={() => this.removeModule(this.state)}
           className="btn btn-danger"
         >
           Supprimer
         </button>
-      </li>
-    ));
-  };
-
-  render() {
-    return (
-      <main className="content">
-        <h1 className="text-white text-uppercase text-center my-4">
-          App Module
-        </h1>
-        <div className="row">
-          <div className="col-md-6 col-sm-10 mx-auto p-0">
-            <div className="card p-3">
-              <div className="">
-                <button
-                  onClick={this.triggerCreation}
-                  className="btn btn-success"
-                >
-                  Ajouter
-                </button>
-              </div>
-              <ul className="list-group list-group-flush">
-                {this.renderItems()}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {this.state.modalCreate ? (
-          <FormModule
-            isOpen={this.state.modalCreate}
-            toggle={this.toggleModalCreate}
-            activeItem={this.state.module}
-            onSave={this.createModule}
-          />
-        ) : null}
-
         {this.state.modalEdit ? (
           <FormModule
             isOpen={this.state.modalEdit}
             toggle={this.toggleModalEdit}
-            activeItem={this.state.module}
+            activeItem={this.state}
             onSave={this.editModule}
           />
         ) : null}
-      </main>
+      </li>
     );
   }
 }
