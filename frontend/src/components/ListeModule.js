@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import FormModule from "../modals/FormModule";
-import Module from "./Module";
 import axios from "axios";
+import withRouter from "./withRouter";
 
 class ListeModule extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class ListeModule extends Component {
     this.toggleModalCreate();
     axios
       .post(this.baseURL, item)
-      .then((response) => {
+      .then(() => {
         this.componentDidMount();
       })
       .catch((error) => {
@@ -44,36 +44,48 @@ class ListeModule extends Component {
       });
   };
 
+  openModule = (id) => {
+    this.props.navigate(`/Modules/${id}`);
+  };
+
   renderItems = () => {
     const liste_modules = this.state.liste_modules;
-    return liste_modules.map((item) => (
-      <Module key={item.id} module={item} updateList={this.updateList} />
+    return liste_modules.map((module) => (
+      <tr key={module.id}>
+        <td>{module.code}</td>
+        <td>{module.nom}</td>
+        <td>
+          <button
+            className="btn btn-success"
+            onClick={() => this.openModule(module.id)}
+          >
+            Ouvrir
+          </button>
+        </td>
+      </tr>
     ));
   };
 
   render() {
     return (
-      <main className="content">
-        <h1 className="text-white text-uppercase text-center my-4">
-          App Module
-        </h1>
-        <div className="row">
-          <div className="col-md-6 col-sm-10 mx-auto p-0">
-            <div className="card p-3">
-              <div className="">
-                <button
-                  onClick={this.toggleModalCreate}
-                  className="btn btn-success"
-                >
-                  Ajouter
-                </button>
-              </div>
-              <ul className="list-group list-group-flush">
-                {this.renderItems()}
-              </ul>
-            </div>
-          </div>
+      <main>
+        <h2>Liste des modules</h2>
+        <div>
+          <button className="btn btn-success" onClick={this.toggleModalCreate}>
+            Ajouter
+          </button>
         </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Nom</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>{this.renderItems()}</tbody>
+        </table>
+
         {this.state.modalCreate ? (
           <FormModule
             isOpen={this.state.modalCreate}
@@ -96,4 +108,4 @@ class ListeModule extends Component {
   }
 }
 
-export default ListeModule;
+export default withRouter(ListeModule);

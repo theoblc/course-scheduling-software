@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Navbar from "./components/navbar";
 import { Route, Routes } from "react-router-dom";
 import Cours from "./components/cours";
+import Module from "./components/Module";
 import ListeModule from "./components/ListeModule";
 import Salle from "./components/salle";
 import Seance from "./components/seance";
@@ -15,8 +16,9 @@ class App extends Component {
         <Navbar />
         <div className="container">
           <Routes>
-            <Route path="/" element={<Cours />} />
+            <Route exact path="/" element={<Cours />} />
             <Route path="/Cours" element={<Cours />} />
+            <Route path="/Modules/:id" element={<Module />} />
             <Route path="/Modules" element={<ListeModule />} />
             <Route path="/Salle" element={<Salle />} />
             <Route path="/Seance" element={<Seance />} />
