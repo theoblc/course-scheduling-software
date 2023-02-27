@@ -1,99 +1,101 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import FormModule from "../modals/FormModule";
 import axios from "axios";
 import withRouter from "./withRouter";
 
-class Module extends Component {
-  constructor(props) {
-    super(props);
-    this.baseURL = "http://localhost:8000/api/modules/";
-    this.id = 0;
-    this.state = {
-      id: 0,
-      modalEdit: false,
-      module: {},
-    };
-  }
+function Module() {
+  const [modalEdit, setModalEdit] = useState(false);
+  const [module, setModule] = useState({
+    id: 0,
+    code: "",
+    nom: "",
+    nb_heures_tp: 0,
+    nb_heures_be: 0,
+    nb_heures_td: 0,
+    nb_heures_cm: 0,
+    nb_heures_ci: 0,
+    nb_heures_total: 0,
+  });
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const baseURL = "http://localhost:8000/api/modules/";
 
-  async componentDidMount() {
-    try {
-      const id = window.location.pathname.split("/")[2];
-      const url = this.baseURL + id;
-      const res = await fetch(url);
-      const module = await res.json();
-      this.setState({ module: module });
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  const fetchData = async () => {
+    const url = baseURL + id;
+    const data = await fetch(url);
+    const module = await data.json();
+    setModule(module);
+  };
 
-  editModule = (itemModified, sum) => {
-    this.toggleModalEdit();
+  useEffect(() => {
+    fetchData().catch(console.error);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function editModule(itemModified, sum) {
+    toggleModalEdit(itemModified);
     itemModified.nb_heures_total = sum;
     axios
-      .patch(this.baseURL + itemModified.id + "/", itemModified)
+      .patch(baseURL + itemModified.id + "/", itemModified)
       .then(() => {
-        this.componentDidMount();
+        fetchData();
       })
       .catch((error) => {
         console.error(error);
       });
-  };
-
-  removeModule = (item) => {
-    axios
-      .delete(this.baseURL + item.id + "/")
-      .then(() => {
-        this.props.navigate(`/Modules`);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  toggleModalEdit = () => {
-    this.setState({ modalEdit: !this.state.modalEdit });
-  };
-
-  render() {
-    return (
-      <li
-        key={this.state.id}
-        className="list-group-item d-flex justify-content-between align-items-center"
-      >
-        <span className={`todo-title mr-2`} title={this.state.module.code}>
-          Code : {this.state.module.code} <br></br>
-          Nom : {this.state.module.nom} <br></br>
-          Nombre d'heures de TP : {this.state.module.nb_heures_tp} <br></br>
-          Nombre d'heures de TD : {this.state.module.nb_heures_td} <br></br>
-          Nombre d'heures de BE : {this.state.module.nb_heures_be} <br></br>
-          Nombre d'heures de CI : {this.state.module.nb_heures_ci} <br></br>
-          Nombre d'heures de CM : {this.state.module.nb_heures_cm} <br></br>
-          Nombre d'heures total : {this.state.module.nb_heures_total} <br></br>
-        </span>
-        <button
-          onClick={() => this.toggleModalEdit()}
-          className="btn btn-warning"
-        >
-          Modifier
-        </button>
-        <button
-          onClick={() => this.removeModule(this.state.module)}
-          className="btn btn-danger"
-        >
-          Supprimer
-        </button>
-        {this.state.modalEdit ? (
-          <FormModule
-            isOpen={this.state.modalEdit}
-            toggle={this.toggleModalEdit}
-            activeItem={this.state.module}
-            onSave={this.editModule}
-          />
-        ) : null}
-      </li>
-    );
   }
+
+  function removeModule(item) {
+    axios
+      .delete(baseURL + item.id + "/")
+      .then(() => {
+        navigate(`/Modules`);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function toggleModalEdit(item) {
+    setModule(item);
+    setModalEdit(!modalEdit);
+  }
+
+  return (
+    <li
+      key={module.id}
+      className="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <span className={`todo-title mr-2`} title={module.code}>
+        Code : {module.code} <br></br>
+        Nom : {module.nom} <br></br>
+        Nombre d'heures de TP : {module.nb_heures_tp} <br></br>
+        Nombre d'heures de TD : {module.nb_heures_td} <br></br>
+        Nombre d'heures de BE : {module.nb_heures_be} <br></br>
+        Nombre d'heures de CI : {module.nb_heures_ci} <br></br>
+        Nombre d'heures de CM : {module.nb_heures_cm} <br></br>
+        Nombre d'heures total : {module.nb_heures_total} <br></br>
+      </span>
+      <button
+        onClick={() => toggleModalEdit(module)}
+        className="btn btn-warning"
+      >
+        Modifier
+      </button>
+      <button onClick={() => removeModule(module)} className="btn btn-danger">
+        Supprimer
+      </button>
+      {modalEdit ? (
+        <FormModule
+          isOpen={modalEdit}
+          toggle={toggleModalEdit}
+          activeItem={module}
+          onSave={editModule}
+        />
+      ) : null}
+    </li>
+  );
 }
 
 export default withRouter(Module);

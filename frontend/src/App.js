@@ -6,7 +6,7 @@ import Module from "./components/Module";
 import ListeModule from "./components/ListeModule";
 import Salle from "./components/salle";
 import Seance from "./components/seance";
-import Enseignant from "./components/enseignant";
+import Enseignant from "./components/Enseignant";
 import "bootstrap/dist/css/bootstrap.css";
 
 class App extends Component {
