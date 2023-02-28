@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FormModule from "../modals/FormModule";
+import FormCours from "../modals/FormCours";
 import axios from "axios";
 import withRouter from "./withRouter";
 
-function ListeModule() {
+function ListeCours() {
   const [modalCreate, setModalCreate] = useState(false);
-  const [listModules, setListModules] = useState([]);
-  const baseURL = "http://localhost:8000/api/modules/";
+  const [listCours, setListCours] = useState([]);
+  const baseURL = "http://localhost:8000/api/cours/";
   const navigate = useNavigate();
 
   const fetchData = async () => {
     const data = await fetch(baseURL);
-    const modules = await data.json();
-    setListModules(modules);
+    const cours = await data.json();
+    setListCours(cours);
   };
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function ListeModule() {
     setModalCreate(!modalCreate);
   }
 
-  function createModule(item) {
+  function createCours(item) {
     toggleModalCreate();
     axios
       .post(baseURL, item)
@@ -36,20 +36,20 @@ function ListeModule() {
       });
   }
 
-  function openModule(id) {
-    navigate(`/modules/${id}`);
+  function openCours(id) {
+    navigate(`/cours/${id}`);
   }
 
   function renderItems() {
-    const list = listModules;
-    return list.map((module) => (
-      <tr key={module.id}>
-        <td>{module.code}</td>
-        <td>{module.nom}</td>
+    const list = listCours;
+    return list.map((cours) => (
+      <tr key={cours.id}>
+        <td>{cours.nom}</td>
+        <td>{cours.nb_heures}</td>
         <td>
           <button
             className="btn btn-success"
-            onClick={() => openModule(module.id)}
+            onClick={() => openCours(cours.id)}
           >
             Ouvrir
           </button>
@@ -60,7 +60,7 @@ function ListeModule() {
 
   return (
     <main>
-      <h2>Liste des modules</h2>
+      <h2>Liste des cours</h2>
       <div>
         <button className="btn btn-success" onClick={toggleModalCreate}>
           Ajouter
@@ -69,8 +69,8 @@ function ListeModule() {
       <table>
         <thead>
           <tr>
-            <th>Code</th>
             <th>Nom</th>
+            <th>Nombre d'heures</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -78,24 +78,18 @@ function ListeModule() {
       </table>
 
       {modalCreate ? (
-        <FormModule
+        <FormCours
           isOpen={modalCreate}
           toggle={toggleModalCreate}
           activeItem={{
-            code: "",
             nom: "",
-            nb_heures_tp: 0,
-            nb_heures_td: 0,
-            nb_heures_be: 0,
-            nb_heures_ci: 0,
-            nb_heures_cm: 0,
-            nb_heures_total: 0,
+            nb_heures: "",
           }}
-          onSave={createModule}
+          onSave={createCours}
         />
       ) : null}
     </main>
   );
 }
 
-export default withRouter(ListeModule);
+export default withRouter(ListeCours);

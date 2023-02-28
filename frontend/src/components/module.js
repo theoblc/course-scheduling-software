@@ -50,7 +50,7 @@ function Module() {
     axios
       .delete(baseURL + item.id + "/")
       .then(() => {
-        navigate(`/Modules`);
+        navigate(`/modules`);
       })
       .catch((error) => {
         console.error(error);

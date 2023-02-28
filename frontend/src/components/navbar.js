@@ -8,28 +8,28 @@ export default function Navbar() {
       </Link>
       <ul>
         <li>
-          <Link to="/Cours" className="site-title">
+          <Link to="/cours" className="site-title">
             Cours
           </Link>
         </li>
         <li>
-          <Link to="/Enseignant" className="site-title">
-            Enseignant
+          <Link to="/enseignants" className="site-title">
+            Enseignants
           </Link>
         </li>
         <li>
-          <Link to="/Modules" className="site-title">
-            Module
+          <Link to="/modules" className="site-title">
+            Modules
           </Link>
         </li>
         <li>
-          <Link to="/Salle" className="site-title">
-            Salle
+          <Link to="/salles" className="site-title">
+            Salles
           </Link>
         </li>
         <li>
-          <Link to="/Seance" className="site-title">
-            Séance
+          <Link to="/seances" className="site-title">
+            Séances
           </Link>
         </li>
       </ul>

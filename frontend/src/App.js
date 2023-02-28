@@ -1,13 +1,19 @@
 import React, { Component } from "react";
 import Navbar from "./components/navbar";
 import { Route, Routes } from "react-router-dom";
-import Cours from "./components/cours";
-import Module from "./components/Module";
-import ListeModule from "./components/ListeModule";
-import Salle from "./components/salle";
-import Seance from "./components/seance";
-import Enseignant from "./components/Enseignant";
 import "bootstrap/dist/css/bootstrap.css";
+
+import Cours from "./components/Cours";
+import Module from "./components/Module";
+import Salle from "./components/Salle";
+import Seance from "./components/Seance";
+import Enseignant from "./components/Enseignant";
+
+import ListeCours from "./components/ListeCours";
+import ListeModule from "./components/ListeModule";
+import ListeSalle from "./components/ListeSalle";
+import ListeSeance from "./components/ListeSeance";
+import ListeEnseignant from "./components/ListeEnseignant";
 
 class App extends Component {
   render() {
@@ -16,16 +22,18 @@ class App extends Component {
         <Navbar />
         <div className="container">
           <Routes>
-            <Route exact path="/" element={<Cours />} />
-            <Route path="/Cours" element={<Cours />} />
-            <Route path="/Modules/:id" element={<Module />} />
-            <Route path="/Modules" element={<ListeModule />} />
-            <Route path="/Salle" element={<Salle />} />
-            <Route path="/Seance" element={<Seance />} />
-            <Route path="/Enseignant" element={<Enseignant />} />
-            {/**
-            <Route path="*" element={<Cours />} />
-            **/}
+            <Route exact path="/" element={<ListeModule />} />
+            <Route path="/cours/:id" element={<Cours />} />
+            <Route path="/cours" element={<ListeCours />} />
+            <Route path="/modules/:id" element={<Module />} />
+            <Route path="/modules" element={<ListeModule />} />
+            <Route path="/salles/:id" element={<Salle />} />
+            <Route path="/salles" element={<ListeSalle />} />
+            <Route path="/seances/:id" element={<Seance />} />
+            <Route path="/seances" element={<ListeSeance />} />
+            <Route path="/enseignants/:id" element={<Enseignant />} />
+            <Route path="/enseignants" element={<ListeEnseignant />} />
+            <Route path="*" element={<ListeModule />} />
           </Routes>
         </div>
       </>

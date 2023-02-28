@@ -1,59 +1,35 @@
 import React, { useEffect, useState } from "react";
 import FormEnseignant from "../modals/FormEnseignant";
 import axios from "axios";
+import withRouter from "./withRouter";
 
-export default function Enseignant() {
-  const [modalCreate, setModalCreate] = useState(false);
+function Enseignant(props) {
   const [modalEdit, setModalEdit] = useState(false);
-  const [listEnseignants, setListEnseignants] = useState([]);
   const [enseignant, setEnseignant] = useState({
-    id: null,
+    id: 0,
     nom: "",
     prenom: "",
     departement: "",
   });
-
+  const id = props.id;
+  const update = props.update;
   const baseURL = "http://localhost:8000/api/enseignants/";
 
   const fetchData = async () => {
-    const data = await fetch(baseURL);
-    const enseignants = await data.json();
-    setListEnseignants(enseignants);
+    const url = baseURL + id;
+    const data = await fetch(url);
+    const enseignant = await data.json();
+    setEnseignant(enseignant);
   };
 
   useEffect(() => {
     fetchData().catch(console.error);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function toggleModalCreate() {
-    setModalCreate(!modalCreate);
-  }
-
-  function toggleModalEdit(item) {
-    setModalEdit(!modalEdit);
-    setEnseignant(item);
-  }
-
-  function triggerCreation() {
-    const enseignant = { nom: "", prenom: "" };
-    setEnseignant(enseignant);
-    toggleModalCreate();
-  }
-
-  function createEnseignant(item) {
-    toggleModalCreate();
-    axios
-      .post(baseURL, item)
-      .then(() => {
-        fetchData();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  function editEnseignant(itemModified) {
-    toggleModalEdit();
+  function editEnseignant(itemModified, sum) {
+    toggleModalEdit(itemModified);
+    itemModified.nb_heures_total = sum;
     axios
       .patch(baseURL + itemModified.id + "/", itemModified)
       .then(() => {
@@ -68,68 +44,39 @@ export default function Enseignant() {
     axios
       .delete(baseURL + item.id + "/")
       .then(() => {
-        fetchData();
+        update();
       })
       .catch((error) => {
         console.error(error);
       });
   }
 
-  function renderItems() {
-    const newItems = listEnseignants;
-    return newItems.map((item) => (
-      <li
-        key={item.id}
-        className="list-group-item d-flex justify-content-between align-items-center"
-      >
-        <span className={`todo-title mr-2`}>
-          Nom : {item.nom} <br></br>
-          Prenom : {item.prenom} <br></br>
-          Département : {item.departement} <br></br>
-        </span>
+  function toggleModalEdit(item) {
+    setEnseignant(item);
+    setModalEdit(!modalEdit);
+  }
+
+  return (
+    <tr key={enseignant.id}>
+      <td>{enseignant.nom}</td>
+      <td>{enseignant.prenom}</td>
+      <td>{enseignant.departement}</td>
+      <td>
         <button
-          onClick={() => toggleModalEdit(item)}
+          onClick={() => toggleModalEdit(enseignant)}
           className="btn btn-warning"
         >
           Modifier
         </button>
+      </td>
+      <td>
         <button
-          onClick={() => removeEnseignant(item)}
+          onClick={() => removeEnseignant(enseignant)}
           className="btn btn-danger"
         >
           Supprimer
         </button>
-      </li>
-    ));
-  }
-
-  return (
-    <main className="content">
-      <h1 className="text-white text-uppercase text-center my-4">
-        App Enseignant
-      </h1>
-      <div className="row">
-        <div className="col-md-6 col-sm-10 mx-auto p-0">
-          <div className="card p-3">
-            <div className="">
-              <button onClick={triggerCreation} className="btn btn-success">
-                Ajouter
-              </button>
-            </div>
-            <ul className="list-group list-group-flush">{renderItems()}</ul>
-          </div>
-        </div>
-      </div>
-
-      {modalCreate ? (
-        <FormEnseignant
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={enseignant}
-          onSave={createEnseignant}
-        />
-      ) : null}
-
+      </td>
       {modalEdit ? (
         <FormEnseignant
           isOpen={modalEdit}
@@ -138,6 +85,8 @@ export default function Enseignant() {
           onSave={editEnseignant}
         />
       ) : null}
-    </main>
+    </tr>
   );
 }
+
+export default withRouter(Enseignant);
