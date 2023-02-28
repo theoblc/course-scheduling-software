@@ -1,153 +1,92 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import FormEnseignant from "../modals/FormEnseignant";
 import axios from "axios";
+import withRouter from "./withRouter";
 
-class Enseignant extends Component {
-  constructor(props) {
-    super(props);
-    this.baseURL = "http://localhost:8000/api/enseignants/";
-    this.state = {
-      modalCreate: false,
-      modalEdit: false,
-      liste_enseignants: [],
-      enseignant: {
-        id: null,
-        nom: "",
-        prenom: "",
-      },
-    };
+function Enseignant(props) {
+  const [modalEdit, setModalEdit] = useState(false);
+  const [enseignant, setEnseignant] = useState({
+    id: 0,
+    nom: "",
+    prenom: "",
+    departement: "",
+  });
+  const id = props.id;
+  const update = props.update;
+  const baseURL = "http://localhost:8000/api/enseignants/";
+
+  const fetchData = async () => {
+    const url = baseURL + id;
+    const data = await fetch(url);
+    const enseignant = await data.json();
+    setEnseignant(enseignant);
+  };
+
+  useEffect(() => {
+    fetchData().catch(console.error);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function editEnseignant(itemModified, sum) {
+    toggleModalEdit(itemModified);
+    itemModified.nb_heures_total = sum;
+    axios
+      .patch(baseURL + itemModified.id + "/", itemModified)
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
-  async componentDidMount() {
-    try {
-      const response = await fetch(this.baseURL);
-      const enseignants = await response.json();
-      this.setState({ liste_enseignants: enseignants });
-    } catch (error) {
-      console.error(error);
-    }
+  function removeEnseignant(item) {
+    axios
+      .delete(baseURL + item.id + "/")
+      .then(() => {
+        update();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
-  toggleModalCreate = () => {
-    this.setState({ modalCreate: !this.state.modalCreate });
-  };
+  function toggleModalEdit(item) {
+    setEnseignant(item);
+    setModalEdit(!modalEdit);
+  }
 
-  toggleModalEdit = (item) => {
-    this.setState({ modalEdit: !this.state.modalEdit, enseignant: item });
-  };
-
-  triggerCreation = () => {
-    const enseignant = { nom: "", prenom: "" };
-    this.setState({ enseignant: enseignant });
-    this.toggleModalCreate();
-  };
-
-  createEnseignant = (item) => {
-    this.toggleModalCreate();
-    axios
-      .post(this.baseURL, item)
-      .then((response) => {
-        this.componentDidMount();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  editEnseignant = (itemModified) => {
-    this.toggleModalEdit();
-    axios
-      .patch(this.baseURL + itemModified.id + "/", itemModified)
-      .then((response) => {
-        this.componentDidMount();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  removeEnseignant = (item) => {
-    axios
-      .delete(this.baseURL + item.id + "/")
-      .then((response) => {
-        this.componentDidMount();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  renderItems = () => {
-    const newItems = this.state.liste_enseignants;
-    return newItems.map((item) => (
-      <li
-        key={item.id}
-        className="list-group-item d-flex justify-content-between align-items-center"
-      >
-        <span className={`todo-title mr-2`}>
-          Nom : {item.nom} <br></br>
-          Prenom : {item.prenom} <br></br>
-        </span>
+  return (
+    <tr key={enseignant.id}>
+      <td>{enseignant.nom}</td>
+      <td>{enseignant.prenom}</td>
+      <td>{enseignant.departement}</td>
+      <td>
         <button
-          onClick={() => this.toggleModalEdit(item)}
+          onClick={() => toggleModalEdit(enseignant)}
           className="btn btn-warning"
         >
           Modifier
         </button>
+      </td>
+      <td>
         <button
-          onClick={() => this.removeEnseignant(item)}
+          onClick={() => removeEnseignant(enseignant)}
           className="btn btn-danger"
         >
           Supprimer
         </button>
-      </li>
-    ));
-  };
-
-  render() {
-    return (
-      <main className="content">
-        <h1 className="text-white text-uppercase text-center my-4">
-          App Enseignant
-        </h1>
-        <div className="row">
-          <div className="col-md-6 col-sm-10 mx-auto p-0">
-            <div className="card p-3">
-              <div className="">
-                <button
-                  onClick={this.triggerCreation}
-                  className="btn btn-success"
-                >
-                  Ajouter
-                </button>
-              </div>
-              <ul className="list-group list-group-flush">
-                {this.renderItems()}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {this.state.modalCreate ? (
-          <FormEnseignant
-            isOpen={this.state.modalCreate}
-            toggle={this.toggleModalCreate}
-            activeItem={this.state.enseignant}
-            onSave={this.createEnseignant}
-          />
-        ) : null}
-
-        {this.state.modalEdit ? (
-          <FormEnseignant
-            isOpen={this.state.modalEdit}
-            toggle={this.toggleModalEdit}
-            activeItem={this.state.enseignant}
-            onSave={this.editEnseignant}
-          />
-        ) : null}
-      </main>
-    );
-  }
+      </td>
+      {modalEdit ? (
+        <FormEnseignant
+          isOpen={modalEdit}
+          toggle={toggleModalEdit}
+          activeItem={enseignant}
+          onSave={editEnseignant}
+        />
+      ) : null}
+    </tr>
+  );
 }
 
-export default Enseignant;
+export default withRouter(Enseignant);

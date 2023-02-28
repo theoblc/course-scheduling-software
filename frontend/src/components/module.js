@@ -1,165 +1,101 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import FormModule from "../modals/FormModule";
 import axios from "axios";
+import withRouter from "./withRouter";
 
-class Module extends Component {
-  constructor(props) {
-    super(props);
-    this.baseURL = "http://localhost:8000/api/modules/";
-    this.state = {
-      modalCreate: false,
-      modalEdit: false,
-      liste_modules: [],
-      module: {
-        code: "",
-        nom: "",
-        nb_heures_total: 0,
-        nb_heures_tp: 0,
-        nb_heures_be: 0,
-        nb_heures_ci: 0,
-      },
-    };
+function Module() {
+  const [modalEdit, setModalEdit] = useState(false);
+  const [module, setModule] = useState({
+    id: 0,
+    code: "",
+    nom: "",
+    nb_heures_tp: 0,
+    nb_heures_be: 0,
+    nb_heures_td: 0,
+    nb_heures_cm: 0,
+    nb_heures_ci: 0,
+    nb_heures_total: 0,
+  });
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const baseURL = "http://localhost:8000/api/modules/";
+
+  const fetchData = async () => {
+    const url = baseURL + id;
+    const data = await fetch(url);
+    const module = await data.json();
+    setModule(module);
+  };
+
+  useEffect(() => {
+    fetchData().catch(console.error);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function editModule(itemModified, sum) {
+    toggleModalEdit(itemModified);
+    itemModified.nb_heures_total = sum;
+    axios
+      .patch(baseURL + itemModified.id + "/", itemModified)
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
-  async componentDidMount() {
-    try {
-      const res = await fetch(this.baseURL);
-      const liste_modules = await res.json();
-      this.setState({ liste_modules: liste_modules });
-    } catch (e) {
-      console.log(e);
-    }
+  function removeModule(item) {
+    axios
+      .delete(baseURL + item.id + "/")
+      .then(() => {
+        navigate(`/modules`);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
-  toggleModalCreate = () => {
-    this.setState({ modalCreate: !this.state.modalCreate });
-  };
+  function toggleModalEdit(item) {
+    setModule(item);
+    setModalEdit(!modalEdit);
+  }
 
-  toggleModalEdit = (item) => {
-    this.setState({ modalEdit: !this.state.modalEdit, module: item });
-  };
-
-  triggerCreation = () => {
-    const module = {
-      code: "",
-      nom: "",
-      nb_heures_total: "",
-      nb_heures_tp: 0,
-      nb_heures_be: 0,
-      nb_heures_ci: 0,
-    };
-    this.setState({ module: module });
-    this.toggleModalCreate();
-  };
-
-  createModule = (item) => {
-    this.toggleModalCreate();
-    axios
-      .post(this.baseURL, item)
-      .then((response) => {
-        this.componentDidMount();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  editModule = (itemModified) => {
-    this.toggleModalEdit();
-    axios
-      .patch(this.baseURL + itemModified.id + "/", itemModified)
-      .then((response) => {
-        this.componentDidMount();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  removeModule = (item) => {
-    axios
-      .delete(this.baseURL + item.id + "/")
-      .then((response) => {
-        this.componentDidMount();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  renderItems = () => {
-    const newItems = this.state.liste_modules;
-    return newItems.map((item) => (
-      <li
-        key={item.id}
-        className="list-group-item d-flex justify-content-between align-items-center"
+  return (
+    <li
+      key={module.id}
+      className="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <span className={`todo-title mr-2`} title={module.code}>
+        Code : {module.code} <br></br>
+        Nom : {module.nom} <br></br>
+        Nombre d'heures de TP : {module.nb_heures_tp} <br></br>
+        Nombre d'heures de TD : {module.nb_heures_td} <br></br>
+        Nombre d'heures de BE : {module.nb_heures_be} <br></br>
+        Nombre d'heures de CI : {module.nb_heures_ci} <br></br>
+        Nombre d'heures de CM : {module.nb_heures_cm} <br></br>
+        Nombre d'heures total : {module.nb_heures_total} <br></br>
+      </span>
+      <button
+        onClick={() => toggleModalEdit(module)}
+        className="btn btn-warning"
       >
-        <span className={`todo-title mr-2`} title={item.code}>
-          Code : {item.code} <br></br>
-          Nom : {item.nom} <br></br>
-          {item.nb_heures_total} ={item.nb_heures_tp} +{item.nb_heures_be} +
-          {item.nb_heures_ci}
-        </span>
-        <button
-          onClick={() => this.toggleModalEdit(item)}
-          className="btn btn-warning"
-        >
-          Modifier
-        </button>
-        <button
-          onClick={() => this.removeModule(item)}
-          className="btn btn-danger"
-        >
-          Supprimer
-        </button>
-      </li>
-    ));
-  };
-
-  render() {
-    return (
-      <main className="content">
-        <h1 className="text-white text-uppercase text-center my-4">
-          App Module
-        </h1>
-        <div className="row">
-          <div className="col-md-6 col-sm-10 mx-auto p-0">
-            <div className="card p-3">
-              <div className="">
-                <button
-                  onClick={this.triggerCreation}
-                  className="btn btn-success"
-                >
-                  Ajouter
-                </button>
-              </div>
-              <ul className="list-group list-group-flush">
-                {this.renderItems()}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {this.state.modalCreate ? (
-          <FormModule
-            isOpen={this.state.modalCreate}
-            toggle={this.toggleModalCreate}
-            activeItem={this.state.module}
-            onSave={this.createModule}
-          />
-        ) : null}
-
-        {this.state.modalEdit ? (
-          <FormModule
-            isOpen={this.state.modalEdit}
-            toggle={this.toggleModalEdit}
-            activeItem={this.state.module}
-            onSave={this.editModule}
-          />
-        ) : null}
-      </main>
-    );
-  }
+        Modifier
+      </button>
+      <button onClick={() => removeModule(module)} className="btn btn-danger">
+        Supprimer
+      </button>
+      {modalEdit ? (
+        <FormModule
+          isOpen={modalEdit}
+          toggle={toggleModalEdit}
+          activeItem={module}
+          onSave={editModule}
+        />
+      ) : null}
+    </li>
+  );
 }
 
-export default Module;
+export default withRouter(Module);

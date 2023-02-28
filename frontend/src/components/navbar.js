@@ -13,23 +13,23 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
-          <Link to="/enseignant" className="site-title">
-            Enseignant
+          <Link to="/enseignants" className="site-title">
+            Enseignants
           </Link>
         </li>
         <li>
-          <Link to="/module" className="site-title">
-            Module
+          <Link to="/modules" className="site-title">
+            Modules
           </Link>
         </li>
         <li>
-          <Link to="/salle" className="site-title">
-            Salle
+          <Link to="/salles" className="site-title">
+            Salles
           </Link>
         </li>
         <li>
-          <Link to="/seance" className="site-title">
-            Séance
+          <Link to="/seances" className="site-title">
+            Séances
           </Link>
         </li>
       </ul>

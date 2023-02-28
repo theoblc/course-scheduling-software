@@ -16,16 +16,34 @@ export default class CustomModal extends Component {
     super(props);
     this.state = {
       activeItem: this.props.activeItem,
+      sum: 0,
     };
   }
+
+  componentDidMount() {
+    const activeItem = { ...this.state.activeItem };
+    this.calculSum(activeItem);
+  }
+
+  calculSum(activeItem) {
+    const sum = [
+      Number(activeItem.nb_heures_be),
+      Number(activeItem.nb_heures_tp),
+      Number(activeItem.nb_heures_td),
+      Number(activeItem.nb_heures_cm),
+      Number(activeItem.nb_heures_ci),
+    ].reduce((acc, val) => acc + val, 0);
+    this.setState({ sum: sum });
+  }
+
   handleChange = (e) => {
     let { name, value } = e.target;
-    if (e.target.type === "checkbox") {
-      value = e.target.checked;
-    }
     const activeItem = { ...this.state.activeItem, [name]: value };
-    this.setState({ activeItem });
+    this.setState({ activeItem: activeItem }, () => {
+      this.calculSum(activeItem);
+    });
   };
+
   render() {
     const { toggle, onSave } = this.props;
     return (
@@ -52,20 +70,20 @@ export default class CustomModal extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="nb_heures_total">Nombre d'heures total</Label>
-              <Input
-                type="number"
-                name="nb_heures_total"
-                value={this.state.activeItem.nb_heures_total}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup>
               <Label for="nb_heures_tp">Nombre d'heures de TP</Label>
               <Input
                 type="number"
                 name="nb_heures_tp"
                 value={this.state.activeItem.nb_heures_tp}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="nb_heures_td">Nombre d'heures de TD</Label>
+              <Input
+                type="number"
+                name="nb_heures_td"
+                value={this.state.activeItem.nb_heures_td}
                 onChange={this.handleChange}
               />
             </FormGroup>
@@ -87,10 +105,23 @@ export default class CustomModal extends Component {
                 onChange={this.handleChange}
               />
             </FormGroup>
+            <FormGroup>
+              <Label for="nb_heures_cm">Nombre d'heures de CM</Label>
+              <Input
+                type="number"
+                name="nb_heures_cm"
+                value={this.state.activeItem.nb_heures_cm}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <p>Nombre d'heures total : {this.state.sum}</p>
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color="success" onClick={() => onSave(this.state.activeItem)}>
+          <Button
+            color="success"
+            onClick={() => onSave(this.state.activeItem, this.state.sum)}
+          >
             Enregistrer
           </Button>
         </ModalFooter>
