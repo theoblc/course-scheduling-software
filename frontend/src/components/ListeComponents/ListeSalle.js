@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FormSalle from "../modals/FormSalle";
-import axios from "axios";
-import withRouter from "../components/withRouter";
-import Salle from "../components/salle";
+import withRouter from "../Assets/WithRouter";
+import Title from "../Assets/Title";
+import Add from "../Assets/Add";
 
-import "./jquery.dataTables.min.css";
-import language_fr from "./language_fr";
+import "../../style/jquery.dataTables.min.css";
+import language_fr from "../../style/language_fr";
 
 import "jquery";
 import "datatable";
@@ -16,7 +15,6 @@ import "datatables.net-buttons";
 import $ from "jquery";
 
 function ListeSalle() {
-  const [modalCreate, setModalCreate] = useState(false);
   const [listSalles, setListSalles] = useState([]);
   const baseURL = "http://localhost:8000/api/salles/";
   const navigate = useNavigate();
@@ -30,22 +28,6 @@ function ListeSalle() {
   useEffect(() => {
     fetchData().catch(console.error);
   }, []);
-
-  function toggleModalCreate() {
-    setModalCreate(!modalCreate);
-  }
-
-  function createSalle(item) {
-    toggleModalCreate();
-    axios
-      .post(baseURL, item)
-      .then(() => {
-        fetchData();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
 
   function openSalle(id) {
     navigate(`/salles/${id}`);
@@ -98,12 +80,15 @@ function ListeSalle() {
 
   return (
     <main>
-      <h2>Liste des salles</h2>
-      <div>
-        <button className="btn btn-success" onClick={toggleModalCreate}>
-          Ajouter
-        </button>
-      </div>
+      <Title type="salles" />
+
+      <Add
+        type="salles"
+        item={{
+          numero: "",
+        }}
+        fetchData={fetchData}
+      />
 
       <div className="container-fluid py-4">
         <div className="table-responsive p-0 pb-2">
@@ -118,17 +103,6 @@ function ListeSalle() {
           </table>
         </div>
       </div>
-
-      {modalCreate ? (
-        <FormSalle
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={{
-            numero: "",
-          }}
-          onSave={createSalle}
-        />
-      ) : null}
     </main>
   );
 }

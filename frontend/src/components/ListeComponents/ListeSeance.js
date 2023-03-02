@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FormSeance from "../modals/FormSeance";
-import axios from "axios";
-import withRouter from "../components/withRouter";
-import Seance from "../components/seance";
+import withRouter from "../Assets/WithRouter";
+import Title from "../Assets/Title";
+import Add from "../Assets/Add";
 
-import "./jquery.dataTables.min.css";
-import language_fr from "./language_fr";
+import "../../style/jquery.dataTables.min.css";
+import language_fr from "../../style/language_fr";
 
 import "jquery";
 import "datatable";
@@ -16,7 +15,6 @@ import "datatables.net-buttons";
 import $ from "jquery";
 
 function ListeSeance() {
-  const [modalCreate, setModalCreate] = useState(false);
   const [listSeances, setListSeances] = useState([]);
   const baseURL = "http://localhost:8000/api/seances/";
   const navigate = useNavigate();
@@ -30,22 +28,6 @@ function ListeSeance() {
   useEffect(() => {
     fetchData().catch(console.error);
   }, []);
-
-  function toggleModalCreate() {
-    setModalCreate(!modalCreate);
-  }
-
-  function createSeance(item) {
-    toggleModalCreate();
-    axios
-      .post(baseURL, item)
-      .then(() => {
-        fetchData();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
 
   function openSeance(id) {
     navigate(`/seances/${id}`);
@@ -100,12 +82,17 @@ function ListeSeance() {
 
   return (
     <main>
-      <h2>Liste des séances</h2>
-      <div>
-        <button className="btn btn-success" onClick={toggleModalCreate}>
-          Ajouter
-        </button>
-      </div>
+      <Title type="séances" />
+
+      <Add
+        type="seances"
+        item={{
+          date_debut: "",
+          date_fin: "",
+          numero_groupe_td: "",
+        }}
+        fetchData={fetchData}
+      />
 
       <div className="container-fluid py-4">
         <div className="table-responsive p-0 pb-2">
@@ -122,19 +109,6 @@ function ListeSeance() {
           </table>
         </div>
       </div>
-
-      {modalCreate ? (
-        <FormSeance
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={{
-            date_debut: "",
-            date_fin: "",
-            numero_groupe_td: "",
-          }}
-          onSave={createSeance}
-        />
-      ) : null}
     </main>
   );
 }

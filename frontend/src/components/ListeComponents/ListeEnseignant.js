@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FormEnseignant from "../modals/FormEnseignant";
-import axios from "axios";
-import withRouter from "../components/withRouter";
-import Enseignant from "../components/enseignant";
+import withRouter from "../Assets/WithRouter";
+import Title from "../Assets/Title";
+import Add from "../Assets/Add";
 
-import "./jquery.dataTables.min.css";
-import language_fr from "./language_fr";
+import "../../style/jquery.dataTables.min.css";
+import language_fr from "../../style/language_fr";
 
 import "jquery";
 import "datatable";
@@ -16,7 +15,6 @@ import "datatables.net-buttons";
 import $ from "jquery";
 
 function ListeEnseignant() {
-  const [modalCreate, setModalCreate] = useState(false);
   const [listEnseignants, setListEnseignants] = useState([]);
   const baseURL = "http://localhost:8000/api/enseignants/";
   const navigate = useNavigate();
@@ -30,22 +28,6 @@ function ListeEnseignant() {
   useEffect(() => {
     fetchData().catch(console.error);
   }, []);
-
-  function toggleModalCreate() {
-    setModalCreate(!modalCreate);
-  }
-
-  function createEnseignant(item) {
-    toggleModalCreate();
-    axios
-      .post(baseURL, item)
-      .then(() => {
-        fetchData();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
 
   function openEnseignant(id) {
     navigate(`/enseignants/${id}`);
@@ -101,12 +83,17 @@ function ListeEnseignant() {
 
   return (
     <main>
-      <h2>Liste des enseignants</h2>
-      <div>
-        <button className="btn btn-success" onClick={toggleModalCreate}>
-          Ajouter
-        </button>
-      </div>
+      <Title type="enseignants" />
+
+      <Add
+        type="enseignants"
+        item={{
+          nom: "",
+          prenom: "",
+          departement: "",
+        }}
+        fetchData={fetchData}
+      />
 
       <div className="container-fluid py-4">
         <div className="table-responsive p-0 pb-2">
@@ -124,19 +111,6 @@ function ListeEnseignant() {
           </table>
         </div>
       </div>
-
-      {modalCreate ? (
-        <FormEnseignant
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={{
-            nom: "",
-            prenom: "",
-            departement: "",
-          }}
-          onSave={createEnseignant}
-        />
-      ) : null}
     </main>
   );
 }

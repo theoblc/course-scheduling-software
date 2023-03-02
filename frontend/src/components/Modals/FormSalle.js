@@ -30,7 +30,7 @@ export default class CustomModal extends Component {
     const { toggle, onSave } = this.props;
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Ajout d'un enseignant</ModalHeader>
+        <ModalHeader toggle={toggle}>Ajout d'une salle</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>

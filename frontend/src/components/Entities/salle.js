@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
-import FormEnseignant from "../modals/FormEnseignant";
+import FormSalle from "../Modals/FormSalle";
 import axios from "axios";
-import withRouter from "./withRouter";
+import withRouter from "../Assets/WithRouter";
 
-function Enseignant(props) {
+function Salle(props) {
   const [modalEdit, setModalEdit] = useState(false);
-  const [enseignant, setEnseignant] = useState({
+  const [salle, setSalle] = useState({
     id: 0,
-    nom: "",
-    prenom: "",
-    departement: "",
+    numero: "",
   });
   const id = props.id;
   const update = props.update;
-  const baseURL = "http://localhost:8000/api/enseignants/";
+  const baseURL = "http://localhost:8000/api/salles/";
 
   const fetchData = async () => {
     const url = baseURL + id;
+    console.log(url);
     const data = await fetch(url);
-    const enseignant = await data.json();
-    setEnseignant(enseignant);
+    const salle = await data.json();
+    setSalle(salle);
   };
 
   useEffect(() => {
@@ -27,7 +26,7 @@ function Enseignant(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function editEnseignant(itemModified, sum) {
+  function editSalle(itemModified, sum) {
     toggleModalEdit(itemModified);
     itemModified.nb_heures_total = sum;
     axios
@@ -40,7 +39,7 @@ function Enseignant(props) {
       });
   }
 
-  function removeEnseignant(item) {
+  function removeSalle(item) {
     axios
       .delete(baseURL + item.id + "/")
       .then(() => {
@@ -52,41 +51,36 @@ function Enseignant(props) {
   }
 
   function toggleModalEdit(item) {
-    setEnseignant(item);
+    setSalle(item);
     setModalEdit(!modalEdit);
   }
 
   return (
-    <tr key={enseignant.id}>
-      <td>{enseignant.nom}</td>
-      <td>{enseignant.prenom}</td>
-      <td>{enseignant.departement}</td>
+    <tr key={salle.id}>
+      <td>{salle.numero}</td>
       <td>
         <button
-          onClick={() => toggleModalEdit(enseignant)}
+          onClick={() => toggleModalEdit(salle)}
           className="btn btn-warning"
         >
           Modifier
         </button>
       </td>
       <td>
-        <button
-          onClick={() => removeEnseignant(enseignant)}
-          className="btn btn-danger"
-        >
+        <button onClick={() => removeSalle(salle)} className="btn btn-danger">
           Supprimer
         </button>
       </td>
       {modalEdit ? (
-        <FormEnseignant
+        <FormSalle
           isOpen={modalEdit}
           toggle={toggleModalEdit}
-          activeItem={enseignant}
-          onSave={editEnseignant}
+          activeItem={salle}
+          onSave={editSalle}
         />
       ) : null}
     </tr>
   );
 }
 
-export default withRouter(Enseignant);
+export default withRouter(Salle);

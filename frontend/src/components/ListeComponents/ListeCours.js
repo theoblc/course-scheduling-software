@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FormCours from "../modals/FormCours";
-import axios from "axios";
-import withRouter from "../components/withRouter";
+import withRouter from "../Assets/WithRouter";
+import Title from "../Assets/Title";
+import Add from "../Assets/Add";
 
-import "./jquery.dataTables.min.css";
-import language_fr from "./language_fr";
+import "../../style/jquery.dataTables.min.css";
+import language_fr from "../../style/language_fr";
 
 import "jquery";
 import "datatable";
@@ -15,7 +15,6 @@ import "datatables.net-buttons";
 import $ from "jquery";
 
 function ListeCours() {
-  const [modalCreate, setModalCreate] = useState(false);
   const [listCours, setListCours] = useState([]);
   const baseURL = "http://localhost:8000/api/cours/";
   const navigate = useNavigate();
@@ -29,22 +28,6 @@ function ListeCours() {
   useEffect(() => {
     fetchData().catch(console.error);
   }, []);
-
-  function toggleModalCreate() {
-    setModalCreate(!modalCreate);
-  }
-
-  function createCours(item) {
-    toggleModalCreate();
-    axios
-      .post(baseURL, item)
-      .then(() => {
-        fetchData();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
 
   function openCours(id) {
     navigate(`/cours/${id}`);
@@ -98,12 +81,16 @@ function ListeCours() {
 
   return (
     <main>
-      <h2>Liste des cours</h2>
-      <div>
-        <button className="btn btn-success" onClick={toggleModalCreate}>
-          Ajouter
-        </button>
-      </div>
+      <Title type="cours" />
+
+      <Add
+        type="cours"
+        item={{
+          nom: "",
+          nb_heures: "",
+        }}
+        fetchData={fetchData}
+      />
 
       <div className="container-fluid py-4">
         <div className="table-responsive p-0 pb-2">
@@ -119,18 +106,6 @@ function ListeCours() {
           </table>
         </div>
       </div>
-
-      {modalCreate ? (
-        <FormCours
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={{
-            nom: "",
-            nb_heures: "",
-          }}
-          onSave={createCours}
-        />
-      ) : null}
     </main>
   );
 }

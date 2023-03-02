@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import FormCours from "../modals/FormCours";
+import FormCours from "../Modals/FormCours";
 import axios from "axios";
-import withRouter from "./withRouter";
+import withRouter from "../Assets/WithRouter";
 
 function Cours() {
   const [modalEdit, setModalEdit] = useState(false);

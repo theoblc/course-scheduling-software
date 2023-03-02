@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import FormSeance from "../modals/FormSeance";
+import FormSeance from "../Modals/FormSeance";
 import axios from "axios";
-import withRouter from "./withRouter";
+import withRouter from "../Assets/WithRouter";
 
 function Seance(props) {
   const [modalEdit, setModalEdit] = useState(false);

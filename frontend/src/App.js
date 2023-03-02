@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import Navbar from "./components/navbar";
+import Navbar from "./components/Assets/NavBar";
 import { Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
-import Cours from "./components/cours";
-import Module from "./components/module";
-import Salle from "./components/salle";
-import Seance from "./components/seance";
-import Enseignant from "./components/enseignant";
+import Cours from "./components/Entities/Cours";
+import Module from "./components/Entities/Module";
+import Salle from "./components/Entities/Salle";
+import Seance from "./components/Entities/Seance";
+import Enseignant from "./components/Entities/Enseignant";
 
-import ListeCours from "./ListeComponents/ListeCours";
-import ListeModule from "./ListeComponents/ListeModule";
-import ListeSalle from "./ListeComponents/ListeSalle";
-import ListeSeance from "./ListeComponents/ListeSeance";
-import ListeEnseignant from "./ListeComponents/ListeEnseignant";
+import ListeCours from "./components/ListeComponents/ListeCours";
+import ListeModule from "./components/ListeComponents/ListeModule";
+import ListeSalle from "./components/ListeComponents/ListeSalle";
+import ListeSeance from "./components/ListeComponents/ListeSeance";
+import ListeEnseignant from "./components/ListeComponents/ListeEnseignant";
 
 class App extends Component {
   render() {
