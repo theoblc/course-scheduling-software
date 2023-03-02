@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import FormSalle from "../modals/FormSalle";
+import withRouter from "../Assets/WithRouter";
+import FormSalle from "../Modals/FormSalle";
+import Title from "../Assets/Title";
+import Add from "../Assets/Add";
 import axios from "axios";
-import withRouter from "../components/withRouter";
-import Salle from "../components/salle";
 
-import "./jquery.dataTables.min.css";
-import language_fr from "./language_fr";
+import "../../style/jquery.dataTables.min.css";
+import language_fr from "../../style/language_fr";
 
 import "jquery";
 import "datatable";
@@ -16,10 +16,13 @@ import "datatables.net-buttons";
 import $ from "jquery";
 
 function ListeSalle() {
-  const [modalCreate, setModalCreate] = useState(false);
+  const [modalEdit, setModalEdit] = useState(false);
+  const [salle, setSalle] = useState({
+    id: 0,
+    numero: "",
+  });
   const [listSalles, setListSalles] = useState([]);
   const baseURL = "http://localhost:8000/api/salles/";
-  const navigate = useNavigate();
 
   const fetchData = async () => {
     const data = await fetch(baseURL);
@@ -31,14 +34,11 @@ function ListeSalle() {
     fetchData().catch(console.error);
   }, []);
 
-  function toggleModalCreate() {
-    setModalCreate(!modalCreate);
-  }
-
-  function createSalle(item) {
-    toggleModalCreate();
+  function editSalle(itemModified, sum) {
+    toggleModalEdit(itemModified);
+    itemModified.nb_heures_total = sum;
     axios
-      .post(baseURL, item)
+      .patch(baseURL + itemModified.id + "/", itemModified)
       .then(() => {
         fetchData();
       })
@@ -47,8 +47,20 @@ function ListeSalle() {
       });
   }
 
-  function openSalle(id) {
-    navigate(`/salles/${id}`);
+  function toggleModalEdit(item) {
+    setSalle(item);
+    setModalEdit(!modalEdit);
+  }
+
+  function removeSalle(id) {
+    axios
+      .delete(baseURL + id + "/")
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   function activateDataTable() {
@@ -68,12 +80,13 @@ function ListeSalle() {
       let new_table = $("#salleTable").DataTable({
         language: language_fr,
         data: salles,
-        columns: [
-          { data: "id" },
-          { data: "numero" },
+        columns: [{ data: "numero" }, { data: null }],
+        columnDefs: [
           {
-            data: null,
-            defaultContent: "<button class=Open>Ouvrir</button>",
+            targets: -1,
+            render: function () {
+              return '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
+            },
           },
         ],
       });
@@ -85,8 +98,13 @@ function ListeSalle() {
         // Si les données de la ligne ne sont pas vides
         if (data !== undefined) {
           // Si l'action est d'ouvrir
-          if (action !== undefined && action === "Open") {
-            openSalle(data.id);
+          if (action !== undefined && action === "btn btn-warning btn-sm") {
+            toggleModalEdit(data);
+          } else if (
+            action !== undefined &&
+            action === "btn btn-danger btn-sm"
+          ) {
+            removeSalle(data.id);
           }
         }
       });
@@ -98,19 +116,21 @@ function ListeSalle() {
 
   return (
     <main>
-      <h2>Liste des salles</h2>
-      <div>
-        <button className="btn btn-success" onClick={toggleModalCreate}>
-          Ajouter
-        </button>
-      </div>
+      <Title type="salles" />
+
+      <Add
+        type="salles"
+        item={{
+          numero: "",
+        }}
+        fetchData={fetchData}
+      />
 
       <div className="container-fluid py-4">
         <div className="table-responsive p-0 pb-2">
           <table id="salleTable" className="display" width="100%">
             <thead>
               <tr>
-                <th className="th-sm">Id</th>
                 <th className="th-sm">Numéro</th>
                 <th className="th-sm">Actions</th>
               </tr>
@@ -118,15 +138,12 @@ function ListeSalle() {
           </table>
         </div>
       </div>
-
-      {modalCreate ? (
+      {modalEdit ? (
         <FormSalle
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={{
-            numero: "",
-          }}
-          onSave={createSalle}
+          isOpen={modalEdit}
+          toggle={toggleModalEdit}
+          activeItem={salle}
+          onSave={editSalle}
         />
       ) : null}
     </main>

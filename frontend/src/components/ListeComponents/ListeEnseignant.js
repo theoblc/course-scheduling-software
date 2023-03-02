@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import FormEnseignant from "../modals/FormEnseignant";
+import withRouter from "../Assets/WithRouter";
+import FormEnseignant from "../Modals/FormEnseignant";
+import Title from "../Assets/Title";
+import Add from "../Assets/Add";
 import axios from "axios";
-import withRouter from "../components/withRouter";
-import Enseignant from "../components/enseignant";
 
-import "./jquery.dataTables.min.css";
-import language_fr from "./language_fr";
+import "../../style/jquery.dataTables.min.css";
+import language_fr from "../../style/language_fr";
 
 import "jquery";
 import "datatable";
@@ -16,10 +16,15 @@ import "datatables.net-buttons";
 import $ from "jquery";
 
 function ListeEnseignant() {
-  const [modalCreate, setModalCreate] = useState(false);
+  const [modalEdit, setModalEdit] = useState(false);
+  const [enseignant, setEnseignant] = useState({
+    id: 0,
+    nom: "",
+    prenom: "",
+    departement: "",
+  });
   const [listEnseignants, setListEnseignants] = useState([]);
   const baseURL = "http://localhost:8000/api/enseignants/";
-  const navigate = useNavigate();
 
   const fetchData = async () => {
     const data = await fetch(baseURL);
@@ -31,14 +36,11 @@ function ListeEnseignant() {
     fetchData().catch(console.error);
   }, []);
 
-  function toggleModalCreate() {
-    setModalCreate(!modalCreate);
-  }
-
-  function createEnseignant(item) {
-    toggleModalCreate();
+  function editEnseignant(itemModified, sum) {
+    toggleModalEdit(itemModified);
+    itemModified.nb_heures_total = sum;
     axios
-      .post(baseURL, item)
+      .patch(baseURL + itemModified.id + "/", itemModified)
       .then(() => {
         fetchData();
       })
@@ -47,8 +49,20 @@ function ListeEnseignant() {
       });
   }
 
-  function openEnseignant(id) {
-    navigate(`/enseignants/${id}`);
+  function removeEnseignant(id) {
+    axios
+      .delete(baseURL + id + "/")
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function toggleModalEdit(item) {
+    setEnseignant(item);
+    setModalEdit(!modalEdit);
   }
 
   function activateDataTable() {
@@ -69,14 +83,17 @@ function ListeEnseignant() {
         language: language_fr,
         data: enseignants,
         columns: [
-          { data: "id" },
           { data: "prenom" },
           { data: "nom" },
-          { data: "seances" },
-          { data: "module" },
+          { data: "departement" },
+          { data: null },
+        ],
+        columnDefs: [
           {
-            data: null,
-            defaultContent: "<button class=Open>Ouvrir</button>",
+            targets: -1,
+            render: function () {
+              return '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
+            },
           },
         ],
       });
@@ -88,8 +105,13 @@ function ListeEnseignant() {
         // Si les données de la ligne ne sont pas vides
         if (data !== undefined) {
           // Si l'action est d'ouvrir
-          if (action !== undefined && action === "Open") {
-            openEnseignant(data.id);
+          if (action !== undefined && action === "btn btn-warning btn-sm") {
+            toggleModalEdit(data);
+          } else if (
+            action !== undefined &&
+            action === "btn btn-danger btn-sm"
+          ) {
+            removeEnseignant(data.id);
           }
         }
       });
@@ -101,40 +123,38 @@ function ListeEnseignant() {
 
   return (
     <main>
-      <h2>Liste des enseignants</h2>
-      <div>
-        <button className="btn btn-success" onClick={toggleModalCreate}>
-          Ajouter
-        </button>
-      </div>
+      <Title type="enseignants" />
+
+      <Add
+        type="enseignants"
+        item={{
+          nom: "",
+          prenom: "",
+          departement: "EPH",
+        }}
+        fetchData={fetchData}
+      />
 
       <div className="container-fluid py-4">
         <div className="table-responsive p-0 pb-2">
           <table id="enseignantTable" className="display" width="100%">
             <thead>
               <tr>
-                <th className="th-sm">Id</th>
                 <th className="th-sm">Prénom</th>
                 <th className="th-sm">Nom</th>
-                <th className="th-sm">Séances</th>
-                <th className="th-sm">Modules</th>
+                <th className="th-sm">Département</th>
                 <th className="th-sm">Actions</th>
               </tr>
             </thead>
           </table>
         </div>
       </div>
-
-      {modalCreate ? (
+      {modalEdit ? (
         <FormEnseignant
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={{
-            nom: "",
-            prenom: "",
-            departement: "",
-          }}
-          onSave={createEnseignant}
+          isOpen={modalEdit}
+          toggle={toggleModalEdit}
+          activeItem={enseignant}
+          onSave={editEnseignant}
         />
       ) : null}
     </main>

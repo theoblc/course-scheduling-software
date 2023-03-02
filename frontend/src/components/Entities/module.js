@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import FormModule from "../modals/FormModule";
+import FormModule from "../Modals/FormModule";
 import axios from "axios";
-import withRouter from "./withRouter";
+import withRouter from "../Assets/WithRouter";
 
 function Module() {
   const [modalEdit, setModalEdit] = useState(false);

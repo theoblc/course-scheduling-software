@@ -34,13 +34,37 @@ export default class CustomModal extends Component {
         <ModalBody>
           <Form>
             <FormGroup>
-              <Label for="numero">Numéro</Label>
+              <Label for="nom">Nom</Label>
               <Input
                 type="text"
-                name="numero"
-                value={this.state.activeItem.numero}
+                name="nom"
+                value={this.state.activeItem.nom}
                 onChange={this.handleChange}
               />
+            </FormGroup>
+            <FormGroup>
+              <Label for="prenom">Prénom</Label>
+              <Input
+                type="text"
+                name="prenom"
+                value={this.state.activeItem.prenom}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="departement">Département</Label>
+              <Input
+                type="select"
+                name="departement"
+                value={this.state.activeItem.departement}
+                onChange={this.handleChange}
+              >
+                <option value="EPH" defaultValue>
+                  EPH
+                </option>
+                <option value="Vacataire">Vacataire</option>
+                <option value="Autre">Autre</option>
+              </Input>
             </FormGroup>
           </Form>
         </ModalBody>

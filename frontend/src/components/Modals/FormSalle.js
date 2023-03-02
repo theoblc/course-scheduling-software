@@ -30,39 +30,22 @@ export default class CustomModal extends Component {
     const { toggle, onSave } = this.props;
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Ajout d'un enseignant</ModalHeader>
+        <ModalHeader toggle={toggle}>Ajout d'une salle</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
-              <Label for="nom">Nom</Label>
+              <Label for="numero">Numéro</Label>
               <Input
                 type="text"
-                name="nom"
-                value={this.state.activeItem.nom}
+                name="numero"
+                value={this.state.activeItem.numero}
                 onChange={this.handleChange}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    onSave(this.state.activeItem);
+                  }
+                }}
               />
-            </FormGroup>
-            <FormGroup>
-              <Label for="prenom">Prénom</Label>
-              <Input
-                type="text"
-                name="prenom"
-                value={this.state.activeItem.prenom}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="departement">Département</Label>
-              <Input
-                type="select"
-                name="departement"
-                value={this.state.activeItem.departement}
-                onChange={this.handleChange}
-              >
-                <option value="EPH">EPH</option>
-                <option value="Vacataire">Vacataire</option>
-                <option value="Autre">Autre</option>
-              </Input>
             </FormGroup>
           </Form>
         </ModalBody>

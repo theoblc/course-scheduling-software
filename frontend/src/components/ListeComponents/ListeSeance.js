@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import FormSeance from "../modals/FormSeance";
+import withRouter from "../Assets/WithRouter";
+import FormSeance from "../Modals/FormSeance";
+import Title from "../Assets/Title";
+import Add from "../Assets/Add";
 import axios from "axios";
-import withRouter from "../components/withRouter";
-import Seance from "../components/seance";
 
-import "./jquery.dataTables.min.css";
-import language_fr from "./language_fr";
+import "../../style/jquery.dataTables.min.css";
+import language_fr from "../../style/language_fr";
 
 import "jquery";
 import "datatable";
@@ -16,10 +16,14 @@ import "datatables.net-buttons";
 import $ from "jquery";
 
 function ListeSeance() {
-  const [modalCreate, setModalCreate] = useState(false);
+  const [modalEdit, setModalEdit] = useState(false);
+  const [seance, setSeance] = useState({
+    date_debut: "",
+    date_fin: "",
+    numero_groupe_td: "",
+  });
   const [listSeances, setListSeances] = useState([]);
   const baseURL = "http://localhost:8000/api/seances/";
-  const navigate = useNavigate();
 
   const fetchData = async () => {
     const data = await fetch(baseURL);
@@ -31,14 +35,11 @@ function ListeSeance() {
     fetchData().catch(console.error);
   }, []);
 
-  function toggleModalCreate() {
-    setModalCreate(!modalCreate);
-  }
-
-  function createSeance(item) {
-    toggleModalCreate();
+  function editSeance(itemModified, sum) {
+    toggleModalEdit(itemModified);
+    itemModified.nb_heures_total = sum;
     axios
-      .post(baseURL, item)
+      .patch(baseURL + itemModified.id + "/", itemModified)
       .then(() => {
         fetchData();
       })
@@ -47,8 +48,20 @@ function ListeSeance() {
       });
   }
 
-  function openSeance(id) {
-    navigate(`/seances/${id}`);
+  function removeSeance(id) {
+    axios
+      .delete(baseURL + id + "/")
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function toggleModalEdit(item) {
+    setSeance(item);
+    setModalEdit(!modalEdit);
   }
 
   function activateDataTable() {
@@ -69,13 +82,17 @@ function ListeSeance() {
         language: language_fr,
         data: seances,
         columns: [
-          { data: "id" },
           { data: "date_debut" },
           { data: "date_fin" },
           { data: "numero_groupe_td" },
+          { data: null },
+        ],
+        columnDefs: [
           {
-            data: null,
-            defaultContent: "<button class=Open>Ouvrir</button>",
+            targets: -1,
+            render: function () {
+              return '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
+            },
           },
         ],
       });
@@ -87,8 +104,13 @@ function ListeSeance() {
         // Si les données de la ligne ne sont pas vides
         if (data !== undefined) {
           // Si l'action est d'ouvrir
-          if (action !== undefined && action === "Open") {
-            openSeance(data.id);
+          if (action !== undefined && action === "btn btn-warning btn-sm") {
+            toggleModalEdit(data);
+          } else if (
+            action !== undefined &&
+            action === "btn btn-danger btn-sm"
+          ) {
+            removeSeance(data.id);
           }
         }
       });
@@ -100,19 +122,23 @@ function ListeSeance() {
 
   return (
     <main>
-      <h2>Liste des séances</h2>
-      <div>
-        <button className="btn btn-success" onClick={toggleModalCreate}>
-          Ajouter
-        </button>
-      </div>
+      <Title type="séances" />
+
+      <Add
+        type="seances"
+        item={{
+          date_debut: "",
+          date_fin: "",
+          numero_groupe_td: "",
+        }}
+        fetchData={fetchData}
+      />
 
       <div className="container-fluid py-4">
         <div className="table-responsive p-0 pb-2">
           <table id="seanceTable" className="display" width="100%">
             <thead>
               <tr>
-                <th className="th-sm">Id</th>
                 <th className="th-sm">Heure de début</th>
                 <th className="th-sm">Heure de fin</th>
                 <th className="th-sm">Numéro groupe de TD</th>
@@ -122,17 +148,12 @@ function ListeSeance() {
           </table>
         </div>
       </div>
-
-      {modalCreate ? (
+      {modalEdit ? (
         <FormSeance
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={{
-            date_debut: "",
-            date_fin: "",
-            numero_groupe_td: "",
-          }}
-          onSave={createSeance}
+          isOpen={modalEdit}
+          toggle={toggleModalEdit}
+          activeItem={seance}
+          onSave={editSeance}
         />
       ) : null}
     </main>
