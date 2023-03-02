@@ -51,7 +51,6 @@ function ListeCours() {
         language: language_fr,
         data: cours,
         columns: [
-          { data: "id" },
           { data: "nom" },
           { data: "nb_heures" },
           {
@@ -97,7 +96,6 @@ function ListeCours() {
           <table id="coursTable" className="display" width="100%">
             <thead>
               <tr>
-                <th className="th-sm">Id</th>
                 <th className="th-sm">Nom</th>
                 <th className="th-sm">Nombre heures</th>
                 <th className="th-sm">Actions</th>

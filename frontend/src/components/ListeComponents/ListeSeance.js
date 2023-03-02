@@ -51,7 +51,6 @@ function ListeSeance() {
         language: language_fr,
         data: seances,
         columns: [
-          { data: "id" },
           { data: "date_debut" },
           { data: "date_fin" },
           { data: "numero_groupe_td" },
@@ -99,7 +98,6 @@ function ListeSeance() {
           <table id="seanceTable" className="display" width="100%">
             <thead>
               <tr>
-                <th className="th-sm">Id</th>
                 <th className="th-sm">Heure de début</th>
                 <th className="th-sm">Heure de fin</th>
                 <th className="th-sm">Numéro groupe de TD</th>

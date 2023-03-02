@@ -51,7 +51,6 @@ function ListeSalle() {
         language: language_fr,
         data: salles,
         columns: [
-          { data: "id" },
           { data: "numero" },
           {
             data: null,
@@ -95,7 +94,6 @@ function ListeSalle() {
           <table id="salleTable" className="display" width="100%">
             <thead>
               <tr>
-                <th className="th-sm">Id</th>
                 <th className="th-sm">Numéro</th>
                 <th className="th-sm">Actions</th>
               </tr>

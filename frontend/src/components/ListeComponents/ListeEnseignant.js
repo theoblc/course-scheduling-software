@@ -51,11 +51,9 @@ function ListeEnseignant() {
         language: language_fr,
         data: enseignants,
         columns: [
-          { data: "id" },
           { data: "prenom" },
           { data: "nom" },
-          { data: "seances" },
-          { data: "module" },
+          { data: "departement" },
           {
             data: null,
             defaultContent: "<button class=Open>Ouvrir</button>",
@@ -100,11 +98,9 @@ function ListeEnseignant() {
           <table id="enseignantTable" className="display" width="100%">
             <thead>
               <tr>
-                <th className="th-sm">Id</th>
                 <th className="th-sm">Prénom</th>
                 <th className="th-sm">Nom</th>
-                <th className="th-sm">Séances</th>
-                <th className="th-sm">Modules</th>
+                <th className="th-sm">Département</th>
                 <th className="th-sm">Actions</th>
               </tr>
             </thead>

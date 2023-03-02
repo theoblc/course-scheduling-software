@@ -51,11 +51,13 @@ function ListeModule() {
         language: language_fr,
         data: modules,
         columns: [
-          { data: "id" },
           { data: "code" },
           { data: "nom" },
-          { data: "seances" },
-          { data: "cours" },
+          { data: "nb_heures_tp" },
+          { data: "nb_heures_td" },
+          { data: "nb_heures_be" },
+          { data: "nb_heures_ci" },
+          { data: "nb_heures_cm" },
           { data: "nb_heures_total" },
           {
             data: null,
@@ -106,11 +108,13 @@ function ListeModule() {
           <table id="moduleTable" className="display" width="100%">
             <thead>
               <tr>
-                <th className="th-sm">Id</th>
                 <th className="th-sm">Code</th>
                 <th className="th-sm">Nom</th>
-                <th className="th-sm">Séances</th>
-                <th className="th-sm">Cours</th>
+                <th className="th-sm">Nombre d'heures de TP</th>
+                <th className="th-sm">Nombre d'heures de TD</th>
+                <th className="th-sm">Nombre d'heures de BE</th>
+                <th className="th-sm">Nombre d'heures de CI</th>
+                <th className="th-sm">Nombre d'heures de CM</th>
                 <th className="th-sm">Nombre heures total</th>
                 <th className="th-sm">Actions</th>
               </tr>
