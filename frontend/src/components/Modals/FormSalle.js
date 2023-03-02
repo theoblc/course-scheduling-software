@@ -40,6 +40,11 @@ export default class CustomModal extends Component {
                 name="numero"
                 value={this.state.activeItem.numero}
                 onChange={this.handleChange}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    onSave(this.state.activeItem);
+                  }
+                }}
               />
             </FormGroup>
           </Form>

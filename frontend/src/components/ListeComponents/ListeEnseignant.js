@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import withRouter from "../Assets/WithRouter";
+import FormEnseignant from "../Modals/FormEnseignant";
 import Title from "../Assets/Title";
 import Add from "../Assets/Add";
+import axios from "axios";
 
 import "../../style/jquery.dataTables.min.css";
 import language_fr from "../../style/language_fr";
@@ -15,9 +16,15 @@ import "datatables.net-buttons";
 import $ from "jquery";
 
 function ListeEnseignant() {
+  const [modalEdit, setModalEdit] = useState(false);
+  const [enseignant, setEnseignant] = useState({
+    id: 0,
+    nom: "",
+    prenom: "",
+    departement: "",
+  });
   const [listEnseignants, setListEnseignants] = useState([]);
   const baseURL = "http://localhost:8000/api/enseignants/";
-  const navigate = useNavigate();
 
   const fetchData = async () => {
     const data = await fetch(baseURL);
@@ -29,8 +36,33 @@ function ListeEnseignant() {
     fetchData().catch(console.error);
   }, []);
 
-  function openEnseignant(id) {
-    navigate(`/enseignants/${id}`);
+  function editEnseignant(itemModified, sum) {
+    toggleModalEdit(itemModified);
+    itemModified.nb_heures_total = sum;
+    axios
+      .patch(baseURL + itemModified.id + "/", itemModified)
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function removeEnseignant(id) {
+    axios
+      .delete(baseURL + id + "/")
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function toggleModalEdit(item) {
+    setEnseignant(item);
+    setModalEdit(!modalEdit);
   }
 
   function activateDataTable() {
@@ -54,9 +86,14 @@ function ListeEnseignant() {
           { data: "prenom" },
           { data: "nom" },
           { data: "departement" },
+          { data: null },
+        ],
+        columnDefs: [
           {
-            data: null,
-            defaultContent: "<button class=Open>Ouvrir</button>",
+            targets: -1,
+            render: function () {
+              return '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
+            },
           },
         ],
       });
@@ -68,8 +105,13 @@ function ListeEnseignant() {
         // Si les données de la ligne ne sont pas vides
         if (data !== undefined) {
           // Si l'action est d'ouvrir
-          if (action !== undefined && action === "Open") {
-            openEnseignant(data.id);
+          if (action !== undefined && action === "btn btn-warning btn-sm") {
+            toggleModalEdit(data);
+          } else if (
+            action !== undefined &&
+            action === "btn btn-danger btn-sm"
+          ) {
+            removeEnseignant(data.id);
           }
         }
       });
@@ -88,7 +130,7 @@ function ListeEnseignant() {
         item={{
           nom: "",
           prenom: "",
-          departement: "",
+          departement: "EPH",
         }}
         fetchData={fetchData}
       />
@@ -107,6 +149,14 @@ function ListeEnseignant() {
           </table>
         </div>
       </div>
+      {modalEdit ? (
+        <FormEnseignant
+          isOpen={modalEdit}
+          toggle={toggleModalEdit}
+          activeItem={enseignant}
+          onSave={editEnseignant}
+        />
+      ) : null}
     </main>
   );
 }

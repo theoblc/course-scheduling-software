@@ -5,8 +5,6 @@ import "bootstrap/dist/css/bootstrap.css";
 
 import Cours from "./components/Entities/Cours";
 import Module from "./components/Entities/Module";
-import Salle from "./components/Entities/Salle";
-import Seance from "./components/Entities/Seance";
 import Enseignant from "./components/Entities/Enseignant";
 
 import ListeCours from "./components/ListeComponents/ListeCours";
@@ -27,9 +25,7 @@ class App extends Component {
             <Route path="/cours" element={<ListeCours />} />
             <Route path="/modules/:id" element={<Module />} />
             <Route path="/modules" element={<ListeModule />} />
-            <Route path="/salles/:id" element={<Salle />} />
             <Route path="/salles" element={<ListeSalle />} />
-            <Route path="/seances/:id" element={<Seance />} />
             <Route path="/seances" element={<ListeSeance />} />
             <Route path="/enseignants/:id" element={<Enseignant />} />
             <Route path="/enseignants" element={<ListeEnseignant />} />

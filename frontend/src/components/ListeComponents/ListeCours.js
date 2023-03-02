@@ -50,12 +50,13 @@ function ListeCours() {
       let new_table = $("#coursTable").DataTable({
         language: language_fr,
         data: cours,
-        columns: [
-          { data: "nom" },
-          { data: "nb_heures" },
+        columns: [{ data: "nom" }, { data: "nb_heures" }, { data: null }],
+        columnDefs: [
           {
-            data: null,
-            defaultContent: "<button class=Open>Ouvrir</button>",
+            targets: -1,
+            render: function () {
+              return '<button class="btn btn-success btn-sm">Détails</button>';
+            },
           },
         ],
       });
@@ -67,7 +68,7 @@ function ListeCours() {
         // Si les données de la ligne ne sont pas vides
         if (data !== undefined) {
           // Si l'action est d'ouvrir
-          if (action !== undefined && action === "Open") {
+          if (action !== undefined && action === "btn btn-success btn-sm") {
             openCours(data.id);
           }
         }

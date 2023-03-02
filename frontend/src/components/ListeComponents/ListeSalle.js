@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import withRouter from "../Assets/WithRouter";
+import FormSalle from "../Modals/FormSalle";
 import Title from "../Assets/Title";
 import Add from "../Assets/Add";
+import axios from "axios";
 
 import "../../style/jquery.dataTables.min.css";
 import language_fr from "../../style/language_fr";
@@ -15,9 +16,13 @@ import "datatables.net-buttons";
 import $ from "jquery";
 
 function ListeSalle() {
+  const [modalEdit, setModalEdit] = useState(false);
+  const [salle, setSalle] = useState({
+    id: 0,
+    numero: "",
+  });
   const [listSalles, setListSalles] = useState([]);
   const baseURL = "http://localhost:8000/api/salles/";
-  const navigate = useNavigate();
 
   const fetchData = async () => {
     const data = await fetch(baseURL);
@@ -29,8 +34,33 @@ function ListeSalle() {
     fetchData().catch(console.error);
   }, []);
 
-  function openSalle(id) {
-    navigate(`/salles/${id}`);
+  function editSalle(itemModified, sum) {
+    toggleModalEdit(itemModified);
+    itemModified.nb_heures_total = sum;
+    axios
+      .patch(baseURL + itemModified.id + "/", itemModified)
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function toggleModalEdit(item) {
+    setSalle(item);
+    setModalEdit(!modalEdit);
+  }
+
+  function removeSalle(id) {
+    axios
+      .delete(baseURL + id + "/")
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   function activateDataTable() {
@@ -50,11 +80,13 @@ function ListeSalle() {
       let new_table = $("#salleTable").DataTable({
         language: language_fr,
         data: salles,
-        columns: [
-          { data: "numero" },
+        columns: [{ data: "numero" }, { data: null }],
+        columnDefs: [
           {
-            data: null,
-            defaultContent: "<button class=Open>Ouvrir</button>",
+            targets: -1,
+            render: function () {
+              return '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
+            },
           },
         ],
       });
@@ -66,8 +98,13 @@ function ListeSalle() {
         // Si les données de la ligne ne sont pas vides
         if (data !== undefined) {
           // Si l'action est d'ouvrir
-          if (action !== undefined && action === "Open") {
-            openSalle(data.id);
+          if (action !== undefined && action === "btn btn-warning btn-sm") {
+            toggleModalEdit(data);
+          } else if (
+            action !== undefined &&
+            action === "btn btn-danger btn-sm"
+          ) {
+            removeSalle(data.id);
           }
         }
       });
@@ -101,6 +138,14 @@ function ListeSalle() {
           </table>
         </div>
       </div>
+      {modalEdit ? (
+        <FormSalle
+          isOpen={modalEdit}
+          toggle={toggleModalEdit}
+          activeItem={salle}
+          onSave={editSalle}
+        />
+      ) : null}
     </main>
   );
 }

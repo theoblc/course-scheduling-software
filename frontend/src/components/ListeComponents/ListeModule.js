@@ -59,9 +59,14 @@ function ListeModule() {
           { data: "nb_heures_ci" },
           { data: "nb_heures_cm" },
           { data: "nb_heures_total" },
+          { data: null },
+        ],
+        columnDefs: [
           {
-            data: null,
-            defaultContent: "<button class=Open>Ouvrir</button>",
+            targets: -1,
+            render: function () {
+              return '<button class="btn btn-success btn-sm">Détails</button>';
+            },
           },
         ],
       });
@@ -73,7 +78,7 @@ function ListeModule() {
         // Si les données de la ligne ne sont pas vides
         if (data !== undefined) {
           // Si l'action est d'ouvrir
-          if (action !== undefined && action === "Open") {
+          if (action !== undefined && action === "btn btn-success btn-sm") {
             openModule(data.id);
           }
         }

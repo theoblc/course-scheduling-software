@@ -59,7 +59,9 @@ export default class CustomModal extends Component {
                 value={this.state.activeItem.departement}
                 onChange={this.handleChange}
               >
-                <option value="EPH">EPH</option>
+                <option value="EPH" defaultValue>
+                  EPH
+                </option>
                 <option value="Vacataire">Vacataire</option>
                 <option value="Autre">Autre</option>
               </Input>
