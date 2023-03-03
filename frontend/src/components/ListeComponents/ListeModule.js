@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import withRouter from "../Assets/WithRouter";
 import Title from "../Assets/Title";
 import Add from "../Assets/Add";
-
-import "../../style/jquery.dataTables.min.css";
-import language_fr from "../../style/language_fr";
-
-import "jquery";
-import "datatable";
-import "datatables.net";
-import "datatables.net-dt";
-import "datatables.net-buttons";
-import $ from "jquery";
+import DataTable from "../Assets/DataTable";
 
 function ListeModule() {
   const [listModules, setListModules] = useState([]);
   const baseURL = "http://localhost:8000/api/modules/";
-  const navigate = useNavigate();
 
   const fetchData = async () => {
     const data = await fetch(baseURL);
@@ -28,66 +17,6 @@ function ListeModule() {
   useEffect(() => {
     fetchData().catch(console.error);
   }, []);
-
-  function openModule(id) {
-    navigate(`/modules/${id}`);
-  }
-
-  function activateDataTable() {
-    // Récupération des modules dans un tableau de json
-    var modules = listModules;
-
-    // Fonction qui lance l'API DataTable
-    $(function () {
-      // Si la DataTable est déjà créée on l'écrase pour la mettre à jour
-      if ($.fn.dataTable.isDataTable("#moduleTable")) {
-        let table = $("#moduleTable").DataTable();
-
-        table.destroy();
-      }
-
-      //Création d'une nouvelle DataTable
-      let new_table = $("#moduleTable").DataTable({
-        language: language_fr,
-        data: modules,
-        columns: [
-          { data: "code" },
-          { data: "nom" },
-          { data: "nb_heures_tp" },
-          { data: "nb_heures_td" },
-          { data: "nb_heures_be" },
-          { data: "nb_heures_ci" },
-          { data: "nb_heures_cm" },
-          { data: "nb_heures_total" },
-          { data: null },
-        ],
-        columnDefs: [
-          {
-            targets: -1,
-            render: function () {
-              return '<button class="btn btn-success btn-sm">Détails</button>';
-            },
-          },
-        ],
-      });
-
-      $("#moduleTable tbody").on("click", "button", function () {
-        var action = this.className;
-        var data = new_table.row($(this).parents("tr")).data();
-
-        // Si les données de la ligne ne sont pas vides
-        if (data !== undefined) {
-          // Si l'action est d'ouvrir
-          if (action !== undefined && action === "btn btn-success btn-sm") {
-            openModule(data.id);
-          }
-        }
-      });
-    });
-  }
-
-  // Lancement de l'API DataTable
-  activateDataTable();
 
   return (
     <main>
@@ -108,25 +37,34 @@ function ListeModule() {
         fetchData={fetchData}
       />
 
-      <div className="container-fluid py-4">
-        <div className="table-responsive p-0 pb-2">
-          <table id="moduleTable" className="display" width="100%">
-            <thead>
-              <tr>
-                <th className="th-sm">Code</th>
-                <th className="th-sm">Nom</th>
-                <th className="th-sm">Nombre d'heures de TP</th>
-                <th className="th-sm">Nombre d'heures de TD</th>
-                <th className="th-sm">Nombre d'heures de BE</th>
-                <th className="th-sm">Nombre d'heures de CI</th>
-                <th className="th-sm">Nombre d'heures de CM</th>
-                <th className="th-sm">Nombre heures total</th>
-                <th className="th-sm">Actions</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-      </div>
+      <DataTable
+        columns={[
+          { data: "code" },
+          { data: "nom" },
+          { data: "nb_heures_tp" },
+          { data: "nb_heures_td" },
+          { data: "nb_heures_be" },
+          { data: "nb_heures_ci" },
+          { data: "nb_heures_cm" },
+          { data: "nb_heures_total" },
+          { data: null },
+        ]}
+        nameColumns={[
+          "Code",
+          "Nom",
+          "Nombre d'heures de TP",
+          "Nombre d'heures de TD",
+          "Nombre d'heures de BE",
+          "Nombre d'heures de CI",
+          "Nombre d'heures de CM",
+          "Nombre heures total",
+          "Action",
+        ]}
+        baseURL={baseURL}
+        fetchData={fetchData}
+        data={listModules}
+        type="modules"
+      />
     </main>
   );
 }
