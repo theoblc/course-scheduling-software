@@ -95,12 +95,13 @@ function DataTable(props) {
         // Si l'action est d'ouvrir
         if (action !== undefined && action === "btn btn-success btn-sm") {
           open(data.id);
-        } else if (
-          action !== undefined &&
-          action === "btn btn-warning btn-sm"
-        ) {
+        }
+        // Si l'action est de modifier
+        else if (action !== undefined && action === "btn btn-warning btn-sm") {
           toggleModalEdit(data);
-        } else if (action !== undefined && action === "btn btn-danger btn-sm") {
+        }
+        // Si l'action est de supprimer
+        else if (action !== undefined && action === "btn btn-danger btn-sm") {
           remove(data.id);
         }
       }
