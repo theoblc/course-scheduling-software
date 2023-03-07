@@ -20,7 +20,7 @@ function ListeCours() {
 
   return (
     <main>
-      <Title type="cours" />
+      <Title type="Liste des cours" />
 
       <Add
         type="cours"

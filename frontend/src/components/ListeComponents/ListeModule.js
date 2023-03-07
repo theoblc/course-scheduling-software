@@ -20,7 +20,7 @@ function ListeModule() {
 
   return (
     <main>
-      <Title type="modules" />
+      <Title type="Liste des modules" />
 
       <Add
         type="modules"

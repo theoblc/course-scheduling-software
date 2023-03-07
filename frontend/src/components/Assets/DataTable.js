@@ -77,7 +77,7 @@ function DataTable(props) {
           targets: -1,
           render: function () {
             if (type === "modules" || type === "cours") {
-              return '<button class="btn btn-success btn-sm">Détails</button><button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
+              return '<button class="mod btn btn-warning btn-sm">Modifier</button>';
             } else {
               return '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
             }
@@ -93,7 +93,7 @@ function DataTable(props) {
       // Si les données de la ligne ne sont pas vides
       if (data !== undefined) {
         // Si l'action est d'ouvrir
-        if (action !== undefined && action === "btn btn-success btn-sm") {
+        if (action !== undefined && action === "mod btn btn-warning btn-sm") {
           open(data.id);
         } else if (
           action !== undefined &&

@@ -20,7 +20,7 @@ function ListeSeance() {
 
   return (
     <main>
-      <Title type="séances" />
+      <Title type="Liste des séances" />
 
       <Add
         type="seances"

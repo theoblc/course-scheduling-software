@@ -20,7 +20,7 @@ function ListeSalle() {
 
   return (
     <main>
-      <Title type="salles" />
+      <Title type="Liste des salles" />
 
       <Add
         type="salles"

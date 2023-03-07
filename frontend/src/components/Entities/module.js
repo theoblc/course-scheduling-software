@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import FormModule from "../Modals/FormModule";
+import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import axios from "axios";
 import withRouter from "../Assets/WithRouter";
 
 function Module() {
-  const [modalEdit, setModalEdit] = useState(false);
   const [module, setModule] = useState({
     id: 0,
     code: "",
@@ -21,25 +20,43 @@ function Module() {
   const navigate = useNavigate();
   const baseURL = "http://localhost:8000/api/modules/";
 
-  const fetchData = async () => {
-    const url = baseURL + id;
-    const data = await fetch(url);
-    const module = await data.json();
-    setModule(module);
-  };
-
   useEffect(() => {
-    fetchData().catch(console.error);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const fetchData = async () => {
+      const url = baseURL + id;
+      const data = await fetch(url);
+      const module = await data.json();
+      setModule(module);
+    };
 
-  function editModule(itemModified, sum) {
-    toggleModalEdit(itemModified);
+    fetchData().catch(console.error);
+  }, [id]);
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    const updatedActiveItem = { ...module, [name]: value };
+    updatedActiveItem.nb_heures_total = calculSum(updatedActiveItem);
+    setModule(updatedActiveItem);
+  }
+
+  function calculSum(module) {
+    let sum = [
+      Number(module.nb_heures_be),
+      Number(module.nb_heures_tp),
+      Number(module.nb_heures_td),
+      Number(module.nb_heures_cm),
+      Number(module.nb_heures_ci),
+    ].reduce((acc, val) => acc + val, 0);
+    return sum;
+  }
+
+  function editModule(itemModified) {
+    let sum = calculSum(itemModified);
     itemModified.nb_heures_total = sum;
+    setModule(itemModified);
     axios
       .patch(baseURL + itemModified.id + "/", itemModified)
       .then(() => {
-        fetchData();
+        navigate(`/modules`);
       })
       .catch((error) => {
         console.error(error);
@@ -57,44 +74,93 @@ function Module() {
       });
   }
 
-  function toggleModalEdit(item) {
-    setModule(item);
-    setModalEdit(!modalEdit);
-  }
-
   return (
-    <li
-      key={module.id}
-      className="list-group-item d-flex justify-content-between align-items-center"
-    >
-      <span className={`todo-title mr-2`} title={module.code}>
-        Code : {module.code} <br></br>
-        Nom : {module.nom} <br></br>
-        Nombre d'heures de TP : {module.nb_heures_tp} <br></br>
-        Nombre d'heures de TD : {module.nb_heures_td} <br></br>
-        Nombre d'heures de BE : {module.nb_heures_be} <br></br>
-        Nombre d'heures de CI : {module.nb_heures_ci} <br></br>
-        Nombre d'heures de CM : {module.nb_heures_cm} <br></br>
-        Nombre d'heures total : {module.nb_heures_total} <br></br>
-      </span>
-      <button
-        onClick={() => toggleModalEdit(module)}
-        className="btn btn-warning"
-      >
-        Modifier
-      </button>
-      <button onClick={() => removeModule(module)} className="btn btn-danger">
-        Supprimer
-      </button>
-      {modalEdit ? (
-        <FormModule
-          isOpen={modalEdit}
-          toggle={toggleModalEdit}
-          activeItem={module}
-          onSave={editModule}
-        />
-      ) : null}
-    </li>
+    <div className="card mx-auto" style={{ maxWidth: "30rem" }}>
+      <div className="card-body">
+        <Form>
+          <FormGroup>
+            <Label for="code">Code</Label>
+            <Input
+              type="text"
+              name="code"
+              value={module.code}
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="nom">Nom</Label>
+            <Input
+              type="text"
+              name="nom"
+              value={module.nom}
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="nb_heures_tp">Nombre d'heures de TP</Label>
+            <Input
+              type="number"
+              name="nb_heures_tp"
+              value={module.nb_heures_tp}
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="nb_heures_td">Nombre d'heures de TD</Label>
+            <Input
+              type="number"
+              name="nb_heures_td"
+              value={module.nb_heures_td}
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="nb_heures_be">Nombre d'heures de BE</Label>
+            <Input
+              type="number"
+              name="nb_heures_be"
+              value={module.nb_heures_be}
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="nb_heures_ci">Nombre d'heures de CI</Label>
+            <Input
+              type="number"
+              name="nb_heures_ci"
+              value={module.nb_heures_ci}
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="nb_heures_cm">Nombre d'heures de CM</Label>
+            <Input
+              type="number"
+              name="nb_heures_cm"
+              value={module.nb_heures_cm}
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <p>Nombre d'heures total : {module.nb_heures_total}</p>
+          <div className="d-flex justify-content-between">
+            <Button
+              className="float-start"
+              color="success"
+              onClick={() => editModule(module)}
+            >
+              Enregistrer
+            </Button>
+            <Button
+              onClick={() => removeModule(module)}
+              className="float-end"
+              color="danger"
+            >
+              Supprimer
+            </Button>
+          </div>
+        </Form>
+      </div>
+    </div>
   );
 }
 

@@ -20,7 +20,7 @@ function ListeEnseignant() {
 
   return (
     <main>
-      <Title type="enseignants" />
+      <Title type="Liste des enseignants" />
 
       <Add
         type="enseignants"
