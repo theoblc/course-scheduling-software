@@ -20,7 +20,6 @@ function DataTable(props) {
   const [item, setItem] = useState(null);
   const baseURL = props.baseURL;
   const fetchData = props.fetchData;
-  const data = props.data;
   const type = props.type;
   const columns = props.columns;
   const nameColumns = props.nameColumns;
@@ -62,15 +61,15 @@ function DataTable(props) {
   // Fonction qui lance l'API DataTable
   $(function () {
     // Si la DataTable est déjà créée on l'écrase pour la mettre à jour
-    if ($.fn.dataTable.isDataTable("#moduleTable")) {
-      let table = $("#moduleTable").DataTable();
+    if ($.fn.dataTable.isDataTable("#datatable")) {
+      let table = $("#datatable").DataTable();
       table.destroy();
     }
 
     //Création d'une nouvelle DataTable
-    let new_table = $("#moduleTable").DataTable({
+    let new_table = $("#datatable").DataTable({
       language: language_fr,
-      data: data,
+      data: props.data,
       columns: columns,
       columnDefs: [
         {
@@ -86,7 +85,7 @@ function DataTable(props) {
       ],
     });
 
-    $("#moduleTable tbody").on("click", "button", function () {
+    $("#datatable tbody").on("click", "button", function () {
       var action = this.className;
       var data = new_table.row($(this).parents("tr")).data();
 
@@ -110,7 +109,7 @@ function DataTable(props) {
   return (
     <div className="container-fluid py-4">
       <div className="table-responsive p-0 pb-2">
-        <table id="moduleTable" className="display" width="100%">
+        <table id="datatable" className="display" width="100%">
           <thead>
             <tr>
               {nameColumns.map((colonne) => (

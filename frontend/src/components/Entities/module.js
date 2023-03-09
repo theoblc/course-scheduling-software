@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
-import axios from "axios";
 import withRouter from "../Assets/WithRouter";
+import ListeCours from "../ListeComponents/ListeCours";
+import Title from "../Assets/Title";
+import axios from "axios";
 
 function Module() {
   const [module, setModule] = useState({
@@ -15,16 +17,18 @@ function Module() {
     nb_heures_cm: 0,
     nb_heures_ci: 0,
     nb_heures_total: 0,
+    seances: null,
+    cours: null,
   });
   const { id } = useParams();
   const navigate = useNavigate();
-  const baseURL = "http://localhost:8000/api/modules/";
+  const baseURLModule = "http://localhost:8000/api/modules/";
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = baseURL + id;
-      const data = await fetch(url);
-      const module = await data.json();
+      const urlModule = baseURLModule + id;
+      const dataModule = await fetch(urlModule);
+      const module = await dataModule.json();
       setModule(module);
     };
 
@@ -54,7 +58,7 @@ function Module() {
     itemModified.nb_heures_total = sum;
     setModule(itemModified);
     axios
-      .patch(baseURL + itemModified.id + "/", itemModified)
+      .patch(baseURLModule + itemModified.id + "/", itemModified)
       .then(() => {
         navigate(`/modules`);
       })
@@ -65,7 +69,7 @@ function Module() {
 
   function removeModule(item) {
     axios
-      .delete(baseURL + item.id + "/")
+      .delete(baseURLModule + item.id + "/")
       .then(() => {
         navigate(`/modules`);
       })
@@ -75,90 +79,100 @@ function Module() {
   }
 
   return (
-    <div className="card mx-auto" style={{ maxWidth: "30rem" }}>
-      <div className="card-body">
-        <Form>
-          <FormGroup>
-            <Label for="code">Code</Label>
-            <Input
-              type="text"
-              name="code"
-              value={module.code}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="nom">Nom</Label>
-            <Input
-              type="text"
-              name="nom"
-              value={module.nom}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="nb_heures_tp">Nombre d'heures de TP</Label>
-            <Input
-              type="number"
-              name="nb_heures_tp"
-              value={module.nb_heures_tp}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="nb_heures_td">Nombre d'heures de TD</Label>
-            <Input
-              type="number"
-              name="nb_heures_td"
-              value={module.nb_heures_td}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="nb_heures_be">Nombre d'heures de BE</Label>
-            <Input
-              type="number"
-              name="nb_heures_be"
-              value={module.nb_heures_be}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="nb_heures_ci">Nombre d'heures de CI</Label>
-            <Input
-              type="number"
-              name="nb_heures_ci"
-              value={module.nb_heures_ci}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="nb_heures_cm">Nombre d'heures de CM</Label>
-            <Input
-              type="number"
-              name="nb_heures_cm"
-              value={module.nb_heures_cm}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <p>Nombre d'heures total : {module.nb_heures_total}</p>
-          <div className="d-flex justify-content-between">
-            <Button
-              className="float-start"
-              color="success"
-              onClick={() => editModule(module)}
-            >
-              Enregistrer
-            </Button>
-            <Button
-              onClick={() => removeModule(module)}
-              className="float-end"
-              color="danger"
-            >
-              Supprimer
-            </Button>
+    <div className="container">
+      <Title type={`Fiche programme de ${module.code}`} />
+      <div className="row">
+        <div className="col-4">
+          <div className="card mx-auto" style={{ maxWidth: "30rem" }}>
+            <div className="card-body">
+              <Form>
+                <FormGroup>
+                  <Label for="code">Code</Label>
+                  <Input
+                    type="text"
+                    name="code"
+                    value={module.code}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="nom">Nom</Label>
+                  <Input
+                    type="text"
+                    name="nom"
+                    value={module.nom}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="nb_heures_tp">Nombre d'heures de TP</Label>
+                  <Input
+                    type="number"
+                    name="nb_heures_tp"
+                    value={module.nb_heures_tp}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="nb_heures_td">Nombre d'heures de TD</Label>
+                  <Input
+                    type="number"
+                    name="nb_heures_td"
+                    value={module.nb_heures_td}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="nb_heures_be">Nombre d'heures de BE</Label>
+                  <Input
+                    type="number"
+                    name="nb_heures_be"
+                    value={module.nb_heures_be}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="nb_heures_ci">Nombre d'heures de CI</Label>
+                  <Input
+                    type="number"
+                    name="nb_heures_ci"
+                    value={module.nb_heures_ci}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="nb_heures_cm">Nombre d'heures de CM</Label>
+                  <Input
+                    type="number"
+                    name="nb_heures_cm"
+                    value={module.nb_heures_cm}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <p>Nombre d'heures total : {module.nb_heures_total}</p>
+                <div className="d-flex justify-content-between">
+                  <Button
+                    className="float-start"
+                    color="success"
+                    onClick={() => editModule(module)}
+                  >
+                    Enregistrer
+                  </Button>
+                  <Button
+                    onClick={() => removeModule(module)}
+                    className="float-end"
+                    color="danger"
+                  >
+                    Supprimer
+                  </Button>
+                </div>
+              </Form>
+            </div>
           </div>
-        </Form>
+        </div>
+        <div className="col-8">
+          {module.id !== 0 && <ListeCours idModule={module.id} />}
+        </div>
       </div>
     </div>
   );

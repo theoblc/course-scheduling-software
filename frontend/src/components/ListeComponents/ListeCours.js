@@ -1,41 +1,31 @@
 import React, { useEffect, useState } from "react";
 import withRouter from "../Assets/WithRouter";
 import Title from "../Assets/Title";
-import Add from "../Assets/Add";
 import DataTable from "../Assets/DataTable";
 
-function ListeCours() {
+function ListeCours(props) {
   const [listCours, setListCours] = useState([]);
-  const baseURL = "http://localhost:8000/api/cours/";
-
-  const fetchData = async () => {
-    const data = await fetch(baseURL);
-    const cours = await data.json();
-    setListCours(cours);
-  };
+  const idModule = props.idModule;
 
   useEffect(() => {
+    const fetchData = async () => {
+      let url = `http://127.0.0.1:8000/api/module/${idModule}/cours/`;
+      console.log(url);
+      const data = await fetch(url);
+      const cours = await data.json();
+      setListCours(cours);
+    };
+
     fetchData().catch(console.error);
-  }, []);
+  }, [idModule]);
 
   return (
     <main>
-      <Title type="Liste des cours" />
-
-      <Add
-        type="cours"
-        item={{
-          nom: "",
-          nb_heures: "",
-        }}
-        fetchData={fetchData}
-      />
+      <Title type="Cours" />
 
       <DataTable
         columns={[{ data: "nom" }, { data: "nb_heures" }, { data: null }]}
         nameColumns={["Nom", "Nombre heures", "Action"]}
-        baseURL={baseURL}
-        fetchData={fetchData}
         data={listCours}
         type="cours"
       />

@@ -21,8 +21,8 @@ export default function Navbar() {
             </a>
           </li>
           <li className="nav-item">
-            <a className="navbar-brand" href="/cours">
-              Cours
+            <a className="navbar-brand" href="/seances">
+              Séances
             </a>
           </li>
           <li className="nav-item">
@@ -36,8 +36,8 @@ export default function Navbar() {
             </a>
           </li>
           <li className="nav-item">
-            <a className="navbar-brand" href="/seances">
-              Séances
+            <a className="navbar-brand" href="/cours">
+              Cours
             </a>
           </li>
         </ul>

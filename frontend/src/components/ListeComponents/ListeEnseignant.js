@@ -20,7 +20,7 @@ function ListeEnseignant() {
 
   return (
     <main>
-      <Title type="Liste des enseignants" />
+      <Title type="Enseignants" />
 
       <Add
         type="enseignants"
@@ -34,12 +34,12 @@ function ListeEnseignant() {
 
       <DataTable
         columns={[
-          { data: "prenom" },
           { data: "nom" },
+          { data: "prenom" },
           { data: "departement" },
           { data: null },
         ]}
-        nameColumns={["Prénom", "Nom", "Département", "Action"]}
+        nameColumns={["Nom", "Prénom", "Département", "Action"]}
         baseURL={baseURL}
         fetchData={fetchData}
         data={listEnseignants}

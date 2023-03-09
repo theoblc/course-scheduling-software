@@ -27,5 +27,5 @@ class SalleSerializer(serializers.ModelSerializer):
 
 class CoursSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Cours   
+        model = Cours
         fields = '__all__'
