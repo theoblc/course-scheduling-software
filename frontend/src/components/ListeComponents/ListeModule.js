@@ -35,6 +35,7 @@ function ListeModule() {
           nb_heures_total: 0,
         }}
         fetchData={fetchData}
+        url={baseURL}
       />
 
       <DataTable

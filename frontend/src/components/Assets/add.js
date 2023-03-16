@@ -10,7 +10,7 @@ function Add(props) {
   const [modalCreate, setModalCreate] = useState(false);
   const item = props.item;
   const type = props.type;
-  const baseURL = "http://localhost:8000/api/" + props.type + "/";
+  const url = props.url;
 
   function toggleModalCreate() {
     setModalCreate(!modalCreate);
@@ -19,7 +19,7 @@ function Add(props) {
   function create(item) {
     toggleModalCreate();
     axios
-      .post(baseURL, item)
+      .post(url, item)
       .then(() => {
         props.fetchData();
       })

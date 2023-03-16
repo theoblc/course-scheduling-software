@@ -35,11 +35,6 @@ export default function Navbar() {
               Salles
             </a>
           </li>
-          <li className="nav-item">
-            <a className="navbar-brand" href="/cours">
-              Cours
-            </a>
-          </li>
         </ul>
       </div>
     </nav>

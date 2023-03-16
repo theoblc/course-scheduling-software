@@ -30,6 +30,7 @@ function ListeSeance() {
           numero_groupe_td: "",
         }}
         fetchData={fetchData}
+        url={baseURL}
       />
 
       <DataTable

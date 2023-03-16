@@ -28,6 +28,7 @@ function ListeSalle() {
           numero: "",
         }}
         fetchData={fetchData}
+        url={baseURL}
       />
 
       <DataTable

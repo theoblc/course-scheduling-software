@@ -30,6 +30,7 @@ function ListeEnseignant() {
           departement: "EPH",
         }}
         fetchData={fetchData}
+        url={baseURL}
       />
 
       <DataTable

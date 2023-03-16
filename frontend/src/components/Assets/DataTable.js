@@ -75,7 +75,7 @@ function DataTable(props) {
         {
           targets: -1,
           render: function () {
-            if (type === "modules" || type === "cours") {
+            if (type === "modules") {
               return '<button class="mod btn btn-warning btn-sm">Modifier</button>';
             } else {
               return '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';

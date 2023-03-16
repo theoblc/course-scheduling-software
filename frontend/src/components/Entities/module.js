@@ -80,9 +80,11 @@ function Module() {
 
   return (
     <div className="container">
-      <Title type={`Fiche programme de ${module.code}`} />
       <div className="row">
-        <div className="col-4">
+        <div className="col-5">
+          <div style={{ paddingTop: "50px", paddingBottom: "10px" }}>
+            <Title type={"Fiche programme"} />
+          </div>
           <div className="card mx-auto" style={{ maxWidth: "30rem" }}>
             <div className="card-body">
               <Form>
@@ -170,8 +172,10 @@ function Module() {
             </div>
           </div>
         </div>
-        <div className="col-8">
-          {module.id !== 0 && <ListeCours idModule={module.id} />}
+        <div className="col-7">
+          <div style={{ paddingTop: "50px", paddingBottom: "10px" }}>
+            {module.id !== 0 && <ListeCours idModule={module.id} />}
+          </div>
         </div>
       </div>
     </div>
