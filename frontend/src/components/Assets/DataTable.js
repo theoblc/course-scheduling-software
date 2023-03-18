@@ -15,18 +15,13 @@ import "datatables.net";
 import "datatables.net-dt";
 import "datatables.net-buttons";
 
-function DataTable(props) {
+function DataTable({ baseURL, fetchData, data, type, columns, nameColumns }) {
   const [modalEdit, setModalEdit] = useState(false);
   const [item, setItem] = useState(null);
-  const baseURL = props.baseURL;
-  const fetchData = props.fetchData;
-  const type = props.type;
-  const columns = props.columns;
-  const nameColumns = props.nameColumns;
   const navigate = useNavigate();
 
   function open(id) {
-    navigate(`/` + props.type + `/${id}`);
+    navigate(`/` + type + `/${id}`);
   }
 
   function toggleModalEdit(item) {
@@ -69,14 +64,14 @@ function DataTable(props) {
     //Création d'une nouvelle DataTable
     let new_table = $("#datatable").DataTable({
       language: language_fr,
-      data: props.data,
+      data: data,
       columns: columns,
       columnDefs: [
         {
           targets: -1,
           render: function () {
             if (type === "modules") {
-              return '<button class="mod btn btn-warning btn-sm">Modifier</button>';
+              return '<button class="btn btn-secondary btn-sm">Fiche Programme</button><button class="btn btn-dark btn-sm">Planification</button>';
             } else {
               return '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
             }
@@ -89,18 +84,23 @@ function DataTable(props) {
       var action = this.className;
       var data = new_table.row($(this).parents("tr")).data();
 
-      // Si les données de la ligne ne sont pas vides
       if (data !== undefined) {
-        // Si l'action est d'ouvrir
-        if (action !== undefined && action === "mod btn btn-warning btn-sm") {
-          open(data.id);
-        } else if (
-          action !== undefined &&
-          action === "btn btn-warning btn-sm"
-        ) {
-          toggleModalEdit(data);
-        } else if (action !== undefined && action === "btn btn-danger btn-sm") {
-          remove(data.id);
+        if (action !== undefined) {
+          // Si c'est la fiche programme d'un module
+          if (action === "btn btn-secondary btn-sm") {
+            open(data.id);
+          }
+          // Si c'est la planification d'un module
+          else if (action === "btn btn-dark btn-sm") {
+          }
+          // Si c'est bouton "modifier"
+          else if (action === "btn btn-warning btn-sm") {
+            toggleModalEdit(data);
+          }
+          // Si c'est bouton "supprimer"
+          else if (action === "btn btn-danger btn-sm") {
+            remove(data.id);
+          }
         }
       }
     });

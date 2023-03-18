@@ -6,11 +6,8 @@ import FormModule from "../Modals/FormModule";
 import FormSalle from "../Modals/FormSalle";
 import FormSeance from "../Modals/FormSeance";
 
-function Add(props) {
+function Add({ item, type, url, fetchData }) {
   const [modalCreate, setModalCreate] = useState(false);
-  const item = props.item;
-  const type = props.type;
-  const url = props.url;
 
   function toggleModalCreate() {
     setModalCreate(!modalCreate);
@@ -21,7 +18,7 @@ function Add(props) {
     axios
       .post(url, item)
       .then(() => {
-        props.fetchData();
+        fetchData();
       })
       .catch((error) => {
         console.error(error);
