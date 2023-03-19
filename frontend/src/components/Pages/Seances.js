@@ -12,15 +12,23 @@ function Seances() {
     numero_groupe_td: "",
   };
   const columns = [
+    { data: "module" },
+    { data: "cours" },
     { data: "date_debut" },
     { data: "date_fin" },
     { data: "numero_groupe_td" },
+    { data: "salle" },
+    { data: "enseignant" },
     { data: null },
   ];
   const nameColumns = [
+    "Module",
+    "Cours",
     "Heure de début",
     "Heure de fin",
-    "Numéro groupe de TD",
+    "Groupe de TD",
+    "Salle",
+    "Enseignant",
     "Action",
   ];
 

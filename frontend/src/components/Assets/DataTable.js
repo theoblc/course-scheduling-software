@@ -20,8 +20,12 @@ function DataTable({ baseURL, fetchData, data, type, columns, nameColumns }) {
   const [item, setItem] = useState(null);
   const navigate = useNavigate();
 
-  function open(id) {
-    navigate(`/` + type + `/${id}`);
+  function openFicheProgramme(id) {
+    navigate(`/modules/${id}/FicheProgramme`);
+  }
+
+  function openPlanification(id) {
+    navigate(`/modules/${id}/Planification`);
   }
 
   function toggleModalEdit(item) {
@@ -88,10 +92,11 @@ function DataTable({ baseURL, fetchData, data, type, columns, nameColumns }) {
         if (action !== undefined) {
           // Si c'est la fiche programme d'un module
           if (action === "btn btn-secondary btn-sm") {
-            open(data.id);
+            openFicheProgramme(data.id);
           }
           // Si c'est la planification d'un module
           else if (action === "btn btn-dark btn-sm") {
+            openPlanification(data.id);
           }
           // Si c'est bouton "modifier"
           else if (action === "btn btn-warning btn-sm") {

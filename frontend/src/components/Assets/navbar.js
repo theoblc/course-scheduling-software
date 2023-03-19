@@ -1,3 +1,6 @@
+import React from "react";
+import { NavLink } from "react-router-dom";
+
 export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -16,24 +19,24 @@ export default function Navbar() {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <a className="navbar-brand" href="/modules">
+            <NavLink className="nav-link font-weight-bold" to="/modules">
               Modules
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a className="navbar-brand" href="/seances">
+            <NavLink className="nav-link font-weight-bold" to="/seances">
               Séances
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a className="navbar-brand" href="/enseignants">
+            <NavLink className="nav-link" to="/enseignants">
               Enseignants
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a className="navbar-brand" href="/salles">
+            <NavLink className="nav-link" to="/salles">
               Salles
-            </a>
+            </NavLink>
           </li>
         </ul>
       </div>
