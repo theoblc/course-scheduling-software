@@ -48,7 +48,7 @@ function DataTable({ baseURL, fetchData, data, type, columns, nameColumns }) {
 
   function remove(id) {
     axios
-      .delete(baseURL + id + "/")
+      .delete(`${baseURL}${id}/`)
       .then(() => {
         fetchData();
       })

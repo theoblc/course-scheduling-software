@@ -18,7 +18,7 @@ function Planification() {
     seances: null,
     cours: null,
   });
-  const baseURL = `http://127.0.0.1:8000/api/modules/${id}/seances/`;
+  const baseURLSeance = "http://localhost:8000/api/seances/";
   const baseURLModule = "http://localhost:8000/api/modules/";
 
   useEffect(() => {
@@ -36,7 +36,7 @@ function Planification() {
     <main>
       <List
         title={`Liste des séances de ${module.code}`}
-        baseURL={baseURL}
+        baseURL={baseURLSeance}
         type="seances"
         item={{
           date_debut: "",
