@@ -11,16 +11,21 @@ function Salles() {
   };
   const columns = [{ data: "numero" }, { data: null }];
   const nameColumns = ["Numéro", "Action"];
+  const buttons =
+    '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
 
   return (
     <main>
       <List
         title={title}
-        baseURL={baseURL}
+        urlFetch={baseURL}
+        urlModify={baseURL}
         type={type}
         item={item}
         columns={columns}
         nameColumns={nameColumns}
+        add={true}
+        buttons={buttons}
       />
     </main>
   );

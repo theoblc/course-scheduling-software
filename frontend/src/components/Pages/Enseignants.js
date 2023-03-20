@@ -18,16 +18,22 @@ function Enseignants() {
     { data: null },
   ];
   const nameColumns = ["Nom", "Prénom", "Département", "Action"];
+  const buttons =
+    '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
 
   return (
     <main>
       <List
         title={title}
+        urlFetch={baseURL}
+        urlModify={baseURL}
         baseURL={baseURL}
         type={type}
         item={item}
         columns={columns}
         nameColumns={nameColumns}
+        add={true}
+        buttons={buttons}
       />
     </main>
   );

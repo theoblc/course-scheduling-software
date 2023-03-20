@@ -39,15 +39,21 @@ function Modules() {
     "Action",
   ];
 
+  const buttons =
+    '<button class="btn btn-secondary btn-sm">Fiche Programme</button><button class="btn btn-dark btn-sm">Planification</button>';
+
   return (
     <main>
       <List
         title={title}
-        baseURL={baseURL}
+        urlFetch={baseURL}
+        urlModify={baseURL}
         type={type}
         item={item}
         columns={columns}
         nameColumns={nameColumns}
+        add={true}
+        buttons={buttons}
       />
     </main>
   );

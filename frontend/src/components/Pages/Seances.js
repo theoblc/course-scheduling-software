@@ -5,7 +5,7 @@ import List from "../Assets/List";
 function Seances() {
   const title = "Séances";
   const baseURL = "http://localhost:8000/api/seances/";
-  const type = "seances";
+  const type = "recap_seances";
   const item = {
     date_debut: "",
     date_fin: "",
@@ -31,16 +31,19 @@ function Seances() {
     "Enseignant",
     "Action",
   ];
+  const buttons = '<button class="btn btn-success btn-sm">Détails</button>';
 
   return (
     <main>
       <List
         title={title}
-        baseURL={baseURL}
+        urlFetch={baseURL}
         type={type}
         item={item}
         columns={columns}
         nameColumns={nameColumns}
+        add={false}
+        buttons={buttons}
       />
     </main>
   );

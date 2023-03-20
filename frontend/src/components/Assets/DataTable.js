@@ -15,7 +15,15 @@ import "datatables.net";
 import "datatables.net-dt";
 import "datatables.net-buttons";
 
-function DataTable({ baseURL, fetchData, data, type, columns, nameColumns }) {
+function DataTable({
+  baseURL,
+  fetchData,
+  data,
+  type,
+  columns,
+  nameColumns,
+  buttons,
+}) {
   const [modalEdit, setModalEdit] = useState(false);
   const [item, setItem] = useState(null);
   const navigate = useNavigate();
@@ -74,11 +82,7 @@ function DataTable({ baseURL, fetchData, data, type, columns, nameColumns }) {
         {
           targets: -1,
           render: function () {
-            if (type === "modules") {
-              return '<button class="btn btn-secondary btn-sm">Fiche Programme</button><button class="btn btn-dark btn-sm">Planification</button>';
-            } else {
-              return '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
-            }
+            return buttons;
           },
         },
       ],
@@ -105,6 +109,10 @@ function DataTable({ baseURL, fetchData, data, type, columns, nameColumns }) {
           // Si c'est bouton "supprimer"
           else if (action === "btn btn-danger btn-sm") {
             remove(data.id);
+          }
+          // Si c'est bouton "détails"
+          else if (action === "btn btn-success btn-sm") {
+            openPlanification(data.module);
           }
         }
       }

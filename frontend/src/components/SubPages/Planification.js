@@ -18,12 +18,11 @@ function Planification() {
     seances: null,
     cours: null,
   });
-  const baseURLSeance = "http://localhost:8000/api/seances/";
-  const baseURLModule = "http://localhost:8000/api/modules/";
+  const urlFetch = `http://127.0.0.1:8000/api/modules/${id}/seances/`;
 
   useEffect(() => {
     const fetchData = async () => {
-      const urlModule = baseURLModule + id;
+      const urlModule = `http://localhost:8000/api/modules/${id}`;
       const dataModule = await fetch(urlModule);
       const module = await dataModule.json();
       setModule(module);
@@ -36,7 +35,7 @@ function Planification() {
     <main>
       <List
         title={`Liste des séances de ${module.code}`}
-        baseURL={baseURLSeance}
+        urlFetch={urlFetch}
         type="seances"
         item={{
           date_debut: "",
@@ -59,8 +58,10 @@ function Planification() {
           "Heure de début",
           "Heure de fin",
           "Numéro groupe de TD",
-          "Action",
+          "Actions",
         ]}
+        add={false}
+        buttons={""}
       />
     </main>
   );

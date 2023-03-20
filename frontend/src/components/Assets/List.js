@@ -4,11 +4,21 @@ import DataTable from "../Assets/DataTable";
 import Title from "../Assets/Title";
 import Add from "../Assets/Add";
 
-function List({ baseURL, title, type, item, columns, nameColumns }) {
+function List({
+  urlFetch,
+  urlModify,
+  title,
+  type,
+  item,
+  columns,
+  nameColumns,
+  add,
+  buttons,
+}) {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
-    const raw_data = await fetch(baseURL);
+    const raw_data = await fetch(urlFetch);
     const res = await raw_data.json();
     setData(res);
   };
@@ -23,15 +33,18 @@ function List({ baseURL, title, type, item, columns, nameColumns }) {
       <div style={{ paddingTop: "30px", paddingBottom: "10px" }}>
         <Title type={title} />
 
-        <Add type={type} item={item} fetchData={fetchData} url={baseURL} />
+        {add && (
+          <Add type={type} item={item} fetchData={fetchData} url={urlFetch} />
+        )}
 
         <DataTable
           columns={columns}
           nameColumns={nameColumns}
-          baseURL={baseURL}
+          baseURL={urlModify}
           fetchData={fetchData}
           data={data}
           type={type}
+          buttons={buttons}
         />
       </div>
     </main>
