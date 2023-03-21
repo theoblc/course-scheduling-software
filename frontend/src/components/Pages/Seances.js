@@ -31,7 +31,7 @@ function Seances() {
     "Enseignant",
     "Action",
   ];
-  const buttons = '<button class="btn btn-success btn-sm">Détails</button>';
+  const buttons = '<button class="rs btn btn-success btn-sm">Détails</button>';
 
   return (
     <main>

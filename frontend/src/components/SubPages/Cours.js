@@ -4,7 +4,7 @@ import List from "../Assets/List";
 function Cours({ idModule }) {
   const baseURL = `http://127.0.0.1:8000/api/modules/${idModule}/cours/`;
   const buttons =
-    '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
+    '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button><button class="c btn btn-success btn-sm">Séances</button>';
 
   return (
     <main>

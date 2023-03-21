@@ -28,12 +28,8 @@ function DataTable({
   const [item, setItem] = useState(null);
   const navigate = useNavigate();
 
-  function openFicheProgramme(id) {
-    navigate(`/modules/${id}/FicheProgramme`);
-  }
-
-  function openPlanification(id) {
-    navigate(`/modules/${id}/Planification`);
+  function redirect(url) {
+    navigate(url);
   }
 
   function toggleModalEdit(item) {
@@ -94,13 +90,24 @@ function DataTable({
 
       if (data !== undefined) {
         if (action !== undefined) {
-          // Si c'est la fiche programme d'un module
-          if (action === "btn btn-secondary btn-sm") {
-            openFicheProgramme(data.id);
+          // Si c'est le bouton "Fiche Programme" de la liste des modules
+          if ((type = "cours") && action === "btn btn-secondary btn-sm") {
+            redirect(`/modules/${data.id}/FicheProgramme`);
           }
-          // Si c'est la planification d'un module
-          else if (action === "btn btn-dark btn-sm") {
-            openPlanification(data.id);
+          // Si c'est le bouton "Planification" de la liste des modules
+          else if ((type = "cours") && action === "btn btn-dark btn-sm") {
+            redirect(`/modules/${data.id}/Planification`);
+          }
+          // Si c'est le bouton "détails" de la liste des Séances
+          else if (
+            (type = "recap_seances") &&
+            action === "rs btn btn-success btn-sm"
+          ) {
+            redirect(`/modules/${data.module}/Planification`);
+          }
+          // Si c'est le bouton "Séances" de la fiche programme d'un module
+          else if ((type = "cours") && action === "c btn btn-success btn-sm") {
+            redirect(`/modules/${data.module}/cours/${data.id}/seances`);
           }
           // Si c'est bouton "modifier"
           else if (action === "btn btn-warning btn-sm") {
@@ -109,10 +116,6 @@ function DataTable({
           // Si c'est bouton "supprimer"
           else if (action === "btn btn-danger btn-sm") {
             remove(data.id);
-          }
-          // Si c'est bouton "détails"
-          else if (action === "btn btn-success btn-sm") {
-            openPlanification(data.module);
           }
         }
       }
