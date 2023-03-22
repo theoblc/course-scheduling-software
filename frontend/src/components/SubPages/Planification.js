@@ -18,7 +18,38 @@ function Planification() {
     seances: null,
     cours: null,
   });
-  const urlFetch = `http://127.0.0.1:8000/api/modules/${id}/seances/`;
+
+  const listParams = {
+    title: `Liste des séances de ${module.code}`,
+    urlFetch: `http://127.0.0.1:8000/api/modules/${id}/seances/`,
+    urlModify: undefined,
+    type: "seances",
+    item: {
+      date_debut: "",
+      date_fin: "",
+      numero_groupe_td: "",
+    },
+    columns: [
+      {
+        data: () => module.code,
+      },
+      { data: "cours" },
+      { data: "date_debut" },
+      { data: "date_fin" },
+      { data: "numero_groupe_td" },
+      { data: null },
+    ],
+    nameColumns: [
+      "Module",
+      "Cours",
+      "Heure de début",
+      "Heure de fin",
+      "Numéro groupe de TD",
+      "Actions",
+    ],
+    add: false,
+    buttons: "",
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,36 +64,7 @@ function Planification() {
 
   return (
     <main>
-      <List
-        title={`Liste des séances de ${module.code}`}
-        urlFetch={urlFetch}
-        type="seances"
-        item={{
-          date_debut: "",
-          date_fin: "",
-          numero_groupe_td: "",
-        }}
-        columns={[
-          {
-            data: () => module.code,
-          },
-          { data: "cours" },
-          { data: "date_debut" },
-          { data: "date_fin" },
-          { data: "numero_groupe_td" },
-          { data: null },
-        ]}
-        nameColumns={[
-          "Module",
-          "Cours",
-          "Heure de début",
-          "Heure de fin",
-          "Numéro groupe de TD",
-          "Actions",
-        ]}
-        add={false}
-        buttons={""}
-      />
+      <List listParams={listParams} />
     </main>
   );
 }
