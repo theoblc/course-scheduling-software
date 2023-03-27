@@ -14,6 +14,7 @@ function Salles() {
     columns: [{ data: "numero" }, { data: null }],
     nameColumns: ["Numéro", "Action"],
     add: true,
+    ordering: false,
     buttons:
       '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>',
   };
