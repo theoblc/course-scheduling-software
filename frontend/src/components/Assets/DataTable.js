@@ -98,12 +98,12 @@ function DataTable({
           else if ((type = "cours") && action === "btn btn-dark btn-sm") {
             redirect(`/modules/${data.id}/Planification`);
           }
-          // Si c'est le bouton "détails" de la liste des Séances
+          // Si c'est le bouton "Détails" de la liste des Séances
           else if (
             (type = "recap_seances") &&
             action === "rs btn btn-success btn-sm"
           ) {
-            redirect(`/modules/${data.module}/Planification`);
+            redirect(`/modules/${data.module}/cours/${data.cours}/seances`);
           }
           // Si c'est le bouton "Séances" de la fiche programme d'un module
           else if ((type = "cours") && action === "c btn btn-success btn-sm") {

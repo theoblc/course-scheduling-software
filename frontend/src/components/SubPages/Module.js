@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import FormModule from "../Modals/FormModule";
+import { Button, Form, FormGroup, FormText, Label } from "reactstrap";
 import Title from "../Assets/Title";
 import axios from "axios";
 
@@ -18,7 +18,7 @@ function Module({ idModule }) {
     seances: null,
     cours: null,
   });
-  const navigate = useNavigate();
+  const [modalEdit, setModalEdit] = useState(false);
   const baseURLModule = "http://localhost:8000/api/modules/";
 
   useEffect(() => {
@@ -32,13 +32,6 @@ function Module({ idModule }) {
     fetchData().catch(console.error);
   }, [idModule]);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    const updatedActiveItem = { ...module, [name]: value };
-    updatedActiveItem.nb_heures_total = calculSum(updatedActiveItem);
-    setModule(updatedActiveItem);
-  }
-
   function calculSum(module) {
     let sum = [
       Number(module.nb_heures_be),
@@ -50,25 +43,18 @@ function Module({ idModule }) {
     return sum;
   }
 
+  function toggleModalEdit() {
+    setModalEdit(!modalEdit);
+  }
+
   function editModule(itemModified) {
     let sum = calculSum(itemModified);
     itemModified.nb_heures_total = sum;
     setModule(itemModified);
     axios
-      .patch(baseURLModule + itemModified.id + "/", itemModified)
+      .patch(`${baseURLModule}${itemModified.id}/`, itemModified)
       .then(() => {
-        navigate(`/modules`);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  function removeModule(item) {
-    axios
-      .delete(baseURLModule + item.id + "/")
-      .then(() => {
-        navigate(`/modules`);
+        toggleModalEdit();
       })
       .catch((error) => {
         console.error(error);
@@ -85,85 +71,50 @@ function Module({ idModule }) {
           <Form>
             <FormGroup>
               <Label for="code">Code</Label>
-              <Input
-                type="text"
-                name="code"
-                value={module.code}
-                onChange={handleChange}
-              />
+              <FormText>{module.code}</FormText>
             </FormGroup>
             <FormGroup>
               <Label for="nom">Nom</Label>
-              <Input
-                type="text"
-                name="nom"
-                value={module.nom}
-                onChange={handleChange}
-              />
+              <FormText>{module.nom}</FormText>
             </FormGroup>
             <FormGroup>
               <Label for="nb_heures_tp">Nombre d'heures de TP</Label>
-              <Input
-                type="number"
-                name="nb_heures_tp"
-                value={module.nb_heures_tp}
-                onChange={handleChange}
-              />
+              <FormText>{module.nb_heures_tp}</FormText>
             </FormGroup>
             <FormGroup>
               <Label for="nb_heures_td">Nombre d'heures de TD</Label>
-              <Input
-                type="number"
-                name="nb_heures_td"
-                value={module.nb_heures_td}
-                onChange={handleChange}
-              />
+              <FormText>{module.nb_heures_td}</FormText>
             </FormGroup>
             <FormGroup>
               <Label for="nb_heures_be">Nombre d'heures de BE</Label>
-              <Input
-                type="number"
-                name="nb_heures_be"
-                value={module.nb_heures_be}
-                onChange={handleChange}
-              />
+              <FormText>{module.nb_heures_be}</FormText>
             </FormGroup>
             <FormGroup>
               <Label for="nb_heures_ci">Nombre d'heures de CI</Label>
-              <Input
-                type="number"
-                name="nb_heures_ci"
-                value={module.nb_heures_ci}
-                onChange={handleChange}
-              />
+              <FormText>{module.nb_heures_ci}</FormText>
             </FormGroup>
             <FormGroup>
               <Label for="nb_heures_cm">Nombre d'heures de CM</Label>
-              <Input
-                type="number"
-                name="nb_heures_cm"
-                value={module.nb_heures_cm}
-                onChange={handleChange}
-              />
+              <FormText>{module.nb_heures_cm}</FormText>
             </FormGroup>
-            <p>Nombre d'heures total : {module.nb_heures_total}</p>
-            <div className="d-flex justify-content-between">
-              <Button
-                className="float-start"
-                color="success"
-                onClick={() => editModule(module)}
-              >
-                Enregistrer
-              </Button>
-              <Button
-                onClick={() => removeModule(module)}
-                className="float-end"
-                color="danger"
-              >
-                Supprimer
+            <FormGroup>
+              <Label for="nb_heures_cm">Nombre d'heures total</Label>
+              <FormText>{module.nb_heures_total}</FormText>
+            </FormGroup>
+            <div className="d-flex justify-content-center">
+              <Button className="btn btn-warning" onClick={toggleModalEdit}>
+                Modifier
               </Button>
             </div>
           </Form>
+          {modalEdit && (
+            <FormModule
+              isOpen={modalEdit}
+              toggle={toggleModalEdit}
+              activeItem={module}
+              onSave={editModule}
+            />
+          )}
         </div>
       </div>
     </main>
