@@ -3,15 +3,13 @@ import Navbar from "./components/Assets/NavBar";
 import { Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
-import Cours from "./components/Entities/Cours";
-import Module from "./components/Entities/Module";
-import Enseignant from "./components/Entities/Enseignant";
-
-import ListeCours from "./components/ListeComponents/ListeCours";
-import ListeModule from "./components/ListeComponents/ListeModule";
-import ListeSalle from "./components/ListeComponents/ListeSalle";
-import ListeSeance from "./components/ListeComponents/ListeSeance";
-import ListeEnseignant from "./components/ListeComponents/ListeEnseignant";
+import Enseignants from "./components/Pages/Enseignants";
+import Modules from "./components/Pages/Modules";
+import Salles from "./components/Pages/Salles";
+import Seances from "./components/Pages/Seances";
+import FicheProgramme from "./components/SubPages/FicheProgramme";
+import Planification from "./components/SubPages/Planification";
+import SeancesCours from "./components/SubPages/SeancesCours";
 
 class App extends Component {
   render() {
@@ -20,16 +18,24 @@ class App extends Component {
         <Navbar />
         <div className="container">
           <Routes>
-            <Route exact path="/" element={<ListeModule />} />
-            <Route path="/cours/:id" element={<Cours />} />
-            <Route path="/cours" element={<ListeCours />} />
-            <Route path="/modules/:id" element={<Module />} />
-            <Route path="/modules" element={<ListeModule />} />
-            <Route path="/salles" element={<ListeSalle />} />
-            <Route path="/seances" element={<ListeSeance />} />
-            <Route path="/enseignants/:id" element={<Enseignant />} />
-            <Route path="/enseignants" element={<ListeEnseignant />} />
-            <Route path="*" element={<ListeModule />} />
+            <Route exact path="/" element={<Modules />} />
+            <Route
+              path="/modules/:id/FicheProgramme"
+              element={<FicheProgramme />}
+            />
+            <Route
+              path="/modules/:id/Planification"
+              element={<Planification />}
+            />
+            <Route
+              path="/modules/:module_id/cours/:cours_id/seances"
+              element={<SeancesCours />}
+            />
+            <Route path="/modules" element={<Modules />} />
+            <Route path="/salles" element={<Salles />} />
+            <Route path="/seances" element={<Seances />} />
+            <Route path="/enseignants" element={<Enseignants />} />
+            <Route path="*" element={<Modules />} />
           </Routes>
         </div>
       </>

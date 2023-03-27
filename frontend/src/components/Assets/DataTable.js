@@ -15,19 +15,21 @@ import "datatables.net";
 import "datatables.net-dt";
 import "datatables.net-buttons";
 
-function DataTable(props) {
+function DataTable({
+  baseURL,
+  fetchData,
+  data,
+  type,
+  columns,
+  nameColumns,
+  buttons,
+}) {
   const [modalEdit, setModalEdit] = useState(false);
   const [item, setItem] = useState(null);
-  const baseURL = props.baseURL;
-  const fetchData = props.fetchData;
-  const data = props.data;
-  const type = props.type;
-  const columns = props.columns;
-  const nameColumns = props.nameColumns;
   const navigate = useNavigate();
 
-  function open(id) {
-    navigate(`/` + props.type + `/${id}`);
+  function redirect(url) {
+    navigate(url);
   }
 
   function toggleModalEdit(item) {
@@ -50,7 +52,7 @@ function DataTable(props) {
 
   function remove(id) {
     axios
-      .delete(baseURL + id + "/")
+      .delete(`${baseURL}${id}/`)
       .then(() => {
         fetchData();
       })
@@ -62,13 +64,13 @@ function DataTable(props) {
   // Fonction qui lance l'API DataTable
   $(function () {
     // Si la DataTable est déjà créée on l'écrase pour la mettre à jour
-    if ($.fn.dataTable.isDataTable("#moduleTable")) {
-      let table = $("#moduleTable").DataTable();
+    if ($.fn.dataTable.isDataTable("#datatable")) {
+      let table = $("#datatable").DataTable();
       table.destroy();
     }
 
     //Création d'une nouvelle DataTable
-    let new_table = $("#moduleTable").DataTable({
+    let new_table = $("#datatable").DataTable({
       language: language_fr,
       data: data,
       columns: columns,
@@ -76,33 +78,45 @@ function DataTable(props) {
         {
           targets: -1,
           render: function () {
-            if (type === "modules" || type === "cours") {
-              return '<button class="btn btn-success btn-sm">Détails</button><button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
-            } else {
-              return '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>';
-            }
+            return buttons;
           },
         },
       ],
     });
 
-    $("#moduleTable tbody").on("click", "button", function () {
+    $("#datatable tbody").on("click", "button", function () {
       var action = this.className;
       var data = new_table.row($(this).parents("tr")).data();
 
-      // Si les données de la ligne ne sont pas vides
       if (data !== undefined) {
-        // Si l'action est d'ouvrir
-        if (action !== undefined && action === "btn btn-success btn-sm") {
-          open(data.id);
-        }
-        // Si l'action est de modifier
-        else if (action !== undefined && action === "btn btn-warning btn-sm") {
-          toggleModalEdit(data);
-        }
-        // Si l'action est de supprimer
-        else if (action !== undefined && action === "btn btn-danger btn-sm") {
-          remove(data.id);
+        if (action !== undefined) {
+          // Si c'est le bouton "Fiche Programme" de la liste des modules
+          if ((type = "cours") && action === "btn btn-secondary btn-sm") {
+            redirect(`/modules/${data.id}/FicheProgramme`);
+          }
+          // Si c'est le bouton "Planification" de la liste des modules
+          else if ((type = "cours") && action === "btn btn-dark btn-sm") {
+            redirect(`/modules/${data.id}/Planification`);
+          }
+          // Si c'est le bouton "Détails" de la liste des Séances
+          else if (
+            (type = "recap_seances") &&
+            action === "rs btn btn-success btn-sm"
+          ) {
+            redirect(`/modules/${data.module}/cours/${data.cours}/seances`);
+          }
+          // Si c'est le bouton "Séances" de la fiche programme d'un module
+          else if ((type = "cours") && action === "c btn btn-success btn-sm") {
+            redirect(`/modules/${data.module}/cours/${data.id}/seances`);
+          }
+          // Si c'est bouton "modifier"
+          else if (action === "btn btn-warning btn-sm") {
+            toggleModalEdit(data);
+          }
+          // Si c'est bouton "supprimer"
+          else if (action === "btn btn-danger btn-sm") {
+            remove(data.id);
+          }
         }
       }
     });
@@ -111,7 +125,7 @@ function DataTable(props) {
   return (
     <div className="container-fluid py-4">
       <div className="table-responsive p-0 pb-2">
-        <table id="moduleTable" className="display" width="100%">
+        <table id="datatable" className="display" width="100%">
           <thead>
             <tr>
               {nameColumns.map((colonne) => (

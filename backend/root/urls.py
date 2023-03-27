@@ -16,5 +16,8 @@ router.register(r'cours', cours_views.CoursView, 'cours')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))             
+    path('api/', include(router.urls)),
+    path('api/modules/<int:module_id>/cours/', module_views.ListeCoursModule.as_view(), name='liste_cours_module'),
+    path('api/modules/<int:module_id>/seances/', module_views.ListeSeancesModule.as_view(), name='liste_seances_module'),
+    path('api/cours/<int:cours_id>/seances/', cours_views.ListeSeancesCours.as_view(), name='liste_seances_cours'),
 ]

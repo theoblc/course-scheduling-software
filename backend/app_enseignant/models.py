@@ -1,6 +1,4 @@
 from django.db import models
-from app_module.models import Module
-from app_seance.models import Seance
 
 class Enseignant(models.Model):
 
@@ -13,8 +11,6 @@ class Enseignant(models.Model):
         choices=DEPARTEMENT_CHOICES,
         default="EPH",
     )
-   module = models.ManyToManyField(Module, blank=True)
-   seances = models.ManyToManyField(Seance, blank=True)
 
 
    def _str_(self):
