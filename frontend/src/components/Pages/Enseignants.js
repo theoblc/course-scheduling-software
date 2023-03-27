@@ -21,6 +21,7 @@ function Enseignants() {
     ],
     nameColumns: ["Nom", "Prénom", "Département", "Action"],
     add: true,
+    ordering: false,
     buttons:
       '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>',
   };

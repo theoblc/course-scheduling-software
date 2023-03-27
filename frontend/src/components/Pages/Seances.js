@@ -34,6 +34,7 @@ function Seances() {
       "Action",
     ],
     add: false,
+    ordering: true,
     buttons: '<button class="rs btn btn-success btn-sm">Détails</button>',
   };
 

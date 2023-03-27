@@ -40,6 +40,7 @@ function List({ listParams }) {
           data={data}
           type={listParams.type}
           buttons={listParams.buttons}
+          ordering={listParams.ordering}
         />
       </div>
     </main>

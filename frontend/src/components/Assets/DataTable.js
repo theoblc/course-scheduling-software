@@ -23,6 +23,7 @@ function DataTable({
   columns,
   nameColumns,
   buttons,
+  ordering,
 }) {
   const [modalEdit, setModalEdit] = useState(false);
   const [item, setItem] = useState(null);
@@ -71,9 +72,14 @@ function DataTable({
 
     //Création d'une nouvelle DataTable
     let new_table = $("#datatable").DataTable({
+      dom:
+        "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-4'l>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
       language: language_fr,
       data: data,
       columns: columns,
+      ordering: ordering,
       columnDefs: [
         {
           targets: -1,
