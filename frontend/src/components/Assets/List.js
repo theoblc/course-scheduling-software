@@ -22,16 +22,19 @@ function List({ listParams }) {
       <Title type={listParams.title} />
 
       <DataTable
+        dom={listParams.dom}
         columns={listParams.columns}
         nameColumns={listParams.nameColumns}
         baseURL={listParams.urlModify}
         fetchURL={listParams.urlFetch}
+        // début bouton "ajouter"
         fetchData={fetchData}
         itemAdd={listParams.item}
+        // fin   bouton "ajouter"
         data={data}
         type={listParams.type}
-        item={listParams.item}
-        url={listParams.urlModify}
+        buttons={listParams.buttons}
+        ordering={listParams.ordering}
       />
     </main>
   );

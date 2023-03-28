@@ -36,7 +36,10 @@ function Seances() {
       "Enseignant",
       "Action",
     ],
-    add: false,
+    dom:
+      "<'row'<'col-sm-12 col-md-7'f>>" +
+      "<'row'<'col-sm-12'tr>>" +
+      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     ordering: true,
     buttons: (
       <div className="btn-group" role="group">

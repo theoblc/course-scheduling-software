@@ -46,7 +46,11 @@ function Planification() {
       "Numéro groupe de TD",
       "Actions",
     ],
-    add: false,
+    dom:
+      "<'row'<'col-sm-12 col-md-7'f>>" +
+      "<'row'<'col-sm-12'tr>>" +
+      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+    ordering: false,
     buttons: "",
   };
 

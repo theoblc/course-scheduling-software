@@ -23,6 +23,7 @@ function DataTable({
   itemAdd,
   data,
   type,
+  dom,
   columns,
   nameColumns,
   buttons,
