@@ -28,7 +28,7 @@ function List({ listParams }) {
             type={listParams.type}
             item={listParams.item}
             fetchData={fetchData}
-            url={listParams.urlFetch}
+            url={listParams.urlModify}
           />
         )}
 
