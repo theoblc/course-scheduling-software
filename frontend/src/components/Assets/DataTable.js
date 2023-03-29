@@ -9,6 +9,7 @@ import FormEnseignant from "../Modals/FormEnseignant";
 import FormModule from "../Modals/FormModule";
 import FormSalle from "../Modals/FormSalle";
 import FormSeance from "../Modals/FormSeance";
+import ModalRemove from "../Modals/ModalRemove";
 import "jquery";
 import "datatable";
 import "datatables.net";
@@ -27,6 +28,7 @@ function DataTable({
 }) {
   const [modalEdit, setModalEdit] = useState(false);
   const [item, setItem] = useState(null);
+  const [modalRemove, setModalRemove] = useState(false);
   const navigate = useNavigate();
 
   function redirect(url) {
@@ -51,7 +53,13 @@ function DataTable({
       });
   }
 
+  function toggleModalRemove(item) {
+    setItem(item);
+    setModalRemove(!modalRemove);
+  }
+
   function remove(id) {
+    setModalRemove(!modalRemove);
     axios
       .delete(`${baseURL}${id}/`)
       .then(() => {
@@ -121,7 +129,7 @@ function DataTable({
           }
           // Si c'est bouton "supprimer"
           else if (action === "btn btn-danger btn-sm") {
-            remove(data.id);
+            toggleModalRemove(data);
           }
         }
       }
@@ -143,6 +151,14 @@ function DataTable({
           </thead>
         </table>
       </div>
+
+      <ModalRemove
+        isOpen={modalRemove}
+        toggle={toggleModalRemove}
+        onSave={() => remove(item.id)}
+        item={item}
+      />
+
       {type === "cours" && modalEdit && (
         <FormCours
           isOpen={modalEdit}

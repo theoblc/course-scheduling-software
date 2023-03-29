@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 import axios from "axios";
+import ModalRemove from "../Modals/ModalRemove";
 
 function Delete({ baseURL, id, redirection, message }) {
+  const [item, setItem] = useState(null);
+  const [modalRemove, setModalRemove] = useState(false);
   const navigate = useNavigate();
 
-  function remove() {
+  function toggleModalRemove(item) {
+    setItem(item);
+    setModalRemove(!modalRemove);
+  }
+
+  function remove(id) {
+    setModalRemove(!modalRemove);
     axios
-      .delete(baseURL + id + "/")
+      .delete(`${baseURL}${id}/`)
       .then(() => {
         navigate(redirection);
       })
@@ -18,9 +27,18 @@ function Delete({ baseURL, id, redirection, message }) {
   }
 
   return (
-    <Button onClick={() => remove()} className="float-end" color="danger">
-      {message}
-    </Button>
+    <main>
+      <Button onClick={toggleModalRemove} className="float-end" color="danger">
+        {message}
+      </Button>
+
+      <ModalRemove
+        isOpen={modalRemove}
+        toggle={toggleModalRemove}
+        onSave={() => remove(id)}
+        item={item}
+      />
+    </main>
   );
 }
 

@@ -26,6 +26,8 @@ function Module({ idModule }) {
       const urlModule = baseURLModule + idModule;
       const dataModule = await fetch(urlModule);
       const module = await dataModule.json();
+      let sum = calculSum(module);
+      module.nb_heures_total = sum;
       setModule(module);
     };
 
