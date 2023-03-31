@@ -10,12 +10,18 @@ function Cours({ idModule }) {
     item: {
       nom: "",
       nb_heures: 0,
+      module: idModule,
     },
     columns: [{ data: "nom" }, { data: "nb_heures" }, { data: null }],
     nameColumns: ["Nom", "Nombre heures", "Action"],
     add: true,
-    buttons:
-      '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button><button class="c btn btn-success btn-sm">Séances</button>',
+    buttons: (
+      <div className="btn-group" role="group">
+        <button className="btn btn-warning btn-sm w-70">Modifier</button>
+        <button className="btn btn-danger btn-sm w-70">Supprimer</button>
+        <button className="c btn btn-success btn-sm w-70">Séances</button>
+      </div>
+    ),
   };
 
   return (

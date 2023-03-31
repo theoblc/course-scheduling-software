@@ -22,8 +22,12 @@ function Enseignants() {
     nameColumns: ["Nom", "Prénom", "Département", "Action"],
     add: true,
     ordering: false,
-    buttons:
-      '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>',
+    buttons: (
+      <div className="btn-group" role="group">
+        <button className="btn btn-warning btn-sm w-70">Modifier</button>
+        <button className="btn btn-danger btn-sm w-70">Supprimer</button>
+      </div>
+    ),
   };
 
   return (

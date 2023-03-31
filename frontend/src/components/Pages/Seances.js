@@ -35,7 +35,11 @@ function Seances() {
     ],
     add: false,
     ordering: true,
-    buttons: '<button class="rs btn btn-success btn-sm">Détails</button>',
+    buttons: (
+      <div className="btn-group" role="group">
+        <button className="rs btn btn-success btn-sm w-70">Détails</button>
+      </div>
+    ),
   };
 
   return (

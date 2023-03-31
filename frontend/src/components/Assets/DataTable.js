@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactDOMServer from "react-dom/server";
 import { useNavigate } from "react-router-dom";
 import "../../style/jquery.dataTables.min.css";
 import language_fr from "../../style/language_fr";
@@ -92,7 +93,7 @@ function DataTable({
         {
           targets: -1,
           render: function () {
-            return buttons;
+            return ReactDOMServer.renderToString(buttons);
           },
         },
       ],
@@ -105,30 +106,33 @@ function DataTable({
       if (data !== undefined) {
         if (action !== undefined) {
           // Si c'est le bouton "Fiche Programme" de la liste des modules
-          if ((type = "cours") && action === "btn btn-secondary btn-sm") {
+          if ((type = "cours") && action === "btn btn-secondary btn-sm w-70") {
             redirect(`/modules/${data.id}/FicheProgramme`);
           }
           // Si c'est le bouton "Planification" de la liste des modules
-          else if ((type = "cours") && action === "btn btn-dark btn-sm") {
+          else if ((type = "cours") && action === "btn btn-dark btn-sm w-70") {
             redirect(`/modules/${data.id}/Planification`);
           }
           // Si c'est le bouton "Détails" de la liste des Séances
           else if (
             (type = "recap_seances") &&
-            action === "rs btn btn-success btn-sm"
+            action === "rs btn btn-success btn-sm w-70"
           ) {
             redirect(`/modules/${data.module}/cours/${data.cours}/seances`);
           }
           // Si c'est le bouton "Séances" de la fiche programme d'un module
-          else if ((type = "cours") && action === "c btn btn-success btn-sm") {
+          else if (
+            (type = "cours") &&
+            action === "c btn btn-success btn-sm w-70"
+          ) {
             redirect(`/modules/${data.module}/cours/${data.id}/seances`);
           }
           // Si c'est bouton "modifier"
-          else if (action === "btn btn-warning btn-sm") {
+          else if (action === "btn btn-warning btn-sm w-70") {
             toggleModalEdit(data);
           }
           // Si c'est bouton "supprimer"
-          else if (action === "btn btn-danger btn-sm") {
+          else if (action === "btn btn-danger btn-sm w-70") {
             toggleModalRemove(data);
           }
         }
