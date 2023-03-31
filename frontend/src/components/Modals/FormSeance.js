@@ -60,20 +60,29 @@ function FormSeance({ isOpen, toggle, activeItem, onSave }) {
       <ModalBody>
         <Form>
           <FormGroup>
-            <Label for="date_debut">Date Début</Label>
+            <Label for="date">Date</Label>
             <Input
-              type="datetime-local"
-              name="date_debut"
-              value={item.date_debut}
+              type="date"
+              name="date"
+              value={item.date}
               onChange={handleChange}
             />
           </FormGroup>
           <FormGroup>
-            <Label for="date_fin">Date Fin</Label>
+            <Label for="heure_debut">Heure Début</Label>
             <Input
-              type="datetime-local"
-              name="date_fin"
-              value={item.date_fin}
+              type="time"
+              name="heure_debut"
+              value={item.heure_debut}
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="heure_fin">Heure Fin</Label>
+            <Input
+              type="time"
+              name="heure_fin"
+              value={item.heure_fin}
               onChange={handleChange}
             />
           </FormGroup>
@@ -111,6 +120,34 @@ function FormSeance({ isOpen, toggle, activeItem, onSave }) {
               <option hidden>Choix de l'enseignant</option>
               {generateOptionsEnseignant()}
             </select>
+          </FormGroup>
+          <FormGroup>
+            <Label for="effectif">Effectif</Label>
+            <Input
+              type="text"
+              name="effectif"
+              value={item.effectif}
+              onChange={handleChange}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  onSave(item);
+                }
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="commentaire">Commentaire</Label>
+            <Input
+              type="textarea"
+              name="commentaire"
+              value={item.commentaire}
+              onChange={handleChange}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  onSave(item);
+                }
+              }}
+            />
           </FormGroup>
         </Form>
       </ModalBody>
