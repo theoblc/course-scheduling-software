@@ -17,8 +17,6 @@ export default class CustomModal extends Component {
     this.state = {
       activeItem: this.props.activeItem,
       nomError: false,
-      nb_heuresError: false,
-      nb_heures_autonomieError: false,
     };
   }
   handleChange = (e) => {
@@ -31,18 +29,10 @@ export default class CustomModal extends Component {
   };
 
   testValid = () => {
-    const { nom, nb_heures, nb_heures_autonomie } = this.state.activeItem;
-    if (!nom || !nb_heures || !nb_heures_autonomie) {
-      // Afficher un message d'erreur pour chaque champ vide
-      if (!nom) {
-        this.setState({ nomError: true });
-      }
-      if (!nb_heures) {
-        this.setState({ nb_heuresError: true });
-      }
-      if (!nb_heures_autonomie) {
-        this.setState({ nb_heures_autonomieError: true });
-      }
+    const nom = this.state.activeItem.nom;
+    // Afficher un message d'erreur pour chaque champ vide
+    if (!nom) {
+      this.setState({ nomError: true });
       return;
     } else {
       return this.props.onSave(this.state.activeItem);
@@ -87,12 +77,7 @@ export default class CustomModal extends Component {
                     this.testValid();
                   }
                 }}
-                // Afficher une bordure rouge si le champ est vide
-                style={{ borderColor: this.state.nb_heuresError ? "red" : "" }}
               />
-              {this.state.nb_heuresError && (
-                <p style={{ color: "red" }}>Ce champ est inchangé</p>
-              )}
             </FormGroup>
             <FormGroup>
               <Label for="nb_heures_autonomie">
@@ -108,14 +93,7 @@ export default class CustomModal extends Component {
                     this.testValid();
                   }
                 }}
-                // Afficher une bordure rouge si le champ est vide
-                style={{
-                  borderColor: this.state.nb_heures_autonomieError ? "red" : "",
-                }}
               />
-              {this.state.nb_heures_autonomieError && (
-                <p style={{ color: "red" }}>Ce champ est inchangé</p>
-              )}
             </FormGroup>
           </Form>
         </ModalBody>
