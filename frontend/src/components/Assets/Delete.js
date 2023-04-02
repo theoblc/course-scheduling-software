@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 import axios from "axios";
-import ModalRemove from "../Modals/ModalRemove";
+import FormConfirmation from "../Modals/FormConfirmation";
 
 function Delete({ baseURL, id, redirection, message }) {
   const [item, setItem] = useState(null);
@@ -32,7 +32,7 @@ function Delete({ baseURL, id, redirection, message }) {
         {message}
       </Button>
 
-      <ModalRemove
+      <FormConfirmation
         isOpen={modalRemove}
         toggle={toggleModalRemove}
         onSave={() => remove(id)}

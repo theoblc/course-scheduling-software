@@ -5,12 +5,10 @@ import "../../style/jquery.dataTables.min.css";
 import language_fr from "../../style/language_fr";
 import $ from "jquery";
 import axios from "axios";
-import FormCours from "../Modals/FormCours";
-import FormEnseignant from "../Modals/FormEnseignant";
 import FormModule from "../Modals/FormModule";
-import FormSalle from "../Modals/FormSalle";
+import Formulaire from "../Modals/Formulaire";
 import FormSeance from "../Modals/FormSeance";
-import ModalRemove from "../Modals/ModalRemove";
+import FormConfirmation from "../Modals/FormConfirmation";
 import "jquery";
 import "datatable";
 import "datatables.net";
@@ -156,7 +154,7 @@ function DataTable({
         </table>
       </div>
 
-      <ModalRemove
+      <FormConfirmation
         isOpen={modalRemove}
         toggle={toggleModalRemove}
         onSave={() => remove(item.id)}
@@ -164,20 +162,44 @@ function DataTable({
       />
 
       {type === "cours" && modalEdit && (
-        <FormCours
+        <Formulaire
+          nomFormulaire={"Ajout d'un cours"}
+          item={item}
           isOpen={modalEdit}
           toggle={toggleModalEdit}
-          activeItem={item}
           onSave={edit}
+          fields={[
+            { titre: "Nom", nom: "nom", type: "text" },
+            { titre: "Nombre d'heures", nom: "nb_heures", type: "number" },
+          ]}
         />
       )}
 
       {type === "enseignants" && modalEdit && (
-        <FormEnseignant
+        <Formulaire
+          nomFormulaire={"Ajout d'un enseignant"}
+          item={item}
           isOpen={modalEdit}
           toggle={toggleModalEdit}
-          activeItem={item}
           onSave={edit}
+          fields={[
+            { titre: "Nom", nom: "nom", type: "text" },
+            { titre: "Prénom", nom: "prenom", type: "text" },
+            {
+              titre: "Département",
+              nom: "departement",
+              type: "select",
+              options: [
+                { value: "EPH", defaultValue: true, nameOption: "EPH" },
+                {
+                  value: "Vacataire",
+                  defaultValue: false,
+                  nameOption: "Vacataire",
+                },
+                { value: "Autre", defaultValue: false, nameOption: "Autre" },
+              ],
+            },
+          ]}
         />
       )}
 
@@ -191,11 +213,13 @@ function DataTable({
       )}
 
       {type === "salles" && modalEdit && (
-        <FormSalle
+        <Formulaire
+          nomFormulaire={"Modification d'une salle"}
+          item={item}
           isOpen={modalEdit}
           toggle={toggleModalEdit}
-          activeItem={item}
           onSave={edit}
+          fields={[{ titre: "Numéro", nom: "numero", type: "text" }]}
         />
       )}
 

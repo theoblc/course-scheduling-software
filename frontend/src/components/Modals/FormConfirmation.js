@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-function ModalRemove({ isOpen, toggle, onSave }) {
+function FormConfirmation({ isOpen, toggle, onSave }) {
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader>Confirmation</ModalHeader>
@@ -18,4 +18,4 @@ function ModalRemove({ isOpen, toggle, onSave }) {
   );
 }
 
-export default ModalRemove;
+export default FormConfirmation;

@@ -32,11 +32,27 @@ function FormSeance({ isOpen, toggle, activeItem, onSave }) {
     fetchData().catch(console.error);
   }, []);
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     let { name, value } = e.target;
     let newItem = { ...item, [name]: value };
     setItem(newItem);
-  };
+  }
+
+  function generateOptionsSalle() {
+    return salles.map((salle) => (
+      <option key={salle.id} value={salle.id}>
+        {salle.numero}
+      </option>
+    ));
+  }
+
+  function generateOptionsEnseignant() {
+    return enseignants.map((enseignant) => (
+      <option key={enseignant.id} value={enseignant.id}>
+        {enseignant.nom} {enseignant.prenom}
+      </option>
+    ));
+  }
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
@@ -80,11 +96,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave }) {
               placeholder={item.salle}
             >
               <option hidden>Choix de la salle</option>
-              {salles.map((salle) => (
-                <option key={salle.id} value={salle.id}>
-                  {salle.numero}
-                </option>
-              ))}
+              {generateOptionsSalle()}
             </select>
           </FormGroup>
           <FormGroup>
@@ -97,11 +109,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave }) {
               placeholder={item.enseignant}
             >
               <option hidden>Choix de l'enseignant</option>
-              {enseignants.map((enseignant) => (
-                <option key={enseignant.id} value={enseignant.id}>
-                  {enseignant.nom} {enseignant.prenom}
-                </option>
-              ))}
+              {generateOptionsEnseignant()}
             </select>
           </FormGroup>
         </Form>

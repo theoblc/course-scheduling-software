@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import FormCours from "../Modals/FormCours";
-import FormEnseignant from "../Modals/FormEnseignant";
 import FormModule from "../Modals/FormModule";
-import FormSalle from "../Modals/FormSalle";
+import Formulaire from "../Modals/Formulaire";
 import FormSeance from "../Modals/FormSeance";
 
 function Add({ item, type, url, fetchData }) {
@@ -32,20 +30,44 @@ function Add({ item, type, url, fetchData }) {
       </button>
 
       {type === "cours" && modalCreate && (
-        <FormCours
+        <Formulaire
+          nomFormulaire={"Ajout d'un cours"}
+          item={item}
           isOpen={modalCreate}
           toggle={toggleModalCreate}
-          activeItem={item}
           onSave={create}
+          fields={[
+            { titre: "Nom", nom: "nom", type: "text" },
+            { titre: "Nombre d'heures", nom: "nb_heures", type: "number" },
+          ]}
         />
       )}
 
       {type === "enseignants" && modalCreate && (
-        <FormEnseignant
+        <Formulaire
+          nomFormulaire={"Ajout d'un enseignant"}
+          item={item}
           isOpen={modalCreate}
           toggle={toggleModalCreate}
-          activeItem={item}
           onSave={create}
+          fields={[
+            { titre: "Nom", nom: "nom", type: "text" },
+            { titre: "Prénom", nom: "prenom", type: "text" },
+            {
+              titre: "Département",
+              nom: "departement",
+              type: "select",
+              options: [
+                { value: "EPH", defaultValue: true, nameOption: "EPH" },
+                {
+                  value: "Vacataire",
+                  defaultValue: false,
+                  nameOption: "Vacataire",
+                },
+                { value: "Autre", defaultValue: false, nameOption: "Autre" },
+              ],
+            },
+          ]}
         />
       )}
 
@@ -59,11 +81,13 @@ function Add({ item, type, url, fetchData }) {
       )}
 
       {type === "salles" && modalCreate && (
-        <FormSalle
+        <Formulaire
+          nomFormulaire={"Ajout d'une salle"}
+          item={item}
           isOpen={modalCreate}
           toggle={toggleModalCreate}
-          activeItem={item}
           onSave={create}
+          fields={[{ titre: "Numéro", nom: "numero", type: "text" }]}
         />
       )}
 
