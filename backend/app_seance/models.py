@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from app_enseignant.models import Enseignant
 from app_module.models import Module
 from app_salle.models import Salle

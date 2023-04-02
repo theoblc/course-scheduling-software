@@ -20,6 +20,7 @@ export default class CustomModal extends Component {
       debutError: false,
       finError: false,
       numeroError: false,
+      debAvFinError: false,
     };
   }
 
@@ -34,7 +35,14 @@ export default class CustomModal extends Component {
   testValid = () => {
     const { date, heure_debut, heure_fin, numero_groupe_td } =
       this.state.activeItem;
-    if (!date || !heure_debut || !heure_fin || !numero_groupe_td) {
+    var debut_avant_fin = heure_debut <= heure_fin;
+    if (
+      !date ||
+      !heure_debut ||
+      !heure_fin ||
+      !numero_groupe_td ||
+      !debut_avant_fin
+    ) {
       // Afficher un message d'erreur pour chaque champ vide
       if (!date) {
         this.setState({ dateError: true });
@@ -47,6 +55,9 @@ export default class CustomModal extends Component {
       }
       if (!numero_groupe_td) {
         this.setState({ numeroError: true });
+      }
+      if (!debut_avant_fin) {
+        this.setState({ debAvFinError: true });
       }
       return;
     } else {
@@ -93,10 +104,20 @@ export default class CustomModal extends Component {
                   }
                 }}
                 // Afficher une bordure rouge si le champ est vide
-                style={{ borderColor: this.state.debutError ? "red" : "" }}
+                style={{
+                  borderColor:
+                    this.state.debutError || this.state.debAvFinError
+                      ? "red"
+                      : "",
+                }}
               />
               {this.state.debutError && (
                 <p style={{ color: "red" }}>Ce champ est obligatoire</p>
+              )}
+              {this.state.debAvFinError && (
+                <p style={{ color: "red" }}>
+                  L'heure de début doit être avant l'heure de fin de séance
+                </p>
               )}
             </FormGroup>
             <FormGroup>
@@ -112,10 +133,20 @@ export default class CustomModal extends Component {
                   }
                 }}
                 // Afficher une bordure rouge si le champ est vide
-                style={{ borderColor: this.state.finError ? "red" : "" }}
+                style={{
+                  borderColor:
+                    this.state.finError || this.state.debAvFinError
+                      ? "red"
+                      : "",
+                }}
               />
               {this.state.finError && (
                 <p style={{ color: "red" }}>Ce champ est obligatoire</p>
+              )}
+              {this.state.debAvFinError && (
+                <p style={{ color: "red" }}>
+                  L'heure de début doit être avant l'heure de fin de séance
+                </p>
               )}
             </FormGroup>
             <FormGroup>
