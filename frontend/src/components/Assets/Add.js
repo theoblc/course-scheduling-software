@@ -14,8 +14,6 @@ function Add({ item, type, url, fetchData }) {
   }
 
   function create(item) {
-    console.log(url);
-    console.log(item);
     toggleModalCreate();
     axios
       .post(url, item)

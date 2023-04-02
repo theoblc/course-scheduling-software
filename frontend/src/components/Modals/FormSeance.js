@@ -76,8 +76,10 @@ function FormSeance({ isOpen, toggle, activeItem, onSave }) {
               className="form-control"
               name="salle"
               onChange={handleChange}
+              value={item.salle}
               placeholder={item.salle}
             >
+              <option hidden>Choix de la salle</option>
               {salles.map((salle) => (
                 <option key={salle.id} value={salle.id}>
                   {salle.numero}
@@ -91,8 +93,10 @@ function FormSeance({ isOpen, toggle, activeItem, onSave }) {
               className="form-control"
               name="enseignant"
               onChange={handleChange}
+              value={item.enseignant}
               placeholder={item.enseignant}
             >
+              <option hidden>Choix de l'enseignant</option>
               {enseignants.map((enseignant) => (
                 <option key={enseignant.id} value={enseignant.id}>
                   {enseignant.nom} {enseignant.prenom}
