@@ -17,10 +17,10 @@ export default class CustomModal extends Component {
     this.state = {
       activeItem: this.props.activeItem,
       nomError: false,
-      nb_heuresError: false,
-      nb_heures_autonomieError: false,
+      prenomError: false,
     };
   }
+
   handleChange = (e) => {
     let { name, value } = e.target;
     if (e.target.type === "checkbox") {
@@ -31,17 +31,15 @@ export default class CustomModal extends Component {
   };
 
   testValid = () => {
-    const { nom, nb_heures, nb_heures_autonomie } = this.state.activeItem;
-    if (!nom || !nb_heures || !nb_heures_autonomie) {
+    const nom = this.state.activeItem.nom;
+    const prenom = this.state.activeItem.prenom;
+    if (!nom || !prenom) {
       // Afficher un message d'erreur pour chaque champ vide
       if (!nom) {
         this.setState({ nomError: true });
       }
-      if (!nb_heures) {
-        this.setState({ nb_heuresError: true });
-      }
-      if (!nb_heures_autonomie) {
-        this.setState({ nb_heures_autonomieError: true });
+      if (!prenom) {
+        this.setState({ prenomError: true });
       }
       return;
     } else {
@@ -53,7 +51,7 @@ export default class CustomModal extends Component {
     const toggle = this.props.toggle;
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Ajout d'un cours</ModalHeader>
+        <ModalHeader toggle={toggle}>Ajout d'un enseignant</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
@@ -76,11 +74,11 @@ export default class CustomModal extends Component {
               )}
             </FormGroup>
             <FormGroup>
-              <Label for="nb_heures">Nombre d'heures</Label>
+              <Label for="prenom">Prénom</Label>
               <Input
-                type="number"
-                name="nb_heures"
-                value={this.state.activeItem.nb_heures}
+                type="text"
+                name="prenom"
+                value={this.state.activeItem.prenom}
                 onChange={this.handleChange}
                 onKeyPress={(event) => {
                   if (event.key === "Enter") {
@@ -88,34 +86,31 @@ export default class CustomModal extends Component {
                   }
                 }}
                 // Afficher une bordure rouge si le champ est vide
-                style={{ borderColor: this.state.nb_heuresError ? "red" : "" }}
+                style={{ borderColor: this.state.prenomError ? "red" : "" }}
               />
-              {this.state.nb_heuresError && (
-                <p style={{ color: "red" }}>Ce champ est inchangé</p>
+              {this.state.prenomError && (
+                <p style={{ color: "red" }}>Ce champ est obligatoire</p>
               )}
             </FormGroup>
             <FormGroup>
-              <Label for="nb_heures_autonomie">
-                Nombre d'heures en autonomie
-              </Label>
+              <Label for="departement">Département</Label>
               <Input
-                type="number"
-                name="nb_heures_autonomie"
-                value={this.state.activeItem.nb_heures_autonomie}
+                type="select"
+                name="departement"
+                value={this.state.activeItem.departement}
                 onChange={this.handleChange}
                 onKeyPress={(event) => {
                   if (event.key === "Enter") {
                     this.testValid();
                   }
                 }}
-                // Afficher une bordure rouge si le champ est vide
-                style={{
-                  borderColor: this.state.nb_heures_autonomieError ? "red" : "",
-                }}
-              />
-              {this.state.nb_heures_autonomieError && (
-                <p style={{ color: "red" }}>Ce champ est inchangé</p>
-              )}
+              >
+                <option value="EPH" defaultValue>
+                  EPH
+                </option>
+                <option value="Vacataire">Vacataire</option>
+                <option value="Autre">Autre</option>
+              </Input>
             </FormGroup>
           </Form>
         </ModalBody>

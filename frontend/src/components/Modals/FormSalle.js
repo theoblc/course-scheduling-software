@@ -16,6 +16,7 @@ export default class CustomModal extends Component {
     super(props);
     this.state = {
       activeItem: this.props.activeItem,
+      numeroError: false,
     };
   }
   handleChange = (e) => {
@@ -26,8 +27,20 @@ export default class CustomModal extends Component {
     const activeItem = { ...this.state.activeItem, [name]: value };
     this.setState({ activeItem });
   };
+
+  testValid = () => {
+    const numero = this.state.activeItem.numero;
+    // Afficher un message d'erreur pour chaque champ vide
+    if (!numero) {
+      this.setState({ numeroError: true });
+      return;
+    } else {
+      return this.props.onSave(this.state.activeItem);
+    }
+  };
+
   render() {
-    const { toggle, onSave } = this.props;
+    const toggle = this.props.toggle;
     return (
       <Modal isOpen={true} toggle={toggle}>
         <ModalHeader toggle={toggle}>Ajout d'une salle</ModalHeader>
@@ -42,10 +55,20 @@ export default class CustomModal extends Component {
                 onChange={this.handleChange}
                 onKeyPress={(event) => {
                   if (event.key === "Enter") {
-                    onSave(this.state.activeItem);
+                    if (!this.state.activeItem.numero) {
+                      event.preventDefault();
+                      this.setState({ numeroError: true });
+                    } else {
+                      this.testValid();
+                    }
                   }
                 }}
+                // Afficher une bordure rouge si le champ est vide
+                style={{ borderColor: this.state.numeroError ? "red" : "" }}
               />
+              {this.state.numeroError && (
+                <p style={{ color: "red" }}>Ce champ est obligatoire</p>
+              )}
             </FormGroup>
             <FormGroup>
               <Label for="description">Description</Label>
@@ -56,7 +79,7 @@ export default class CustomModal extends Component {
                 onChange={this.handleChange}
                 onKeyPress={(event) => {
                   if (event.key === "Enter") {
-                    onSave(this.state.activeItem);
+                    this.testValid();
                   }
                 }}
               />
@@ -64,7 +87,7 @@ export default class CustomModal extends Component {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color="success" onClick={() => onSave(this.state.activeItem)}>
+          <Button color="success" onClick={() => this.testValid()}>
             Enregistrer
           </Button>
         </ModalFooter>
