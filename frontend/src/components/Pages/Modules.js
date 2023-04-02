@@ -1,5 +1,4 @@
 import React from "react";
-import withRouter from "../Assets/WithRouter";
 import List from "../Assets/List";
 
 function Modules() {
@@ -59,4 +58,4 @@ function Modules() {
   );
 }
 
-export default withRouter(Modules);
+export default Modules;

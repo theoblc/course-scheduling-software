@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import withRouter from "../Assets/WithRouter";
 import Delete from "../Assets/Delete";
 import Module from "./Module";
 import Cours from "./Cours";
@@ -36,4 +35,4 @@ function FicheProgramme() {
   );
 }
 
-export default withRouter(FicheProgramme);
+export default FicheProgramme;

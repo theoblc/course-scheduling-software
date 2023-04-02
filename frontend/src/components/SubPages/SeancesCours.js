@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import List from "../Assets/List";
 import { useParams } from "react-router-dom";
-import withRouter from "../Assets/WithRouter";
 
 function SeancesCours() {
   const { module_id, cours_id } = useParams();
@@ -67,4 +66,4 @@ function SeancesCours() {
   );
 }
 
-export default withRouter(SeancesCours);
+export default SeancesCours;

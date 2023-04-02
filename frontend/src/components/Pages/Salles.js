@@ -1,5 +1,4 @@
 import React from "react";
-import withRouter from "../Assets/WithRouter";
 import List from "../Assets/List";
 
 function Salles() {
@@ -30,4 +29,4 @@ function Salles() {
   );
 }
 
-export default withRouter(Salles);
+export default Salles;

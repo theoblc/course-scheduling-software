@@ -1,5 +1,4 @@
 import React from "react";
-import withRouter from "../Assets/WithRouter";
 import List from "../Assets/List";
 
 function Enseignants() {
@@ -37,4 +36,4 @@ function Enseignants() {
   );
 }
 
-export default withRouter(Enseignants);
+export default Enseignants;

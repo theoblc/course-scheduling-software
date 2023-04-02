@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import List from "../Assets/List";
 import { useParams } from "react-router-dom";
-import withRouter from "../Assets/WithRouter";
 
 function Planification() {
   const { id } = useParams();
@@ -69,4 +68,4 @@ function Planification() {
   );
 }
 
-export default withRouter(Planification);
+export default Planification;

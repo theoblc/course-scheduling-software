@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import withRouter from "../Assets/WithRouter";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function PageNotFound() {
@@ -27,4 +26,4 @@ function PageNotFound() {
   );
 }
 
-export default withRouter(PageNotFound);
+export default PageNotFound;

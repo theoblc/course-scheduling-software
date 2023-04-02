@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import withRouter from "../Assets/WithRouter";
 import DataTable from "../Assets/DataTable";
 import Title from "../Assets/Title";
 import Add from "../Assets/Add";
@@ -47,4 +46,4 @@ function List({ listParams }) {
   );
 }
 
-export default withRouter(List);
+export default List;
