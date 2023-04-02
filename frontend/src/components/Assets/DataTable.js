@@ -8,7 +8,6 @@ import axios from "axios";
 import FormModule from "../Modals/FormModule";
 import Formulaire from "../Modals/Formulaire";
 import FormSeance from "../Modals/FormSeance";
-import FormConfirmation from "../Modals/FormConfirmation";
 
 import "jquery";
 import "datatable";
@@ -106,8 +105,9 @@ function DataTable({
         language: language_fr,
         data: data,
         columns: columns,
-        ordering: ordering,
+        order: [[0, "asc"]],
         columnDefs: [
+          { orderable: ordering, targets: "_all" },
           {
             targets: -1,
             render: function () {
