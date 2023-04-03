@@ -21,20 +21,16 @@ function List({ listParams }) {
     <main>
       <Title type={listParams.title} />
 
-      {listParams.add && (
-        <Add
-          type={listParams.type}
-          item={listParams.item}
-          fetchData={fetchData}
-          url={listParams.urlModify}
-        />
-      )}
-
       <DataTable
+        dom={listParams.dom}
         columns={listParams.columns}
         nameColumns={listParams.nameColumns}
         baseURL={listParams.urlModify}
+        fetchURL={listParams.urlFetch}
+        // début bouton "ajouter"
         fetchData={fetchData}
+        itemAdd={listParams.item}
+        // fin   bouton "ajouter"
         data={data}
         type={listParams.type}
         buttons={listParams.buttons}

@@ -15,8 +15,12 @@ function SeancesCours() {
     urlModify: "http://127.0.0.1:8000/api/seances/",
     type: "seances",
     item: {
-      date_debut: "",
-      date_fin: "",
+      module: module_id,
+      date: "",
+      heure_debut: "",
+      heure_fin: "",
+      effectif: "",
+      commentaire: "",
       numero_groupe_td: "",
       enseignant: 0,
       module: module_id,
@@ -24,28 +28,38 @@ function SeancesCours() {
       salle: 0,
     },
     columns: [
-      { data: "date_debut" },
-      { data: "date_fin" },
+      { data: "date" },
+      { data: "heure_debut" },
+      { data: "heure_fin" },
+      { data: "effectif" },
+      { data: "commentaire" },
       { data: "numero_groupe_td" },
       { data: "salle" },
       { data: "enseignant" },
       { data: null },
     ],
     nameColumns: [
+      "Date",
       "Heure de début",
       "Heure de fin",
+      "Effectif",
+      "Commentaire",
       "Numéro groupe de TD",
       "Salle",
       "Enseignant",
       "Actions",
     ],
-    add: true,
     buttons: (
       <div className="btn-group" role="group">
         <button className="btn btn-warning btn-sm w-70">Modifier</button>
         <button className="btn btn-danger btn-sm w-70">Supprimer</button>
       </div>
     ),
+    dom:
+      "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-2'B>>" +
+      "<'row'<'col-sm-12'tr>>" +
+      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+    ordering: true,
   };
 
   useEffect(() => {

@@ -8,8 +8,11 @@ function Seances() {
     urlModify: undefined,
     type: "recap_seances",
     item: {
-      date_debut: "",
-      date_fin: "",
+      date: "",
+      heure_debut: "",
+      heure_fin: "",
+      effectif: "",
+      commentaire: "",
       numero_groupe_td: "",
       enseignant: "",
       module: "",
@@ -19,24 +22,33 @@ function Seances() {
     columns: [
       { data: "module" },
       { data: "cours" },
-      { data: "date_debut" },
-      { data: "date_fin" },
+      { data: "date" },
+      { data: "heure_debut" },
+      { data: "heure_fin" },
       { data: "numero_groupe_td" },
       { data: "salle" },
       { data: "enseignant" },
+      { data: "effectif" },
+      { data: "commentaire" },
       { data: null },
     ],
     nameColumns: [
       "Module",
       "Cours",
+      "Date",
       "Heure de début",
       "Heure de fin",
       "Groupe de TD",
       "Salle",
       "Enseignant",
+      "Effectif",
+      "Commentaire",
       "Action",
     ],
-    add: false,
+    dom:
+      "<'row'<'col-sm-12 col-md-7'f>>" +
+      "<'row'<'col-sm-12'tr>>" +
+      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     ordering: true,
     buttons: (
       <div className="btn-group" role="group">

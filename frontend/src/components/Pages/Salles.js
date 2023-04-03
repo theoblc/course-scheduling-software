@@ -9,10 +9,14 @@ function Salles() {
     type: "salles",
     item: {
       numero: "",
+      description: "",
     },
-    columns: [{ data: "numero" }, { data: null }],
-    nameColumns: ["Numéro", "Action"],
-    add: true,
+    columns: [{ data: "numero" }, { data: "description" }, { data: null }],
+    nameColumns: ["Numéro", "Description", "Action"],
+    dom:
+      "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-2'B>>" +
+      "<'row'<'col-sm-12'tr>>" +
+      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     ordering: false,
     buttons: (
       <div className="btn-group" role="group">
