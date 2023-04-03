@@ -11,30 +11,56 @@ import {
   Label,
 } from "reactstrap";
 
-export default class CustomModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeItem: this.props.activeItem,
-      dateError: false,
-      debutError: false,
-      finError: false,
-      numeroError: false,
-      debAvFinError: false,
+function FormSeance({ isOpen, toggle, activeItem, onSave }) {
+  const [item, setItem] = useState(activeItem);
+  const [salles, setSalles] = useState([]);
+  const [enseignants, setEnseignants] = useState([]);
+  const [dateError, setDateError] = useState(false);
+  const [debutError, setDebutError] = useState(false);
+  const [finError, setFinError] = useState(false);
+  const [numeroError, setNumeroError] = useState(false);
+  const [coherenceError, setCoherenceError] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const raw_salles = await fetch("http://localhost:8000/api/salles/");
+      const salles = await raw_salles.json();
+      setSalles(salles);
+
+      const raw_enseignants = await fetch(
+        "http://localhost:8000/api/enseignants/"
+      );
+      const enseignants = await raw_enseignants.json();
+      setEnseignants(enseignants);
     };
+
+    fetchData().catch(console.error);
+  }, []);
+
+  function handleChange(e) {
+    let { name, value } = e.target;
+    let newItem = { ...item, [name]: value };
+    setItem(newItem);
   }
 
-  handleChange = (e) => {
-    let { name, value } = e.target;
-    if (e.target.type === "checkbox") {
-      value = e.target.checked;
-    }
-    const activeItem = { ...this.state.activeItem, [name]: value };
-    this.setState({ activeItem });
-  };
-  testValid = () => {
-    const { date, heure_debut, heure_fin, numero_groupe_td } =
-      this.state.activeItem;
+  function generateOptionsSalle() {
+    return salles.map((salle) => (
+      <option key={salle.id} value={salle.id}>
+        {salle.numero}
+      </option>
+    ));
+  }
+
+  function generateOptionsEnseignant() {
+    return enseignants.map((enseignant) => (
+      <option key={enseignant.id} value={enseignant.id}>
+        {enseignant.nom} {enseignant.prenom}
+      </option>
+    ));
+  }
+
+  function testValid() {
+    const { date, heure_debut, heure_fin, numero_groupe_td } = item;
     var debut_avant_fin = heure_debut <= heure_fin;
     if (
       !date ||
@@ -45,165 +71,183 @@ export default class CustomModal extends Component {
     ) {
       // Afficher un message d'erreur pour chaque champ vide
       if (!date) {
-        this.setState({ dateError: true });
+        setDateError(true);
       }
       if (!heure_debut) {
-        this.setState({ debutError: true });
+        setDebutError(true);
       }
       if (!heure_fin) {
-        this.setState({ finError: true });
+        setFinError(true);
       }
       if (!numero_groupe_td) {
-        this.setState({ numeroError: true });
+        setNumeroError(true);
       }
       if (!debut_avant_fin) {
-        this.setState({ debAvFinError: true });
+        setCoherenceError(true);
       }
-      return;
     } else {
-      return this.props.onSave(this.state.activeItem);
+      return onSave(item);
     }
-  };
-
-  render() {
-    const toggle = this.props.toggle;
-    return (
-      <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Ajout d'une séance</ModalHeader>
-        <ModalBody>
-          <Form>
-            <FormGroup>
-              <Label for="date">Date</Label>
-              <Input
-                type="date"
-                name="date"
-                value={this.state.activeItem.date}
-                onChange={this.handleChange}
-                onKeyPress={(event) => {
-                  if (event.key === "Enter") {
-                    this.testValid();
-                  }
-                }}
-                // Afficher une bordure rouge si le champ est vide
-                style={{ borderColor: this.state.dateError ? "red" : "" }}
-              />
-              {this.state.dateError && (
-                <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-              )}
-            </FormGroup>
-            <FormGroup>
-              <Label for="heure_debut">Heure Début</Label>
-              <Input
-                type="time"
-                name="heure_debut"
-                value={this.state.activeItem.heure_debut}
-                onChange={this.handleChange}
-                onKeyPress={(event) => {
-                  if (event.key === "Enter") {
-                    this.testValid();
-                  }
-                }}
-                // Afficher une bordure rouge si le champ est vide
-                style={{
-                  borderColor:
-                    this.state.debutError || this.state.debAvFinError
-                      ? "red"
-                      : "",
-                }}
-              />
-              {this.state.debutError && (
-                <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-              )}
-              {this.state.debAvFinError && (
-                <p style={{ color: "red" }}>
-                  L'heure de début doit être avant l'heure de fin de séance
-                </p>
-              )}
-            </FormGroup>
-            <FormGroup>
-              <Label for="heure_fin">Heure Fin</Label>
-              <Input
-                type="time"
-                name="heure_fin"
-                value={this.state.activeItem.heure_fin}
-                onChange={this.handleChange}
-                onKeyPress={(event) => {
-                  if (event.key === "Enter") {
-                    this.testValid();
-                  }
-                }}
-                // Afficher une bordure rouge si le champ est vide
-                style={{
-                  borderColor:
-                    this.state.finError || this.state.debAvFinError
-                      ? "red"
-                      : "",
-                }}
-              />
-              {this.state.finError && (
-                <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-              )}
-              {this.state.debAvFinError && (
-                <p style={{ color: "red" }}>
-                  L'heure de début doit être avant l'heure de fin de séance
-                </p>
-              )}
-            </FormGroup>
-            <FormGroup>
-              <Label for="numero_groupe_td">Numéro Groupe TD</Label>
-              <Input
-                type="number"
-                name="numero_groupe_td"
-                value={this.state.activeItem.numero_groupe_td}
-                onChange={this.handleChange}
-                onKeyPress={(event) => {
-                  if (event.key === "Enter") {
-                    this.testValid();
-                  }
-                }}
-                // Afficher une bordure rouge si le champ est vide
-                style={{ borderColor: this.state.numeroError ? "red" : "" }}
-              />
-              {this.state.numeroError && (
-                <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-              )}
-            </FormGroup>
-            <FormGroup>
-              <Label for="effectif">Effectif</Label>
-              <Input
-                type="text"
-                name="effectif"
-                value={this.state.activeItem.effectif}
-                onChange={this.handleChange}
-                onKeyPress={(event) => {
-                  if (event.key === "Enter") {
-                    this.testValid();
-                  }
-                }}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="commentaire">Commentaire</Label>
-              <Input
-                type="textarea"
-                name="commentaire"
-                value={this.state.activeItem.commentaire}
-                onChange={this.handleChange}
-                onKeyPress={(event) => {
-                  if (event.key === "Enter") {
-                    this.testValid();
-                  }
-                }}
-              />
-            </FormGroup>
-          </Form>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="success" onClick={() => this.testValid()}>
-            Enregistrer
-          </Button>
-        </ModalFooter>
-      </Modal>
-    );
   }
+
+  return (
+    <Modal isOpen={true} toggle={toggle}>
+      <ModalHeader toggle={toggle}>Ajout d'une séance</ModalHeader>
+      <ModalBody>
+        <Form>
+          <FormGroup>
+            <Label for="date">Date</Label>
+            <Input
+              type="date"
+              name="date"
+              value={item.date}
+              onChange={handleChange}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  testValid();
+                }
+              }}
+              // Afficher une bordure rouge si le champ est vide
+              style={{ borderColor: dateError ? "red" : "" }}
+            />
+            {dateError && (
+              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
+            )}
+          </FormGroup>
+          <FormGroup>
+            <Label for="heure_debut">Heure Début</Label>
+            <Input
+              type="time"
+              name="heure_debut"
+              value={item.heure_debut}
+              onChange={handleChange}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  testValid();
+                }
+              }}
+              // Afficher une bordure rouge si le champ est vide
+              style={{
+                borderColor: debutError || coherenceError ? "red" : "",
+              }}
+            />
+            {debutError && (
+              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
+            )}
+            {coherenceError && (
+              <p style={{ color: "red" }}>
+                L'heure de début doit être avant l'heure de fin de séance
+              </p>
+            )}
+          </FormGroup>
+          <FormGroup>
+            <Label for="heure_fin">Heure Fin</Label>
+            <Input
+              type="time"
+              name="heure_fin"
+              value={item.heure_fin}
+              onChange={handleChange}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  testValid();
+                }
+              }}
+              // Afficher une bordure rouge si le champ est vide
+              style={{
+                borderColor: finError || coherenceError ? "red" : "",
+              }}
+            />
+            {finError && (
+              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
+            )}
+            {coherenceError && (
+              <p style={{ color: "red" }}>
+                L'heure de début doit être avant l'heure de fin de séance
+              </p>
+            )}
+          </FormGroup>
+          <FormGroup>
+            <Label for="numero_groupe_td">Numéro Groupe TD</Label>
+            <Input
+              type="number"
+              name="numero_groupe_td"
+              value={item.numero_groupe_td}
+              onChange={handleChange}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  testValid();
+                }
+              }}
+              // Afficher une bordure rouge si le champ est vide
+              style={{ borderColor: numeroError ? "red" : "" }}
+            />
+            {numeroError && (
+              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
+            )}
+          </FormGroup>
+          <FormGroup>
+            <Label for="effectif">Effectif</Label>
+            <Input
+              type="text"
+              name="effectif"
+              value={item.effectif}
+              onChange={handleChange}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  testValid();
+                }
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="commentaire">Commentaire</Label>
+            <Input
+              type="textarea"
+              name="commentaire"
+              value={item.commentaire}
+              onChange={handleChange}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  testValid();
+                }
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="salle">Salle</Label>
+            <select
+              className="form-control"
+              name="salle"
+              onChange={handleChange}
+              value={item.salle}
+              placeholder={item.salle}
+            >
+              <option hidden>Choix de la salle</option>
+              {generateOptionsSalle()}
+            </select>
+          </FormGroup>
+          <FormGroup>
+            <Label for="enseignant">Enseignant</Label>
+            <select
+              className="form-control"
+              name="enseignant"
+              onChange={handleChange}
+              value={item.enseignant}
+              placeholder={item.enseignant}
+            >
+              <option hidden>Choix de l'enseignant</option>
+              {generateOptionsEnseignant()}
+            </select>
+          </FormGroup>
+        </Form>
+      </ModalBody>
+      <ModalFooter>
+        <Button color="success" onClick={() => testValid()}>
+          Enregistrer
+        </Button>
+      </ModalFooter>
+    </Modal>
+  );
 }
+
+export default FormSeance;

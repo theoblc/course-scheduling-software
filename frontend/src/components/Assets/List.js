@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "../Assets/DataTable";
 import Title from "../Assets/Title";
-import Add from "../Assets/Add";
 
 function List({ listParams }) {
   const [data, setData] = useState([]);
