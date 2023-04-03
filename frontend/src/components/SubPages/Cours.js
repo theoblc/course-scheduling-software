@@ -17,9 +17,9 @@ function Cours({ idModule }) {
     add: true,
     buttons: (
       <div className="btn-group" role="group">
+        <button className="c btn btn-success btn-sm w-70">Séances</button>
         <button className="btn btn-warning btn-sm w-70">Modifier</button>
         <button className="btn btn-danger btn-sm w-70">Supprimer</button>
-        <button className="c btn btn-success btn-sm w-70">Séances</button>
       </div>
     ),
   };

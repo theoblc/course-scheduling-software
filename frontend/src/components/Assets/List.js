@@ -19,29 +19,27 @@ function List({ listParams }) {
 
   return (
     <main>
-      <div style={{ paddingTop: "30px", paddingBottom: "10px" }}>
-        <Title type={listParams.title} />
+      <Title type={listParams.title} />
 
-        {listParams.add && (
-          <Add
-            type={listParams.type}
-            item={listParams.item}
-            fetchData={fetchData}
-            url={listParams.urlModify}
-          />
-        )}
-
-        <DataTable
-          columns={listParams.columns}
-          nameColumns={listParams.nameColumns}
-          baseURL={listParams.urlModify}
-          fetchData={fetchData}
-          data={data}
+      {listParams.add && (
+        <Add
           type={listParams.type}
-          buttons={listParams.buttons}
-          ordering={listParams.ordering}
+          item={listParams.item}
+          fetchData={fetchData}
+          url={listParams.urlModify}
         />
-      </div>
+      )}
+
+      <DataTable
+        columns={listParams.columns}
+        nameColumns={listParams.nameColumns}
+        baseURL={listParams.urlModify}
+        fetchData={fetchData}
+        data={data}
+        type={listParams.type}
+        buttons={listParams.buttons}
+        ordering={listParams.ordering}
+      />
     </main>
   );
 }

@@ -45,26 +45,6 @@ function Seances() {
     ),
   };
 
-  /** 
-  // On récupère le nom du module et le nom du cours de la séance.
-  const fetchData = async () => {
-    let url_module = `http://localhost:8000/api/modules/${item.module}`;
-    const raw_module = await fetch(url_module);
-    const module = await raw_module.json();
-    setModule(module);
-
-    let url_cours = `http://localhost:8000/api/cours/${item.cours}`;
-    const raw_cours = await fetch(url_cours);
-    const cours = await raw_cours.json();
-    setCours(cours);
-  };
-
-  useEffect(() => {
-    fetchData().catch(console.error);
-    // eslint-disable-next-line
-  }, []);
-  */
-
   return (
     <main>
       <List listParams={listParams} />

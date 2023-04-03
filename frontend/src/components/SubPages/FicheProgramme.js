@@ -9,27 +9,20 @@ function FicheProgramme() {
 
   return (
     <div className="container">
-      <div className="row">
-        <div className="col-3">
-          <Module idModule={id} />
-        </div>
-        <div className="col-9">
-          <Cours idModule={id} />
-        </div>
-        <div className="col-12">
-          <hr className="mt-4 mb-0" />
-          <div className="d-flex justify-content-end align-items-center pb-3">
-            <div className="border-right pr-3"></div>
-            <div className="align-items-center">
-              <Delete
-                baseURL="http://localhost:8000/api/modules/"
-                id={id}
-                redirection="/modules"
-                message="Supprimer le module"
-              />
-            </div>
-          </div>
-        </div>
+      <Module idModule={id} />
+      <hr className="mt-4 mb-0" />
+      <Cours idModule={id} />
+      <hr className="mt-4 mb-0" />
+      <div
+        className="d-flex justify-content-center"
+        style={{ paddingTop: "30px", paddingBottom: "10px" }}
+      >
+        <Delete
+          baseURL="http://localhost:8000/api/modules/"
+          id={id}
+          redirection="/modules"
+          message="Supprimer le module"
+        />
       </div>
     </div>
   );

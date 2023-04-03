@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FormModule from "../Modals/FormModule";
-import { Button, Form, FormGroup, FormText, Label } from "reactstrap";
+import { Button, Table } from "reactstrap";
 import Title from "../Assets/Title";
 import axios from "axios";
 
@@ -65,60 +65,48 @@ function Module({ idModule }) {
 
   return (
     <main>
-      <div style={{ paddingTop: "30px", paddingBottom: "10px" }}>
-        <Title type={"Module"} />
+      <Title type={"Module"} />
+
+      <Table bordered>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Nom</th>
+            <th>Heures de TP</th>
+            <th>Heures de TD</th>
+            <th>Heures de BE</th>
+            <th>Heures de CI</th>
+            <th>Heures de CM</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{module.code}</td>
+            <td>{module.nom}</td>
+            <td>{module.nb_heures_tp}</td>
+            <td>{module.nb_heures_td}</td>
+            <td>{module.nb_heures_be}</td>
+            <td>{module.nb_heures_ci}</td>
+            <td>{module.nb_heures_cm}</td>
+            <td>{module.nb_heures_total}</td>
+          </tr>
+        </tbody>
+      </Table>
+      <div className="d-flex justify-content-center">
+        <Button className="btn btn-warning btn-lg" onClick={toggleModalEdit}>
+          Modifier
+        </Button>
       </div>
-      <div className="card mx-auto" style={{ maxWidth: "30rem" }}>
-        <div className="card-body">
-          <Form>
-            <FormGroup>
-              <Label for="code">Code</Label>
-              <FormText>{module.code}</FormText>
-            </FormGroup>
-            <FormGroup>
-              <Label for="nom">Nom</Label>
-              <FormText>{module.nom}</FormText>
-            </FormGroup>
-            <FormGroup>
-              <Label for="nb_heures_tp">Nombre d'heures de TP</Label>
-              <FormText>{module.nb_heures_tp}</FormText>
-            </FormGroup>
-            <FormGroup>
-              <Label for="nb_heures_td">Nombre d'heures de TD</Label>
-              <FormText>{module.nb_heures_td}</FormText>
-            </FormGroup>
-            <FormGroup>
-              <Label for="nb_heures_be">Nombre d'heures de BE</Label>
-              <FormText>{module.nb_heures_be}</FormText>
-            </FormGroup>
-            <FormGroup>
-              <Label for="nb_heures_ci">Nombre d'heures de CI</Label>
-              <FormText>{module.nb_heures_ci}</FormText>
-            </FormGroup>
-            <FormGroup>
-              <Label for="nb_heures_cm">Nombre d'heures de CM</Label>
-              <FormText>{module.nb_heures_cm}</FormText>
-            </FormGroup>
-            <FormGroup>
-              <Label for="nb_heures_cm">Nombre d'heures total</Label>
-              <FormText>{module.nb_heures_total}</FormText>
-            </FormGroup>
-            <div className="d-flex justify-content-center">
-              <Button className="btn btn-warning" onClick={toggleModalEdit}>
-                Modifier
-              </Button>
-            </div>
-          </Form>
-          {modalEdit && (
-            <FormModule
-              isOpen={modalEdit}
-              toggle={toggleModalEdit}
-              activeItem={module}
-              onSave={editModule}
-            />
-          )}
-        </div>
-      </div>
+
+      {modalEdit && (
+        <FormModule
+          isOpen={modalEdit}
+          toggle={toggleModalEdit}
+          activeItem={module}
+          onSave={editModule}
+        />
+      )}
     </main>
   );
 }

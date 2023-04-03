@@ -28,7 +28,10 @@ function Delete({ baseURL, id, redirection, message }) {
 
   return (
     <main>
-      <Button onClick={toggleModalRemove} className="float-end" color="danger">
+      <Button
+        className="btn btn-danger btn-lg float-end"
+        onClick={toggleModalRemove}
+      >
         {message}
       </Button>
 
