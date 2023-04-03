@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import List from "../Assets/List";
 import { useParams } from "react-router-dom";
-import withRouter from "../Assets/WithRouter";
 
 function SeancesCours() {
   const { module_id, cours_id } = useParams();
@@ -16,26 +15,37 @@ function SeancesCours() {
     urlModify: "http://127.0.0.1:8000/api/seances/",
     type: "seances",
     item: {
-      module: module_id,
       date_debut: "",
       date_fin: "",
       numero_groupe_td: "",
+      enseignant: 0,
+      module: module_id,
+      cours: cours_id,
+      salle: 0,
     },
     columns: [
       { data: "date_debut" },
       { data: "date_fin" },
       { data: "numero_groupe_td" },
+      { data: "salle" },
+      { data: "enseignant" },
       { data: null },
     ],
     nameColumns: [
       "Heure de début",
       "Heure de fin",
       "Numéro groupe de TD",
+      "Salle",
+      "Enseignant",
       "Actions",
     ],
     add: true,
-    buttons:
-      '<button class="btn btn-warning btn-sm">Modifier</button><button class="btn btn-danger btn-sm">Supprimer</button>',
+    buttons: (
+      <div className="btn-group" role="group">
+        <button className="btn btn-warning btn-sm w-70">Modifier</button>
+        <button className="btn btn-danger btn-sm w-70">Supprimer</button>
+      </div>
+    ),
   };
 
   useEffect(() => {
@@ -56,4 +66,4 @@ function SeancesCours() {
   );
 }
 
-export default withRouter(SeancesCours);
+export default SeancesCours;

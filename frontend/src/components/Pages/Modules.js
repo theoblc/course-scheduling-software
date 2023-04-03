@@ -1,5 +1,4 @@
 import React from "react";
-import withRouter from "../Assets/WithRouter";
 import List from "../Assets/List";
 
 function Modules() {
@@ -42,8 +41,14 @@ function Modules() {
     ],
     add: true,
     ordering: false,
-    buttons:
-      '<button class="btn btn-secondary btn-sm">Fiche Programme</button><button class="btn btn-dark btn-sm">Planification</button>',
+    buttons: (
+      <div className="btn-group" role="group">
+        <button className="btn btn-secondary btn-sm w-70">
+          Fiche Programme
+        </button>
+        <button className="btn btn-dark btn-sm w-70">Planification</button>
+      </div>
+    ),
   };
 
   return (
@@ -53,4 +58,4 @@ function Modules() {
   );
 }
 
-export default withRouter(Modules);
+export default Modules;

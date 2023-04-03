@@ -1,5 +1,4 @@
 import React from "react";
-import withRouter from "../Assets/WithRouter";
 import List from "../Assets/List";
 
 function Seances() {
@@ -12,6 +11,10 @@ function Seances() {
       date_debut: "",
       date_fin: "",
       numero_groupe_td: "",
+      enseignant: "",
+      module: "",
+      cours: "",
+      salle: "",
     },
     columns: [
       { data: "module" },
@@ -35,7 +38,11 @@ function Seances() {
     ],
     add: false,
     ordering: true,
-    buttons: '<button class="rs btn btn-success btn-sm">Détails</button>',
+    buttons: (
+      <div className="btn-group" role="group">
+        <button className="rs btn btn-success btn-sm w-70">Détails</button>
+      </div>
+    ),
   };
 
   return (
@@ -45,4 +52,4 @@ function Seances() {
   );
 }
 
-export default withRouter(Seances);
+export default Seances;

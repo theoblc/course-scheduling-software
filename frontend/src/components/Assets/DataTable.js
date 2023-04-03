@@ -1,14 +1,14 @@
 import React, { useState } from "react";
+import ReactDOMServer from "react-dom/server";
 import { useNavigate } from "react-router-dom";
 import "../../style/jquery.dataTables.min.css";
 import language_fr from "../../style/language_fr";
 import $ from "jquery";
 import axios from "axios";
-import FormCours from "../Modals/FormCours";
-import FormEnseignant from "../Modals/FormEnseignant";
 import FormModule from "../Modals/FormModule";
-import FormSalle from "../Modals/FormSalle";
+import Formulaire from "../Modals/Formulaire";
 import FormSeance from "../Modals/FormSeance";
+import FormConfirmation from "../Modals/FormConfirmation";
 import "jquery";
 import "datatable";
 import "datatables.net";
@@ -27,6 +27,7 @@ function DataTable({
 }) {
   const [modalEdit, setModalEdit] = useState(false);
   const [item, setItem] = useState(null);
+  const [modalRemove, setModalRemove] = useState(false);
   const navigate = useNavigate();
 
   function redirect(url) {
@@ -51,7 +52,13 @@ function DataTable({
       });
   }
 
+  function toggleModalRemove(item) {
+    setItem(item);
+    setModalRemove(!modalRemove);
+  }
+
   function remove(id) {
+    setModalRemove(!modalRemove);
     axios
       .delete(`${baseURL}${id}/`)
       .then(() => {
@@ -84,7 +91,7 @@ function DataTable({
         {
           targets: -1,
           render: function () {
-            return buttons;
+            return ReactDOMServer.renderToString(buttons);
           },
         },
       ],
@@ -97,31 +104,34 @@ function DataTable({
       if (data !== undefined) {
         if (action !== undefined) {
           // Si c'est le bouton "Fiche Programme" de la liste des modules
-          if ((type = "cours") && action === "btn btn-secondary btn-sm") {
+          if ((type = "cours") && action === "btn btn-secondary btn-sm w-70") {
             redirect(`/modules/${data.id}/FicheProgramme`);
           }
           // Si c'est le bouton "Planification" de la liste des modules
-          else if ((type = "cours") && action === "btn btn-dark btn-sm") {
+          else if ((type = "cours") && action === "btn btn-dark btn-sm w-70") {
             redirect(`/modules/${data.id}/Planification`);
           }
           // Si c'est le bouton "Détails" de la liste des Séances
           else if (
             (type = "recap_seances") &&
-            action === "rs btn btn-success btn-sm"
+            action === "rs btn btn-success btn-sm w-70"
           ) {
             redirect(`/modules/${data.module}/cours/${data.cours}/seances`);
           }
           // Si c'est le bouton "Séances" de la fiche programme d'un module
-          else if ((type = "cours") && action === "c btn btn-success btn-sm") {
+          else if (
+            (type = "cours") &&
+            action === "c btn btn-success btn-sm w-70"
+          ) {
             redirect(`/modules/${data.module}/cours/${data.id}/seances`);
           }
           // Si c'est bouton "modifier"
-          else if (action === "btn btn-warning btn-sm") {
+          else if (action === "btn btn-warning btn-sm w-70") {
             toggleModalEdit(data);
           }
           // Si c'est bouton "supprimer"
-          else if (action === "btn btn-danger btn-sm") {
-            remove(data.id);
+          else if (action === "btn btn-danger btn-sm w-70") {
+            toggleModalRemove(data);
           }
         }
       }
@@ -143,21 +153,53 @@ function DataTable({
           </thead>
         </table>
       </div>
+
+      <FormConfirmation
+        isOpen={modalRemove}
+        toggle={toggleModalRemove}
+        onSave={() => remove(item.id)}
+        item={item}
+      />
+
       {type === "cours" && modalEdit && (
-        <FormCours
+        <Formulaire
+          nomFormulaire={"Ajout d'un cours"}
+          item={item}
           isOpen={modalEdit}
           toggle={toggleModalEdit}
-          activeItem={item}
           onSave={edit}
+          fields={[
+            { titre: "Nom", nom: "nom", type: "text" },
+            { titre: "Nombre d'heures", nom: "nb_heures", type: "number" },
+          ]}
         />
       )}
 
       {type === "enseignants" && modalEdit && (
-        <FormEnseignant
+        <Formulaire
+          nomFormulaire={"Ajout d'un enseignant"}
+          item={item}
           isOpen={modalEdit}
           toggle={toggleModalEdit}
-          activeItem={item}
           onSave={edit}
+          fields={[
+            { titre: "Nom", nom: "nom", type: "text" },
+            { titre: "Prénom", nom: "prenom", type: "text" },
+            {
+              titre: "Département",
+              nom: "departement",
+              type: "select",
+              options: [
+                { value: "EPH", defaultValue: true, nameOption: "EPH" },
+                {
+                  value: "Vacataire",
+                  defaultValue: false,
+                  nameOption: "Vacataire",
+                },
+                { value: "Autre", defaultValue: false, nameOption: "Autre" },
+              ],
+            },
+          ]}
         />
       )}
 
@@ -171,11 +213,13 @@ function DataTable({
       )}
 
       {type === "salles" && modalEdit && (
-        <FormSalle
+        <Formulaire
+          nomFormulaire={"Modification d'une salle"}
+          item={item}
           isOpen={modalEdit}
           toggle={toggleModalEdit}
-          activeItem={item}
           onSave={edit}
+          fields={[{ titre: "Numéro", nom: "numero", type: "text" }]}
         />
       )}
 

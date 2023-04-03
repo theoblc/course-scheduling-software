@@ -3,6 +3,7 @@ import Navbar from "./components/Assets/NavBar";
 import { Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
+import PageNotFound from "./components/Pages/PageNotFound";
 import Enseignants from "./components/Pages/Enseignants";
 import Modules from "./components/Pages/Modules";
 import Salles from "./components/Pages/Salles";
@@ -35,7 +36,7 @@ class App extends Component {
             <Route path="/salles" element={<Salles />} />
             <Route path="/seances" element={<Seances />} />
             <Route path="/enseignants" element={<Enseignants />} />
-            <Route path="*" element={<Modules />} />
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div>
       </>
