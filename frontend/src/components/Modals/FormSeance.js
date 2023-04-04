@@ -11,7 +11,7 @@ import {
   Label,
 } from "reactstrap";
 
-function FormSeance({ isOpen, toggle, activeItem, onSave }) {
+function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   const [item, setItem] = useState(activeItem);
   const [salles, setSalles] = useState([]);
   const [enseignants, setEnseignants] = useState([]);
@@ -41,6 +41,22 @@ function FormSeance({ isOpen, toggle, activeItem, onSave }) {
     let { name, value } = e.target;
     let newItem = { ...item, [name]: value };
     setItem(newItem);
+  }
+
+  function generateOptionsEffectif() {
+    const choix_effectif = [
+      "1/2 Promo",
+      "Promo complète",
+      "Groupe de TP",
+      "1/2 Groupe de TP",
+      "Groupe de TD",
+      "1/2 Groupe de TD",
+    ];
+    return choix_effectif.map((effectif) => (
+      <option key={effectif} value={effectif}>
+        {effectif}
+      </option>
+    ));
   }
 
   function generateOptionsSalle() {
@@ -91,8 +107,8 @@ function FormSeance({ isOpen, toggle, activeItem, onSave }) {
   }
 
   return (
-    <Modal isOpen={true} toggle={toggle}>
-      <ModalHeader toggle={toggle}>Ajout d'une séance</ModalHeader>
+    <Modal isOpen={isOpen} toggle={toggle}>
+      <ModalHeader toggle={toggle}>{title}</ModalHeader>
       <ModalBody>
         <Form>
           <FormGroup>
@@ -187,31 +203,16 @@ function FormSeance({ isOpen, toggle, activeItem, onSave }) {
           </FormGroup>
           <FormGroup>
             <Label for="effectif">Effectif</Label>
-            <Input
-              type="text"
+            <select
+              className="form-control"
               name="effectif"
+              onChange={handleChange}
               value={item.effectif}
-              onChange={handleChange}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  testValid();
-                }
-              }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="commentaire">Commentaire</Label>
-            <Input
-              type="textarea"
-              name="commentaire"
-              value={item.commentaire}
-              onChange={handleChange}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  testValid();
-                }
-              }}
-            />
+              placeholder={item.effectif}
+            >
+              <option hidden>Choix de l'effectif</option>
+              {generateOptionsEffectif()}
+            </select>
           </FormGroup>
           <FormGroup>
             <Label for="salle">Salle</Label>
@@ -238,6 +239,20 @@ function FormSeance({ isOpen, toggle, activeItem, onSave }) {
               <option hidden>Choix de l'enseignant</option>
               {generateOptionsEnseignant()}
             </select>
+          </FormGroup>
+          <FormGroup>
+            <Label for="commentaire">Commentaire</Label>
+            <Input
+              type="textarea"
+              name="commentaire"
+              value={item.commentaire}
+              onChange={handleChange}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  testValid();
+                }
+              }}
+            />
           </FormGroup>
         </Form>
       </ModalBody>

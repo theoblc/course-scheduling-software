@@ -72,11 +72,11 @@ function Module({ idModule }) {
           <tr>
             <th>Code</th>
             <th>Nom</th>
-            <th>Heures de TP</th>
-            <th>Heures de TD</th>
-            <th>Heures de BE</th>
-            <th>Heures de CI</th>
             <th>Heures de CM</th>
+            <th>Heures de CI</th>
+            <th>Heures de TD</th>
+            <th>Heures de TP</th>
+            <th>Heures de BE</th>
             <th>Total</th>
           </tr>
         </thead>
@@ -84,11 +84,11 @@ function Module({ idModule }) {
           <tr>
             <td>{module.code}</td>
             <td>{module.nom}</td>
-            <td>{module.nb_heures_tp}</td>
-            <td>{module.nb_heures_td}</td>
-            <td>{module.nb_heures_be}</td>
-            <td>{module.nb_heures_ci}</td>
             <td>{module.nb_heures_cm}</td>
+            <td>{module.nb_heures_ci}</td>
+            <td>{module.nb_heures_td}</td>
+            <td>{module.nb_heures_tp}</td>
+            <td>{module.nb_heures_be}</td>
             <td>{module.nb_heures_total}</td>
           </tr>
         </tbody>
@@ -105,6 +105,7 @@ function Module({ idModule }) {
           toggle={toggleModalEdit}
           activeItem={module}
           onSave={editModule}
+          title={"Modification d'un module"}
         />
       )}
     </main>

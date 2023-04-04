@@ -10,7 +10,6 @@ import FormEnseignant from "../Modals/FormEnseignant";
 import FormCours from "../Modals/FormCours";
 import FormSalle from "../Modals/FormSalle";
 import FormModule from "../Modals/FormModule";
-import Formulaire from "../Modals/Formulaire";
 import FormSeance from "../Modals/FormSeance";
 
 import "jquery";
@@ -71,7 +70,6 @@ function DataTable({
 
   function create(itemAdd) {
     toggleModalCreate();
-    console.log(fetchURL, itemAdd);
     axios
       .post(fetchURL, itemAdd)
       .then(() => {
@@ -195,44 +193,22 @@ function DataTable({
       />
 
       {type === "cours" && modalEdit && (
-        <Formulaire
-          nomFormulaire={"Ajout d'un cours"}
-          item={item}
+        <FormCours
           isOpen={modalEdit}
           toggle={toggleModalEdit}
+          activeItem={item}
           onSave={edit}
-          fields={[
-            { titre: "Nom", nom: "nom", type: "text" },
-            { titre: "Nombre d'heures", nom: "nb_heures", type: "number" },
-          ]}
+          title="Modification d'un cours"
         />
       )}
 
       {type === "enseignants" && modalEdit && (
-        <Formulaire
-          nomFormulaire={"Ajout d'un enseignant"}
-          item={item}
+        <FormEnseignant
           isOpen={modalEdit}
           toggle={toggleModalEdit}
+          activeItem={item}
           onSave={edit}
-          fields={[
-            { titre: "Nom", nom: "nom", type: "text" },
-            { titre: "Prénom", nom: "prenom", type: "text" },
-            {
-              titre: "Département",
-              nom: "departement",
-              type: "select",
-              options: [
-                { value: "EPH", defaultValue: true, nameOption: "EPH" },
-                {
-                  value: "Vacataire",
-                  defaultValue: false,
-                  nameOption: "Vacataire",
-                },
-                { value: "Autre", defaultValue: false, nameOption: "Autre" },
-              ],
-            },
-          ]}
+          title="Modification d'un enseignant"
         />
       )}
 
@@ -242,17 +218,17 @@ function DataTable({
           toggle={toggleModalEdit}
           activeItem={item}
           onSave={edit}
+          title="Modification d'un mpdule"
         />
       )}
 
       {type === "salles" && modalEdit && (
-        <Formulaire
-          nomFormulaire={"Modification d'une salle"}
-          item={item}
+        <FormSalle
           isOpen={modalEdit}
           toggle={toggleModalEdit}
+          activeItem={item}
           onSave={edit}
-          fields={[{ titre: "Numéro", nom: "numero", type: "text" }]}
+          title="Modification d'une salle"
         />
       )}
 
@@ -262,6 +238,7 @@ function DataTable({
           toggle={toggleModalEdit}
           activeItem={item}
           onSave={edit}
+          title="Modification d'une séance"
         />
       )}
 
@@ -271,6 +248,7 @@ function DataTable({
           toggle={toggleModalCreate}
           activeItem={itemAdd}
           onSave={create}
+          title="Ajout d'un cours"
         />
       )}
 
@@ -280,6 +258,7 @@ function DataTable({
           toggle={toggleModalCreate}
           activeItem={itemAdd}
           onSave={create}
+          title="Ajout d'un enseignant"
         />
       )}
 
@@ -289,6 +268,7 @@ function DataTable({
           toggle={toggleModalCreate}
           activeItem={itemAdd}
           onSave={create}
+          title="Ajout d'un module"
         />
       )}
 
@@ -298,6 +278,7 @@ function DataTable({
           toggle={toggleModalCreate}
           activeItem={itemAdd}
           onSave={create}
+          title="Ajout d'une salle"
         />
       )}
 
@@ -307,6 +288,7 @@ function DataTable({
           toggle={toggleModalCreate}
           activeItem={itemAdd}
           onSave={create}
+          title="Ajout d'une séance"
         />
       )}
     </div>
