@@ -12,14 +12,22 @@ function Cours({ idModule }) {
       nb_heures: 0,
       module: idModule,
       nb_heures_autonomie: 0,
+      type: "",
     },
     columns: [
       { data: "nom" },
       { data: "nb_heures" },
       { data: "nb_heures_autonomie" },
+      { data: "type" },
       { data: null },
     ],
-    nameColumns: ["Nom", "Nombre heures", "Nombre heures autonomie", "Action"],
+    nameColumns: [
+      "Nom",
+      "Nombre heures",
+      "Nombre heures autonomie",
+      "Type",
+      "Action",
+    ],
     dom:
       "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-2'B>>" +
       "<'row'<'col-sm-12'tr>>" +
