@@ -14,7 +14,7 @@ function Salles() {
     columns: [{ data: "numero" }, { data: "description" }, { data: null }],
     nameColumns: ["Numéro", "Description", "Action"],
     dom:
-      "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-2'B>>" +
+      "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-5 d-flex justify-content-end'B>>" +
       "<'row'<'col-sm-12'tr>>" +
       "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     ordering: false,

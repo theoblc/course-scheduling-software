@@ -28,10 +28,10 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
     if (!nom || !prenom) {
       // Afficher un message d'erreur pour chaque champ vide
       if (!nom) {
-        setNomError(false);
+        setNomError(true);
       }
       if (!prenom) {
-        setPrenomError(false);
+        setPrenomError(true);
       }
       return;
     } else {

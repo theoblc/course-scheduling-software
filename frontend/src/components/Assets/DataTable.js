@@ -106,6 +106,7 @@ function DataTable({
       language: language_fr,
       data: data,
       columns: columns,
+      autoWidth: true,
       order: [[0, "asc"]],
       columnDefs: [
         { orderable: ordering, targets: "_all" },
