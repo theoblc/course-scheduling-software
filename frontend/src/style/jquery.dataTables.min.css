@@ -572,3 +572,10 @@ table.dataTable th, table.dataTable td {
         margin-top: .5em
     }
 }
+
+/*
+.table-responsive {
+    overflow-x: auto;
+    min-width: 950px;
+}
+*/
