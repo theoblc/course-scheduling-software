@@ -1,0 +1,589 @@
+[
+  {
+    "model": "app_cours.cours",
+    "pk": 1,
+    "fields": {
+      "nom": "TP Microcontrôleur AT89s52",
+      "module": 1,
+      "nb_heures": 20,
+      "nb_heures_autonomie": 10,
+      "type": "TP"
+    }
+  },
+  {
+    "model": "app_cours.cours",
+    "pk": 2,
+    "fields": {
+      "nom": "BE Radar",
+      "module": 2,
+      "nb_heures": 15,
+      "nb_heures_autonomie": 5,
+      "type": "BE"
+    }
+  },
+  {
+    "model": "app_cours.cours",
+    "pk": 3,
+    "fields": {
+      "nom": "Introduction à la programmation assembleur",
+      "module": 1,
+      "nb_heures": 30,
+      "nb_heures_autonomie": 10,
+      "type": "CM"
+    }
+  },
+
+  {
+    "model": "app_cours.cours",
+    "pk": 4,
+    "fields": {
+      "nom": "Traitement du signal numérique",
+      "module": 1,
+      "nb_heures": 25,
+      "nb_heures_autonomie": 5,
+      "type": "TD"
+    }
+  },
+
+  {
+    "model": "app_cours.cours",
+    "pk": 5,
+    "fields": {
+      "nom": "Simulation de circuits électroniques",
+      "module": 1,
+      "nb_heures": 20,
+      "nb_heures_autonomie": 10,
+      "type": "TP"
+    }
+  },
+
+  {
+    "model": "app_cours.cours",
+    "pk": 6,
+    "fields": {
+      "nom": "Analyse et conception de systèmes embarqués",
+      "module": 2,
+      "nb_heures": 30,
+      "nb_heures_autonomie": 10,
+      "type": "CM"
+    }
+  },
+
+  {
+    "model": "app_cours.cours",
+    "pk": 7,
+    "fields": {
+      "nom": "Programmation avancée en C",
+      "module": 2,
+      "nb_heures": 25,
+      "nb_heures_autonomie": 5,
+      "type": "TD"
+    }
+  },
+
+  {
+    "model": "app_cours.cours",
+    "pk": 8,
+    "fields": {
+      "nom": "Fibre Optique",
+      "module": 3,
+      "nb_heures": 20,
+      "nb_heures_autonomie": 10,
+      "type": "TP"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 1,
+    "fields": {
+      "nom": "Dupont",
+      "prenom": "Jean",
+      "departement": "EPH"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 2,
+    "fields": {
+      "nom": "Martin",
+      "prenom": "Sophie",
+      "departement": "Vacataire"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 3,
+    "fields": {
+      "nom": "Lefebvre",
+      "prenom": "Julie",
+      "departement": "EPH"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 4,
+    "fields": {
+      "nom": "Girard",
+      "prenom": "Pierre",
+      "departement": "Autre"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 5,
+    "fields": {
+      "nom": "Dubois",
+      "prenom": "Alexandre",
+      "departement": "EPH"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 6,
+    "fields": {
+      "nom": "Fournier",
+      "prenom": "Caroline",
+      "departement": "Vacataire"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 7,
+    "fields": {
+      "nom": "Moulin",
+      "prenom": "Lucie",
+      "departement": "Autre"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 8,
+    "fields": {
+      "nom": "Petit",
+      "prenom": "Mathieu",
+      "departement": "EPH"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 9,
+    "fields": {
+      "nom": "Berger",
+      "prenom": "Claire",
+      "departement": "Vacataire"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 10,
+    "fields": {
+      "nom": "Rousseau",
+      "prenom": "Thomas",
+      "departement": "EPH"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 11,
+    "fields": {
+      "nom": "Lecomte",
+      "prenom": "Marie",
+      "departement": "Autre"
+    }
+  },
+  {
+    "model": "app_enseignant.enseignant",
+    "pk": 12,
+    "fields": {
+      "nom": "Fontaine",
+      "prenom": "David",
+      "departement": "Vacataire"
+    }
+  },
+
+  {
+    "model": "app_module.module",
+    "pk": 1,
+    "fields": {
+      "code": "PHY3101",
+      "nom": "Fonctions Electroniques Fondamentales",
+      "enseignant": 1,
+      "nb_heures_total": 50,
+      "nb_heures_tp": 10,
+      "nb_heures_td": 15,
+      "nb_heures_be": 5,
+      "nb_heures_ci": 10,
+      "nb_heures_cm": 10
+    }
+  },
+  {
+    "model": "app_module.module",
+    "pk": 2,
+    "fields": {
+      "code": "PHY3102",
+      "nom": "Hyperfréquences",
+      "enseignant": 2,
+      "nb_heures_total": 40,
+      "nb_heures_tp": 8,
+      "nb_heures_td": 12,
+      "nb_heures_be": 4,
+      "nb_heures_ci": 8,
+      "nb_heures_cm": 8
+    }
+  },
+  {
+    "model": "app_module.module",
+    "pk": 3,
+    "fields": {
+      "code": "PHY4001",
+      "nom": "Voiture autonome",
+      "enseignant": 10,
+      "nb_heures_total": 60,
+      "nb_heures_tp": 15,
+      "nb_heures_td": 20,
+      "nb_heures_be": 5,
+      "nb_heures_ci": 10,
+      "nb_heures_cm": 10
+    }
+  },
+  {
+    "model": "app_module.module",
+    "pk": 4,
+    "fields": {
+      "code": "PHY4002",
+      "nom": "Physique des matériaux",
+      "enseignant": 4,
+      "nb_heures_total": 45,
+      "nb_heures_tp": 10,
+      "nb_heures_td": 15,
+      "nb_heures_be": 5,
+      "nb_heures_ci": 10,
+      "nb_heures_cm": 5
+    }
+  },
+  {
+    "model": "app_module.module",
+    "pk": 5,
+    "fields": {
+      "code": "PHY4003",
+      "nom": "Mécanique des fluides",
+      "enseignant": 5,
+      "nb_heures_total": 60,
+      "nb_heures_tp": 0,
+      "nb_heures_td": 30,
+      "nb_heures_be": 0,
+      "nb_heures_ci": 15,
+      "nb_heures_cm": 15
+    }
+  },
+  {
+    "model": "app_module.module",
+    "pk": 6,
+    "fields": {
+      "code": "PHY4678",
+      "nom": "Microcontrôleur et applications",
+      "enseignant": 6,
+      "nb_heures_total": 60,
+      "nb_heures_tp": 0,
+      "nb_heures_td": 30,
+      "nb_heures_be": 0,
+      "nb_heures_ci": 15,
+      "nb_heures_cm": 15
+    }
+  },
+  {
+    "model": "app_module.module",
+    "pk": 7,
+    "fields": {
+      "code": "PHY4286",
+      "nom": "Radar",
+      "enseignant": 12,
+      "nb_heures_total": 30,
+      "nb_heures_tp": 0,
+      "nb_heures_td": 0,
+      "nb_heures_be": 0,
+      "nb_heures_ci": 30,
+      "nb_heures_cm": 0
+    }
+  },
+  {
+    "model": "app_module.module",
+    "pk": 8,
+    "fields": {
+      "code": "PHY4010",
+      "nom": "Mécanique quantique",
+      "enseignant": 7,
+      "nb_heures_total": 60,
+      "nb_heures_tp": 10,
+      "nb_heures_td": 20,
+      "nb_heures_be": 0,
+      "nb_heures_ci": 15,
+      "nb_heures_cm": 15
+    }
+  },
+
+  {
+    "model": "app_salle.salle",
+    "pk": 1,
+    "fields": {
+      "numero": "A304",
+      "description": "Salle de cours 1"
+    }
+  },
+  {
+    "model": "app_salle.salle",
+    "pk": 2,
+    "fields": {
+      "numero": "A305",
+      "description": "Salle de cours 2"
+    }
+  },
+  {
+    "model": "app_salle.salle",
+    "pk": 3,
+    "fields": {
+      "numero": "A303",
+      "description": "Salle réservée aux réunions"
+    }
+  },
+  {
+    "model": "app_salle.salle",
+    "pk": 4,
+    "fields": {
+      "numero": "A310",
+      "description": "Salle de TP"
+    }
+  },
+  {
+    "model": "app_salle.salle",
+    "pk": 5,
+    "fields": {
+      "numero": "A306",
+      "description": "Salle sans PC"
+    }
+  },
+  {
+    "model": "app_salle.salle",
+    "pk": 6,
+    "fields": {
+      "numero": "A307",
+      "description": "Salle réservée aux réunions"
+    }
+  },
+  {
+    "model": "app_salle.salle",
+    "pk": 7,
+    "fields": {
+      "numero": "A308",
+      "description": "Salle avec vieux PC"
+    }
+  },
+  {
+    "model": "app_salle.salle",
+    "pk": 8,
+    "fields": {
+      "numero": "A312",
+      "description": ""
+    }
+  },
+  {
+    "model": "app_salle.salle",
+    "pk": 9,
+    "fields": {
+      "numero": "A313",
+      "description": ""
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 1,
+    "fields": {
+      "date": "01/01/2023",
+      "heure_debut": "10:00",
+      "heure_fin": "12:00",
+      "effectif": "Promo complète",
+      "commentaire": "Séance 1",
+      "numero_groupe_td": "3",
+      "enseignant": 1,
+      "module": 1,
+      "cours": 1,
+      "salle": 1
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 2,
+    "fields": {
+      "date": "02/01/2023",
+      "heure_debut": "14:00",
+      "heure_fin": "16:00",
+      "effectif": "Groupe de TP",
+      "commentaire": "Séance 2",
+      "numero_groupe_td": "4",
+      "enseignant": 2,
+      "module": 2,
+      "cours": 2,
+      "salle": 2
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 3,
+    "fields": {
+      "date": "03/01/2023",
+      "heure_debut": "9:00",
+      "heure_fin": "11:00",
+      "effectif": "1/2 Groupe de TD",
+      "commentaire": "Séance 3",
+      "numero_groupe_td": "1",
+      "enseignant": 3,
+      "module": 3,
+      "cours": 3,
+      "salle": 3
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 4,
+    "fields": {
+      "date": "04/01/2023",
+      "heure_debut": "16:00",
+      "heure_fin": "18:00",
+      "effectif": "1/2 Promo",
+      "commentaire": "Séance 4",
+      "numero_groupe_td": "2",
+      "enseignant": 1,
+      "module": 4,
+      "cours": 4,
+      "salle": 4
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 5,
+    "fields": {
+      "date": "05/01/2023",
+      "heure_debut": "11:00",
+      "heure_fin": "13:00",
+      "effectif": "Groupe de TD",
+      "commentaire": "Séance 5",
+      "numero_groupe_td": "3",
+      "enseignant": 2,
+      "module": 5,
+      "cours": 5,
+      "salle": 5
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 6,
+    "fields": {
+      "date": "06/01/2023",
+      "heure_debut": "14:00",
+      "heure_fin": "16:00",
+      "effectif": "Promo complète",
+      "commentaire": "Séance 6",
+      "numero_groupe_td": "4",
+      "enseignant": 3,
+      "module": 6,
+      "cours": 3,
+      "salle": 8
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 13,
+    "fields": {
+      "date": "03/15/2023",
+      "heure_debut": "14:00",
+      "heure_fin": "16:00",
+      "effectif": "Promo complète",
+      "commentaire": "Séance 13",
+      "numero_groupe_td": "4",
+      "enseignant": 4,
+      "module": 4,
+      "cours": 4,
+      "salle": 4
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 14,
+    "fields": {
+      "date": "03/17/2023",
+      "heure_debut": "08:00",
+      "heure_fin": "10:00",
+      "effectif": "Groupe de TP",
+      "commentaire": "Séance 14",
+      "numero_groupe_td": "2",
+      "enseignant": 2,
+      "module": 2,
+      "cours": 2,
+      "salle": 2
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 15,
+    "fields": {
+      "date": "03/20/2023",
+      "heure_debut": "10:00",
+      "heure_fin": "12:00",
+      "effectif": "1/2 Promo",
+      "commentaire": "Séance 15",
+      "numero_groupe_td": "1",
+      "enseignant": 1,
+      "module": 1,
+      "cours": 1,
+      "salle": 1
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 16,
+    "fields": {
+      "date": "03/22/2023",
+      "heure_debut": "16:00",
+      "heure_fin": "18:00",
+      "effectif": "Groupe de TD",
+      "commentaire": "Séance 16",
+      "numero_groupe_td": "3",
+      "enseignant": 3,
+      "module": 3,
+      "cours": 3,
+      "salle": 3
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 17,
+    "fields": {
+      "date": "03/25/2023",
+      "heure_debut": "14:00",
+      "heure_fin": "16:00",
+      "effectif": "1/2 Groupe de TD",
+      "commentaire": "Séance 17",
+      "numero_groupe_td": "2",
+      "enseignant": 2,
+      "module": 2,
+      "cours": 2,
+      "salle": 2
+    }
+  },
+  {
+    "model": "app_seance.seance",
+    "pk": 18,
+    "fields": {
+      "date": "03/28/2023",
+      "heure_debut": "10:00",
+      "heure_fin": "12:00",
+      "effectif": "Groupe de TP",
+      "commentaire": "Séance 18",
+      "numero_groupe_td": "4",
+      "enseignant": 4,
+      "module": 4,
+      "cours": 4,
+      "salle": 7
+    }
+  }
+]
