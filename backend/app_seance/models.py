@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.exceptions import ValidationError
 from app_enseignant.models import Enseignant
 from app_module.models import Module
 from app_salle.models import Salle
@@ -17,10 +16,10 @@ class Seance(models.Model):
    heure_fin = models.CharField(max_length=15)
    effectif = models.TextField(choices=EFFECTIF_CHOICES)
    commentaire = models.CharField(max_length=100, blank=True, null=True)
-   enseignant = models.ForeignKey(Enseignant, on_delete=models.CASCADE, null=True, related_name='seance')
    module = models.ForeignKey(Module, on_delete=models.CASCADE, null=True, related_name='seance')
    cours = models.ForeignKey(Cours, on_delete=models.CASCADE, null=True, related_name='seance')
-   salle = models.ForeignKey(Salle, on_delete=models.CASCADE, null=True, related_name='seance')
+   enseignant = models.ForeignKey(Enseignant, on_delete=models.SET_NULL, null=True, related_name='seance')
+   salle = models.ForeignKey(Salle, on_delete=models.SET_NULL, null=True, related_name='seance')
    numero_groupe_td = models.IntegerField()
 
    def _str_(self):
