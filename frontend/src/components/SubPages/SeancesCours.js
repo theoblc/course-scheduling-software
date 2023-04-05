@@ -15,7 +15,6 @@ function SeancesCours() {
     urlModify: "http://127.0.0.1:8000/api/seances/",
     type: "seances",
     item: {
-      module: module_id,
       date: "",
       heure_debut: "",
       heure_fin: "",
