@@ -44,10 +44,10 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
     if (!nom || !code) {
       // Afficher un message d'erreur pour chaque champ vide
       if (!nom) {
-        setNomError(false);
+        setNomError(true);
       }
       if (!code) {
-        setCodeError(false);
+        setCodeError(true);
       }
       return;
     } else {
