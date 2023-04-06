@@ -437,7 +437,7 @@
       "commentaire": "Séance 3",
       "numero_groupe_td": "1",
       "enseignant": 3,
-      "module": 3,
+      "module": 1,
       "cours": 3,
       "salle": 3
     }
@@ -469,7 +469,7 @@
       "commentaire": "Séance 5",
       "numero_groupe_td": "3",
       "enseignant": 2,
-      "module": 5,
+      "module": 1,
       "cours": 5,
       "salle": 5
     }
@@ -485,7 +485,7 @@
       "commentaire": "Séance 6",
       "numero_groupe_td": "4",
       "enseignant": 3,
-      "module": 6,
+      "module": 1,
       "cours": 3,
       "salle": 8
     }
@@ -501,7 +501,7 @@
       "commentaire": "Séance 13",
       "numero_groupe_td": "4",
       "enseignant": 4,
-      "module": 4,
+      "module": 1,
       "cours": 4,
       "salle": 4
     }
@@ -549,7 +549,7 @@
       "commentaire": "Séance 16",
       "numero_groupe_td": "3",
       "enseignant": 3,
-      "module": 3,
+      "module": 1,
       "cours": 3,
       "salle": 3
     }
@@ -581,7 +581,7 @@
       "commentaire": "Séance 18",
       "numero_groupe_td": "4",
       "enseignant": 4,
-      "module": 4,
+      "module": 1,
       "cours": 4,
       "salle": 7
     }
