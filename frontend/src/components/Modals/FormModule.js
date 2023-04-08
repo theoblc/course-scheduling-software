@@ -16,6 +16,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   const [item, setItem] = useState(activeItem);
   const [nomError, setNomError] = useState(false);
   const [codeError, setCodeError] = useState(false);
+  const [messageError, setMessageError] = useState("Le champ est obligatoire.");
 
   const calculateSum = useCallback((item) => {
     const sum = [
@@ -39,6 +40,8 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   }
 
   function testValid() {
+    setNomError(false);
+    setCodeError(false);
     const code = item.code;
     const nom = item.nom;
     if (!nom || !code) {
@@ -50,9 +53,18 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
         setCodeError(true);
       }
       return;
-    } else {
-      return onSave(item, sum);
     }
+    if (code.length > 7) {
+      setMessageError("Le code d'un module ne peut pas excéder 7 caractères.");
+      setCodeError(true);
+      return;
+    }
+    if (nom.length > 50) {
+      setMessageError("Le nom d'un module ne peut pas excéder 50 caractères.");
+      setNomError(true);
+      return;
+    }
+    return onSave(item, sum);
   }
 
   return (
@@ -75,9 +87,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               // Afficher une bordure rouge si le champ est vide
               style={{ borderColor: codeError ? "red" : "" }}
             />
-            {codeError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
+            {codeError && <p style={{ color: "red" }}>{messageError}</p>}
           </FormGroup>
           <FormGroup>
             <Label for="nom">Nom</Label>
@@ -94,14 +104,14 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               // Afficher une bordure rouge si le champ est vide
               style={{ borderColor: nomError ? "red" : "" }}
             />
-            {nomError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
+            {nomError && <p style={{ color: "red" }}>{messageError}</p>}
           </FormGroup>
           <FormGroup>
             <Label for="nb_heures_cm">Nombre d'heures de CM</Label>
             <Input
               type="number"
+              min={0}
+              max={999}
               name="nb_heures_cm"
               value={item.nb_heures_cm}
               onChange={handleChange}
@@ -116,6 +126,8 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
             <Label for="nb_heures_ci">Nombre d'heures de CI</Label>
             <Input
               type="number"
+              min={0}
+              max={999}
               name="nb_heures_ci"
               value={item.nb_heures_ci}
               onChange={handleChange}
@@ -130,6 +142,8 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
             <Label for="nb_heures_td">Nombre d'heures de TD</Label>
             <Input
               type="number"
+              min={0}
+              max={999}
               name="nb_heures_td"
               value={item.nb_heures_td}
               onChange={handleChange}
@@ -144,6 +158,8 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
             <Label for="nb_heures_tp">Nombre d'heures de TP</Label>
             <Input
               type="number"
+              min={0}
+              max={999}
               name="nb_heures_tp"
               value={item.nb_heures_tp}
               onChange={handleChange}
@@ -158,6 +174,8 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
             <Label for="nb_heures_be">Nombre d'heures de BE</Label>
             <Input
               type="number"
+              min={0}
+              max={999}
               name="nb_heures_be"
               value={item.nb_heures_be}
               onChange={handleChange}

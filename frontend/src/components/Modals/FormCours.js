@@ -14,6 +14,7 @@ import {
 function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
   const [item, setItem] = useState(activeItem);
   const [nomError, setNomError] = useState(false);
+  const [messageError, setMessageError] = useState("Le champ est obligatoire.");
 
   const handleChange = (e) => {
     let { name, value } = e.target;
@@ -24,6 +25,9 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
     const nom = item.nom;
     // Afficher un message d'erreur pour chaque champ vide
     if (!nom) {
+      setNomError(true);
+    } else if (nom.length > 50) {
+      setMessageError("Le nom d'un cours ne peut pas excéder 50 caractères.");
       setNomError(true);
     } else {
       return onSave(item);
@@ -59,14 +63,14 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
               // Afficher une bordure rouge si le champ est vide
               style={{ borderColor: nomError ? "red" : "" }}
             />
-            {nomError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
+            {nomError && <p style={{ color: "red" }}>{messageError}</p>}
           </FormGroup>
           <FormGroup>
             <Label for="nb_heures">Nombre d'heures</Label>
             <Input
               type="number"
+              min={0}
+              max={999}
               name="nb_heures"
               value={item.nb_heures}
               onChange={handleChange}
@@ -83,6 +87,8 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
             </Label>
             <Input
               type="number"
+              min={0}
+              max={999}
               name="nb_heures_autonomie"
               value={item.nb_heures_autonomie}
               onChange={handleChange}
@@ -101,6 +107,7 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               value={item.type}
               placeholder={item.type}
+              required
             >
               <option hidden>Type de cours</option>
               {generateOptionsType()}

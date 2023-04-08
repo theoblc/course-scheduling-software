@@ -19,7 +19,7 @@ function Planification() {
   });
 
   const listParams = {
-    title: `Liste des séances de ${module.code}`,
+    title: `Planification de ${module.code}`,
     urlFetch: `http://127.0.0.1:8000/api/modules/${id}/seances/`,
     urlModify: undefined,
     type: "seances",
@@ -31,9 +31,6 @@ function Planification() {
       numero_groupe_td: "",
     },
     columns: [
-      {
-        data: () => module.code,
-      },
       { data: "cours" },
       { data: "date" },
       { data: "heure_debut" },
@@ -44,7 +41,6 @@ function Planification() {
       { data: null },
     ],
     nameColumns: [
-      "Module",
       "Cours",
       "Date",
       "Heure de début",

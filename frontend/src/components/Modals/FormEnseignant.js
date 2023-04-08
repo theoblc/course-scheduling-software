@@ -15,6 +15,7 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
   const [item, setItem] = useState(activeItem);
   const [nomError, setNomError] = useState(false);
   const [prenomError, setPrenomError] = useState(false);
+  const messageError = "Le champ est obligatoire.";
 
   function handleChange(e) {
     let { name, value } = e.target;
@@ -59,9 +60,7 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
               // Afficher une bordure rouge si le champ est vide
               style={{ borderColor: nomError ? "red" : "" }}
             />
-            {nomError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
+            {nomError && <p style={{ color: "red" }}>{messageError}</p>}
           </FormGroup>
           <FormGroup>
             <Label for="prenom">Prénom</Label>
@@ -78,9 +77,7 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
               // Afficher une bordure rouge si le champ est vide
               style={{ borderColor: prenomError ? "red" : "" }}
             />
-            {prenomError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
+            {prenomError && <p style={{ color: "red" }}>{messageError}</p>}
           </FormGroup>
           <FormGroup>
             <Label for="departement">Département</Label>

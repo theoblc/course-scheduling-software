@@ -18,7 +18,6 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   const [dateError, setDateError] = useState(false);
   const [debutError, setDebutError] = useState(false);
   const [finError, setFinError] = useState(false);
-  const [numeroError, setNumeroError] = useState(false);
   const [coherenceError, setCoherenceError] = useState(false);
 
   useEffect(() => {
@@ -76,15 +75,13 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   }
 
   function testValid() {
-    const { date, heure_debut, heure_fin, numero_groupe_td } = item;
+    setDateError(false);
+    setDebutError(false);
+    setFinError(false);
+    setCoherenceError(false);
+    const { date, heure_debut, heure_fin } = item;
     var debut_avant_fin = heure_debut <= heure_fin;
-    if (
-      !date ||
-      !heure_debut ||
-      !heure_fin ||
-      !numero_groupe_td ||
-      !debut_avant_fin
-    ) {
+    if (!date || !heure_debut || !heure_fin || !debut_avant_fin) {
       // Afficher un message d'erreur pour chaque champ vide
       if (!date) {
         setDateError(true);
@@ -94,9 +91,6 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
       }
       if (!heure_fin) {
         setFinError(true);
-      }
-      if (!numero_groupe_td) {
-        setNumeroError(true);
       }
       if (!debut_avant_fin) {
         setCoherenceError(true);
@@ -186,20 +180,12 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
             <Label for="numero_groupe_td">Numéro Groupe TD</Label>
             <Input
               type="number"
+              min={0}
+              max={9}
               name="numero_groupe_td"
               value={item.numero_groupe_td}
               onChange={handleChange}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  testValid();
-                }
-              }}
-              // Afficher une bordure rouge si le champ est vide
-              style={{ borderColor: numeroError ? "red" : "" }}
             />
-            {numeroError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
           </FormGroup>
           <FormGroup>
             <Label for="effectif">Effectif</Label>
