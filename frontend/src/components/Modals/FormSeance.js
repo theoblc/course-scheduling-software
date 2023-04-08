@@ -16,10 +16,12 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   const [salles, setSalles] = useState([]);
   const [cours, setCours] = useState([]);
   const [enseignants, setEnseignants] = useState([]);
+  const [coursError, setCoursError] = useState(false);
   const [dateError, setDateError] = useState(false);
   const [debutError, setDebutError] = useState(false);
   const [finError, setFinError] = useState(false);
   const [coherenceError, setCoherenceError] = useState(false);
+  const messageError = "Le champ est obligatoire.";
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,6 +98,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   }
 
   function testValid() {
+    setCoursError(false);
     setDateError(false);
     setDebutError(false);
     setFinError(false);
@@ -108,9 +111,13 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
       !heure_debut ||
       !heure_fin ||
       !debut_avant_fin ||
-      !date_valide
+      !date_valide ||
+      !item.cours
     ) {
       // Afficher un message d'erreur pour chaque champ vide
+      if (!item.cours) {
+        setCoursError(true);
+      }
       if (!date | !date_valide) {
         setDateError(true);
       }
@@ -141,10 +148,12 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               value={item.cours}
               placeholder={item.cours}
+              style={{ borderColor: coursError ? "red" : "" }}
             >
               <option hidden>Choix du cours</option>
               {generateOptionsCours()}
             </select>
+            {coursError && <p style={{ color: "red" }}>{messageError}</p>}
           </FormGroup>
           <FormGroup>
             <Label for="date">Date</Label>
@@ -162,11 +171,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
               // Afficher une bordure rouge si le champ est vide
               style={{ borderColor: dateError ? "red" : "" }}
             />
-            {dateError && (
-              <p style={{ color: "red" }}>
-                {"La date doit être de la forme dd/MM/yyyy."}
-              </p>
-            )}
+            {dateError && <p style={{ color: "red" }}>{messageError}</p>}
           </FormGroup>
           <FormGroup>
             <Label for="heure_debut">Heure Début</Label>
@@ -185,9 +190,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
                 borderColor: debutError || coherenceError ? "red" : "",
               }}
             />
-            {debutError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
+            {debutError && <p style={{ color: "red" }}>{messageError}</p>}
             {coherenceError && (
               <p style={{ color: "red" }}>
                 L'heure de début doit être avant l'heure de fin de séance
@@ -211,9 +214,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
                 borderColor: finError || coherenceError ? "red" : "",
               }}
             />
-            {finError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
+            {finError && <p style={{ color: "red" }}>{messageError}</p>}
             {coherenceError && (
               <p style={{ color: "red" }}>
                 L'heure de début doit être avant l'heure de fin de séance

@@ -67,10 +67,10 @@ function DataTable({
     setModalCreate(!modalCreate);
   }
 
-  function create(itemAdd) {
+  function create(item) {
     toggleModalCreate();
     axios
-      .post(fetchURL, itemAdd)
+      .post(fetchURL, item)
       .then(() => {
         fetchData();
       })

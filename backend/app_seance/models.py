@@ -17,8 +17,8 @@ class Seance(models.Model):
    heure_fin = models.CharField(max_length=15)
    effectif = models.TextField(choices=EFFECTIF_CHOICES, null=True)
    commentaire = models.CharField(max_length=100, blank=True, null=True)
-   module = models.ForeignKey(Module, on_delete=models.CASCADE, null=True, related_name='seance')
-   cours = models.ForeignKey(Cours, on_delete=models.CASCADE, null=True, related_name='seance')
+   module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='seance')
+   cours = models.ForeignKey(Cours, on_delete=models.CASCADE, related_name='seance')
    enseignant = models.ForeignKey(Enseignant, on_delete=models.SET_NULL, null=True, related_name='seance')
    salle = models.ForeignKey(Salle, on_delete=models.SET_NULL, null=True, related_name='seance')
    numero_groupe_td = models.IntegerField(
