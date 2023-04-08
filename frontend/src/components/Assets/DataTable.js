@@ -79,6 +79,18 @@ function DataTable({
       });
   }
 
+  function duplicate(item) {
+    delete item.id;
+    axios
+      .post(fetchURL, item)
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   function remove(id) {
     setModalRemove(!modalRemove);
     axios
@@ -141,6 +153,13 @@ function DataTable({
           // Si c'est le bouton "Planification" de la liste des modules
           else if ((type = "cours") && action === "btn btn-dark btn-sm w-70") {
             redirect(`/modules/${data.id}/Planification`);
+          }
+          // Si c'est le bouton "Dupliquer" de la liste des séances
+          else if (
+            (type = "seances") &&
+            action === "btn btn-success btn-sm w-70"
+          ) {
+            duplicate(data);
           }
           // Si c'est bouton "modifier"
           else if (action === "btn btn-warning btn-sm w-70") {
