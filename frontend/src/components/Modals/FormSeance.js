@@ -89,6 +89,12 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     ));
   }
 
+  function isValidDate(dateString) {
+    // Expression régulière pour vérifier le format dd/MM/yyyy
+    const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    return regex.test(dateString);
+  }
+
   function testValid() {
     setDateError(false);
     setDebutError(false);
@@ -96,9 +102,16 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     setCoherenceError(false);
     const { date, heure_debut, heure_fin } = item;
     var debut_avant_fin = heure_debut <= heure_fin;
-    if (!date || !heure_debut || !heure_fin || !debut_avant_fin) {
+    var date_valide = isValidDate(date);
+    if (
+      !date ||
+      !heure_debut ||
+      !heure_fin ||
+      !debut_avant_fin ||
+      !date_valide
+    ) {
       // Afficher un message d'erreur pour chaque champ vide
-      if (!date) {
+      if (!date | !date_valide) {
         setDateError(true);
       }
       if (!heure_debut) {
@@ -136,10 +149,11 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
           <FormGroup>
             <Label for="date">Date</Label>
             <Input
-              type="date"
+              type="text"
               name="date"
-              value={item.date}
+              defaultValue={item.date}
               onChange={handleChange}
+              placeholder="dd/MM/yyyy"
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
                   testValid();
@@ -149,7 +163,9 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
               style={{ borderColor: dateError ? "red" : "" }}
             />
             {dateError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
+              <p style={{ color: "red" }}>
+                {"La date doit être de la forme dd/MM/yyyy."}
+              </p>
             )}
           </FormGroup>
           <FormGroup>
