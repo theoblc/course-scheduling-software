@@ -21,14 +21,19 @@ function Planification() {
   const listParams = {
     title: `Planification de ${module.code}`,
     urlFetch: `http://127.0.0.1:8000/api/modules/${id}/seances/`,
-    urlModify: undefined,
+    urlModify: `http://127.0.0.1:8000/api/seances/`,
     type: "seances",
     item: {
-      date_debut: "",
-      date_fin: "",
+      date: "",
+      heure_debut: "",
+      heure_fin: "",
       effectif: "",
       commentaire: "",
       numero_groupe_td: "",
+      module: id,
+      cours: "",
+      enseignant: "",
+      salle: "",
     },
     columns: [
       { data: "cours" },
@@ -51,11 +56,16 @@ function Planification() {
       "Actions",
     ],
     dom:
-      "<'row'<'col-sm-12 col-md-7'f>>" +
+      "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-5 d-flex justify-content-end'B>>" +
       "<'row'<'col-sm-12'tr>>" +
       "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     ordering: false,
-    buttons: "",
+    buttons: (
+      <div className="btn-group" role="group">
+        <button className="btn btn-warning btn-sm w-70">Modifier</button>
+        <button className="btn btn-danger btn-sm w-70">Supprimer</button>
+      </div>
+    ),
   };
 
   useEffect(() => {

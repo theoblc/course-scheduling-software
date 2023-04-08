@@ -14,6 +14,7 @@ import {
 function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   const [item, setItem] = useState(activeItem);
   const [salles, setSalles] = useState([]);
+  const [cours, setCours] = useState([]);
   const [enseignants, setEnseignants] = useState([]);
   const [dateError, setDateError] = useState(false);
   const [debutError, setDebutError] = useState(false);
@@ -22,6 +23,12 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
 
   useEffect(() => {
     const fetchData = async () => {
+      const raw_cours = await fetch(
+        `http://localhost:8000/api/modules/${item.module}/cours`
+      );
+      const cours = await raw_cours.json();
+      setCours(cours);
+
       const raw_salles = await fetch("http://localhost:8000/api/salles/");
       const salles = await raw_salles.json();
       setSalles(salles);
@@ -34,7 +41,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     };
 
     fetchData().catch(console.error);
-  }, []);
+  }, [item.module]);
 
   function handleChange(e) {
     let { name, value } = e.target;
@@ -54,6 +61,14 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     return choix_effectif.map((effectif) => (
       <option key={effectif} value={effectif}>
         {effectif}
+      </option>
+    ));
+  }
+
+  function generateOptionsCours() {
+    return cours.map((cours) => (
+      <option key={cours.id} value={cours.id}>
+        {cours.nom}
       </option>
     ));
   }
@@ -105,6 +120,19 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
       <ModalHeader toggle={toggle}>{title}</ModalHeader>
       <ModalBody>
         <Form>
+          <FormGroup>
+            <Label for="salle">Cours</Label>
+            <select
+              className="form-control"
+              name="cours"
+              onChange={handleChange}
+              value={item.cours}
+              placeholder={item.cours}
+            >
+              <option hidden>Choix du cours</option>
+              {generateOptionsCours()}
+            </select>
+          </FormGroup>
           <FormGroup>
             <Label for="date">Date</Label>
             <Input
