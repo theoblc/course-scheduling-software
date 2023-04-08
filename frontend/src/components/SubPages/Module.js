@@ -1,39 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext } from "react";
 import FormModule from "../Modals/FormModule";
 import { Button, Table } from "reactstrap";
+import FicheProgrammeContext from "../Assets/Contexte";
 import Title from "../Assets/Title";
 import axios from "axios";
 
-function Module({ idModule }) {
-  const [module, setModule] = useState({
-    id: 0,
-    code: "",
-    nom: "",
-    nb_heures_tp: 0,
-    nb_heures_be: 0,
-    nb_heures_td: 0,
-    nb_heures_cm: 0,
-    nb_heures_ci: 0,
-    nb_heures_total: 0,
-    enseignant: null,
-    seances: null,
-    cours: null,
-  });
+function Module() {
+  const data = useContext(FicheProgrammeContext);
+  const [module, setModule] = useState(data);
   const [modalEdit, setModalEdit] = useState(false);
   const baseURLModule = "http://localhost:8000/api/modules/";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const urlModule = baseURLModule + idModule;
-      const dataModule = await fetch(urlModule);
-      const module = await dataModule.json();
-      let sum = calculSum(module);
-      module.nb_heures_total = sum;
-      setModule(module);
-    };
-
-    fetchData().catch(console.error);
-  }, [idModule]);
+  function toggleModalEdit() {
+    setModalEdit(!modalEdit);
+  }
 
   function calculSum(module) {
     let sum = [
@@ -44,10 +24,6 @@ function Module({ idModule }) {
       Number(module.nb_heures_ci),
     ].reduce((acc, val) => acc + val, 0);
     return sum;
-  }
-
-  function toggleModalEdit() {
-    setModalEdit(!modalEdit);
   }
 
   function editModule(itemModified) {

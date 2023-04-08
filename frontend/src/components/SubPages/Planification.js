@@ -59,7 +59,7 @@ function Planification() {
       "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-5 d-flex justify-content-end'B>>" +
       "<'row'<'col-sm-12'tr>>" +
       "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-    ordering: false,
+    ordering: true,
     buttons: (
       <div className="btn-group" role="group">
         <button className="btn btn-success btn-sm w-70">Dupliquer</button>

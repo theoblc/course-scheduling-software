@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
+import FicheProgrammeContext from "../Assets/Contexte";
 import List from "../Assets/List";
 
-function Cours({ idModule }) {
+function Cours() {
+  const module = useContext(FicheProgrammeContext);
   const listParams = {
     title: "Liste des cours",
-    urlFetch: `http://127.0.0.1:8000/api/modules/${idModule}/cours/`,
+    urlFetch: `http://127.0.0.1:8000/api/modules/${module.id}/cours/`,
     urlModify: "http://localhost:8000/api/cours/",
     type: "cours",
     item: {
       nom: "",
       nb_heures: 0,
-      module: idModule,
+      module: module.id,
       nb_heures_hors_presentiel: 0,
       type: "",
     },

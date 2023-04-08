@@ -177,7 +177,7 @@ function DataTable({
   return (
     <div className="container-fluid py-4">
       <div className="table-responsive p-0 pb-2">
-        <table id="datatable" className="display" width="100%">
+        <table id="datatable" className="display">
           <thead>
             <tr>
               {nameColumns.map((colonne) => (

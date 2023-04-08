@@ -10,6 +10,7 @@ function Modules() {
     item: {
       code: "",
       nom: "",
+      enseignant: "",
       nb_heures_tp: 0,
       nb_heures_td: 0,
       nb_heures_be: 0,
@@ -18,27 +19,12 @@ function Modules() {
       nb_heures_total: 0,
     },
     columns: [
-      { data: "code" },
-      { data: "nom" },
-      { data: "nb_heures_cm" },
-      { data: "nb_heures_ci" },
-      { data: "nb_heures_td" },
-      { data: "nb_heures_tp" },
-      { data: "nb_heures_be" },
-      { data: "nb_heures_total" },
-      { data: null },
+      { data: "code", width: "10%" },
+      { data: "nom", width: "30%" },
+      { data: "enseignant", width: "10%" },
+      { data: null, width: "20%" },
     ],
-    nameColumns: [
-      "Code",
-      "Nom",
-      "Nombre d'heures de CM",
-      "Nombre d'heures de CI",
-      "Nombre d'heures de TD",
-      "Nombre d'heures de TP",
-      "Nombre d'heures de BE",
-      "Nombre heures total",
-      "Action",
-    ],
+    nameColumns: ["Code", "Nom", "Coordinateur", "Actions"],
     dom:
       "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-5 d-flex justify-content-end'B>>" +
       "<'row'<'col-sm-12'tr>>" +
