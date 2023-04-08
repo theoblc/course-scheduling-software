@@ -15,6 +15,7 @@ function Module({ idModule }) {
     nb_heures_cm: 0,
     nb_heures_ci: 0,
     nb_heures_total: 0,
+    enseignant: null,
     seances: null,
     cours: null,
   });
@@ -72,6 +73,7 @@ function Module({ idModule }) {
           <tr>
             <th>Code</th>
             <th>Nom</th>
+            <th>Coordinateur</th>
             <th>Heures de CM</th>
             <th>Heures de CI</th>
             <th>Heures de TD</th>
@@ -84,6 +86,7 @@ function Module({ idModule }) {
           <tr>
             <td>{module.code}</td>
             <td>{module.nom}</td>
+            <td>{module.enseignant}</td>
             <td>{module.nb_heures_cm}</td>
             <td>{module.nb_heures_ci}</td>
             <td>{module.nb_heures_td}</td>

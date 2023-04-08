@@ -14,6 +14,7 @@ import {
 function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   const [sum, setSum] = useState(0);
   const [item, setItem] = useState(activeItem);
+  const [enseignants, setEnseignants] = useState([]);
   const [nomError, setNomError] = useState(false);
   const [codeError, setCodeError] = useState(false);
   const [messageError, setMessageError] = useState("Le champ est obligatoire.");
@@ -31,6 +32,15 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
 
   useEffect(() => {
     calculateSum(item);
+    const fetchData = async () => {
+      const raw_enseignants = await fetch(
+        "http://localhost:8000/api/enseignants/"
+      );
+      const enseignants = await raw_enseignants.json();
+      setEnseignants(enseignants);
+    };
+
+    fetchData().catch(console.error);
   }, [calculateSum, item]);
 
   function handleChange(e) {
@@ -64,7 +74,15 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
       setNomError(true);
       return;
     }
-    return onSave(item, sum);
+    return onSave(item);
+  }
+
+  function generateOptionsCoordinateur() {
+    return enseignants.map((enseignant) => (
+      <option key={enseignant.id} value={enseignant.id}>
+        {enseignant.nom} {enseignant.prenom}
+      </option>
+    ));
   }
 
   return (
@@ -105,6 +123,19 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               style={{ borderColor: nomError ? "red" : "" }}
             />
             {nomError && <p style={{ color: "red" }}>{messageError}</p>}
+          </FormGroup>
+          <FormGroup>
+            <Label for="enseignant">Coordinateur</Label>
+            <select
+              className="form-control"
+              name="enseignant"
+              onChange={handleChange}
+              value={item.enseignant}
+              placeholder={item.enseignant}
+            >
+              <option hidden>Choix du coordinateur</option>
+              {generateOptionsCoordinateur()}
+            </select>
           </FormGroup>
           <FormGroup>
             <Label for="nb_heures_cm">Nombre d'heures de CM</Label>

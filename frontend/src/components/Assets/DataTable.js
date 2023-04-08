@@ -46,9 +46,8 @@ function DataTable({
     setModalEdit(!modalEdit);
   }
 
-  function edit(itemModified, sum) {
+  function edit(itemModified) {
     toggleModalEdit(itemModified);
-    itemModified.nb_heures_total = sum;
     axios
       .patch(baseURL + itemModified.id + "/", itemModified)
       .then(() => {
