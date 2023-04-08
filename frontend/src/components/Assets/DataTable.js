@@ -143,13 +143,6 @@ function DataTable({
           else if ((type = "cours") && action === "btn btn-dark btn-sm w-70") {
             redirect(`/modules/${data.id}/Planification`);
           }
-          // Si c'est le bouton "Détails" de la liste des Séances
-          else if (
-            (type = "recap_seances") &&
-            action === "rs btn btn-success btn-sm w-70"
-          ) {
-            redirect(`/modules/${data.module}/cours/${data.cours}/seances`);
-          }
           // Si c'est le bouton "Séances" de la fiche programme d'un module
           else if (
             (type = "cours") &&

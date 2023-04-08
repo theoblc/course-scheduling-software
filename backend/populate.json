@@ -6,7 +6,7 @@
       "nom": "TP Microcontrôleur AT89s52",
       "module": 1,
       "nb_heures": 20,
-      "nb_heures_autonomie": 10,
+      "nb_heures_hors_presentiel": 10,
       "type": "TP"
     }
   },
@@ -17,7 +17,7 @@
       "nom": "BE Radar",
       "module": 2,
       "nb_heures": 15,
-      "nb_heures_autonomie": 5,
+      "nb_heures_hors_presentiel": 5,
       "type": "BE"
     }
   },
@@ -28,7 +28,7 @@
       "nom": "Introduction à la programmation assembleur",
       "module": 1,
       "nb_heures": 30,
-      "nb_heures_autonomie": 10,
+      "nb_heures_hors_presentiel": 10,
       "type": "CM"
     }
   },
@@ -40,7 +40,7 @@
       "nom": "Traitement du signal numérique",
       "module": 1,
       "nb_heures": 25,
-      "nb_heures_autonomie": 5,
+      "nb_heures_hors_presentiel": 5,
       "type": "TD"
     }
   },
@@ -52,7 +52,7 @@
       "nom": "Simulation de circuits électroniques",
       "module": 1,
       "nb_heures": 20,
-      "nb_heures_autonomie": 10,
+      "nb_heures_hors_presentiel": 10,
       "type": "TP"
     }
   },
@@ -64,7 +64,7 @@
       "nom": "Analyse et conception de systèmes embarqués",
       "module": 2,
       "nb_heures": 30,
-      "nb_heures_autonomie": 10,
+      "nb_heures_hors_presentiel": 10,
       "type": "CM"
     }
   },
@@ -76,7 +76,7 @@
       "nom": "Programmation avancée en C",
       "module": 2,
       "nb_heures": 25,
-      "nb_heures_autonomie": 5,
+      "nb_heures_hors_presentiel": 5,
       "type": "TD"
     }
   },
@@ -88,7 +88,7 @@
       "nom": "Fibre Optique",
       "module": 3,
       "nb_heures": 20,
-      "nb_heures_autonomie": 10,
+      "nb_heures_hors_presentiel": 10,
       "type": "TP"
     }
   },

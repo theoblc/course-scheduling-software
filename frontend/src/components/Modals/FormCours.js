@@ -82,15 +82,15 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="nb_heures_autonomie">
-              Nombre d'heures en autonomie
+            <Label for="nb_heures_hors_presentiel">
+              Nombre d'heures en hors présentiel
             </Label>
             <Input
               type="number"
               min={0}
               max={999}
-              name="nb_heures_autonomie"
-              value={item.nb_heures_autonomie}
+              name="nb_heures_hors_presentiel"
+              value={item.nb_heures_hors_presentiel}
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
