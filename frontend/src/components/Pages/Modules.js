@@ -1,28 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import DataFetcher from "../Assets/DataFetcher";
 import PageGenerator from "../Assets/PageGenerator";
 
 function Modules() {
-  const [data, setData] = useState([]);
-
-  async function fetchData() {
-    const raw_data = await fetch("http://localhost:8000/api/modules/");
-    const res = await raw_data.json();
-    const data = [...res];
-    for (let i = 0; i < res.length; i++) {
-      const idCoordinateur = res[i].enseignant;
-      fetch(`http://localhost:8000/api/enseignants/${idCoordinateur}`)
-        .then((response) => response.json())
-        .then((enseignant) => {
-          data[i].enseignant = enseignant;
-        });
-    }
-    setData(data);
-  }
-
-  useEffect(() => {
-    fetchData().catch(console.error);
-    // eslint-disable-next-line
-  }, []);
+  const { data, fetchData } = DataFetcher("http://localhost:8000/api/modules/");
 
   const listParams = {
     title: "Modules",

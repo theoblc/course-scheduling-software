@@ -4,29 +4,20 @@ import PageGenerator from "../Assets/PageGenerator";
 
 function Planification() {
   const { id } = useParams();
-  const [data, setData] = useState([]);
-  const [module, setModule] = useState([]);
+  const [data, setData] = useState({});
+  const [module, setModule] = useState({ code: "" });
 
-  async function fetchData() {
-    const raw_data = await fetch(`http://localhost:8000/api/seances/`);
+  const fetchData = async () => {
+    const raw_data = await fetch(
+      `http://localhost:8000/api/modules/${id}/seances`
+    );
     const res = await raw_data.json();
-    const data = [...res];
+    setData(res);
 
     const raw_module = await fetch(`http://localhost:8000/api/modules/${id}`);
-    const module = await raw_module.json();
-    setModule(module);
-
-    for (let i = 0; i < res.length; i++) {
-      const idCours = res[i].cours;
-      fetch(`http://localhost:8000/api/cours/${idCours}`)
-        .then((response) => response.json())
-        .then((cours) => {
-          data[i].module = module;
-          data[i].cours = cours;
-        });
-    }
-    setData(data);
-  }
+    const res_module = await raw_module.json();
+    setModule(res_module);
+  };
 
   useEffect(() => {
     fetchData().catch(console.error);

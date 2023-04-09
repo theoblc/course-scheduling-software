@@ -1,53 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import DataFetcher from "../Assets/DataFetcher";
 import PageGenerator from "../Assets/PageGenerator";
 
 function Seances() {
-  const [data, setData] = useState([]);
-
-  async function fetchData() {
-    const raw_data = await fetch("http://localhost:8000/api/seances/");
-    const res = await raw_data.json();
-    const data = [...res];
-    for (let i = 0; i < res.length; i++) {
-      const idModule = res[i].module;
-      fetch(`http://localhost:8000/api/modules/${idModule}`)
-        .then((response) => response.json())
-        .then((module) => {
-          data[i].module = module;
-        });
-
-      const idCours = res[i].cours;
-      fetch(`http://localhost:8000/api/cours/${idCours}`)
-        .then((response) => response.json())
-        .then((cours) => {
-          data[i].cours = cours;
-        });
-
-      const idEnseignant = res[i].enseignant;
-      if (idEnseignant !== null) {
-        fetch(`http://localhost:8000/api/enseignants/${idEnseignant}`)
-          .then((response) => response.json())
-          .then((enseignant) => {
-            data[i].enseignant = enseignant;
-          });
-      }
-
-      const idSalle = res[i].salle;
-      if (idSalle !== null) {
-        fetch(`http://localhost:8000/api/salles/${idSalle}`)
-          .then((response) => response.json())
-          .then((salle) => {
-            data[i].salle = salle;
-          });
-      }
-    }
-    setData(data);
-  }
-
-  useEffect(() => {
-    fetchData().catch(console.error);
-    // eslint-disable-next-line
-  }, []);
+  const { data, fetchData } = DataFetcher("http://localhost:8000/api/seances/");
 
   const listParams = {
     title: "Séances",

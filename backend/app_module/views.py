@@ -3,16 +3,18 @@ from rest_framework.views import APIView
 from serializer.serializers import ModuleSerializer
 from serializer.serializers import CoursSerializer
 from serializer.serializers import SeanceSerializer
+from serializer.serializers import EnseignantSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets      
 from .models import Module
 from app_cours.models import Cours
 from app_seance.models import Seance
+from app_enseignant.models import Enseignant
 
 class ModuleView(viewsets.ModelViewSet):  
     serializer_class = ModuleSerializer   
-    queryset = Module.objects.all()     
+    queryset = Module.objects.all()
 
 class ListeCoursModule(APIView):
     def get(self, request, module_id):
