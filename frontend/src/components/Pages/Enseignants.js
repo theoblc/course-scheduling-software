@@ -1,5 +1,5 @@
 import React from "react";
-import List from "../Assets/List";
+import PageGenerator from "../Assets/PageGenerator";
 
 function Enseignants() {
   const listParams = {
@@ -34,7 +34,7 @@ function Enseignants() {
 
   return (
     <main>
-      <List listParams={listParams} />
+      <PageGenerator listParams={listParams} />
     </main>
   );
 }

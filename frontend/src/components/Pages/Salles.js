@@ -1,5 +1,5 @@
 import React from "react";
-import List from "../Assets/List";
+import PageGenerator from "../Assets/PageGenerator";
 
 function Salles() {
   const listParams = {
@@ -28,7 +28,7 @@ function Salles() {
 
   return (
     <main>
-      <List listParams={listParams} />
+      <PageGenerator listParams={listParams} />
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import FicheProgrammeContext from "../Assets/Contexte";
-import List from "../Assets/List";
+import PageGenerator from "../Assets/PageGenerator";
 
 function Cours() {
   const module = useContext(FicheProgrammeContext);
@@ -45,7 +45,7 @@ function Cours() {
 
   return (
     <main>
-      <List listParams={listParams} />
+      <PageGenerator listParams={listParams} />
     </main>
   );
 }

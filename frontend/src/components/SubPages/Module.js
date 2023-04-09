@@ -6,8 +6,7 @@ import Title from "../Assets/Title";
 import axios from "axios";
 
 function Module() {
-  const data = useContext(FicheProgrammeContext);
-  const [module, setModule] = useState(data);
+  const [module, setModule] = useState(useContext(FicheProgrammeContext));
   const [modalEdit, setModalEdit] = useState(false);
   const baseURLModule = "http://localhost:8000/api/modules/";
 

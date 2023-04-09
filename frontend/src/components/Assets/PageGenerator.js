@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from "react";
-import DataTable from "../Assets/DataTable";
-import Title from "../Assets/Title";
+import React from "react";
+import DataTable from "./DataTable";
+import DataFetcher from "./DataFetcher";
+import Title from "./Title";
 
-function List({ listParams }) {
-  const [data, setData] = useState([]);
-
-  const fetchData = async () => {
-    const raw_data = await fetch(listParams.urlFetch);
-    const res = await raw_data.json();
-    setData(res);
-  };
-
-  useEffect(() => {
-    fetchData().catch(console.error);
-    // eslint-disable-next-line
-  }, []);
+function PageGenerator({ listParams }) {
+  const { data, fetchData } = DataFetcher(listParams.urlFetch);
 
   return (
     <main>
@@ -39,4 +29,4 @@ function List({ listParams }) {
   );
 }
 
-export default List;
+export default PageGenerator;

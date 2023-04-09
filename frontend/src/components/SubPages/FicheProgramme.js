@@ -1,33 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import FicheProgrammeContext from "../Assets/Contexte";
+import DataFetcher from "../Assets/DataFetcher";
 import Delete from "../Assets/Delete";
 import Module from "./Module";
 import Cours from "./Cours";
 
 function FicheProgramme() {
   const { id } = useParams();
-  const [module, setModule] = useState(null);
-  const baseURLModule = "http://localhost:8000/api/modules/";
+  const { data } = DataFetcher(`http://localhost:8000/api/modules/${id}`);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const urlModule = baseURLModule + id;
-      const raw_module = await fetch(urlModule);
-      const data = await raw_module.json();
-      setModule(data);
-    };
-
-    fetchData().catch(console.error);
-  }, [id]);
-
-  // On affiche rien tant que la variable module n'est pas initialisée
-  if (!module) {
+  // Tant que les données ne sont pas récupérées, rien n'est affiché.
+  if (data.length === 0) {
     return;
   }
 
   return (
-    <FicheProgrammeContext.Provider value={module}>
+    <FicheProgrammeContext.Provider value={data}>
       <Module />
       <hr className="mt-4 mb-0" />
       <Cours />
@@ -37,7 +26,7 @@ function FicheProgramme() {
         style={{ paddingTop: "30px", paddingBottom: "10px" }}
       >
         <Delete
-          baseURL={baseURLModule}
+          baseURL={"http://localhost:8000/api/modules/"}
           id={id}
           redirection="/modules"
           message="Supprimer le module"

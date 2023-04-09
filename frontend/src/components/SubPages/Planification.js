@@ -1,25 +1,14 @@
-import React, { useEffect, useState } from "react";
-import List from "../Assets/List";
+import React from "react";
 import { useParams } from "react-router-dom";
+import PageGenerator from "../Assets/PageGenerator";
+import DataFetcher from "../Assets/DataFetcher";
 
 function Planification() {
   const { id } = useParams();
-  const [module, setModule] = useState({
-    id: 0,
-    code: "",
-    nom: "",
-    nb_heures_tp: 0,
-    nb_heures_be: 0,
-    nb_heures_td: 0,
-    nb_heures_cm: 0,
-    nb_heures_ci: 0,
-    nb_heures_total: 0,
-    seances: null,
-    cours: null,
-  });
+  const { data } = DataFetcher(`http://localhost:8000/api/modules/${id}`);
 
   const listParams = {
-    title: `Planification de ${module.code}`,
+    title: `Planification de ${data.code}`,
     urlFetch: `http://127.0.0.1:8000/api/modules/${id}/seances/`,
     urlModify: `http://127.0.0.1:8000/api/seances/`,
     type: "seances",
@@ -69,20 +58,9 @@ function Planification() {
     ),
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const urlModule = `http://localhost:8000/api/modules/${id}`;
-      const dataModule = await fetch(urlModule);
-      const module = await dataModule.json();
-      setModule(module);
-    };
-
-    fetchData().catch(console.error);
-  }, [id]);
-
   return (
     <main>
-      <List listParams={listParams} />
+      <PageGenerator listParams={listParams} />
     </main>
   );
 }

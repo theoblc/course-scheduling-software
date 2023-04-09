@@ -1,5 +1,5 @@
 import React from "react";
-import List from "../Assets/List";
+import PageGenerator from "../Assets/PageGenerator";
 
 function Seances() {
   const listParams = {
@@ -55,7 +55,7 @@ function Seances() {
 
   return (
     <main>
-      <List listParams={listParams} />
+      <PageGenerator listParams={listParams} />
     </main>
   );
 }
