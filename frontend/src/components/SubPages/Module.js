@@ -61,7 +61,9 @@ function Module() {
           <tr>
             <td>{module.code}</td>
             <td>{module.nom}</td>
-            <td>{module.enseignant}</td>
+            <td>
+              {module.enseignant.nom} {module.enseignant.prenom}
+            </td>
             <td>{module.nb_heures_cm}</td>
             <td>{module.nb_heures_ci}</td>
             <td>{module.nb_heures_td}</td>

@@ -1,16 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PageGenerator from "../Assets/PageGenerator";
 
 function Modules() {
+  const [data, setData] = useState([]);
+
+  async function fetchData() {
+    const raw_data = await fetch("http://localhost:8000/api/modules/");
+    const res = await raw_data.json();
+    const data = [...res];
+    for (let i = 0; i < res.length; i++) {
+      const idCoordinateur = res[i].enseignant;
+      fetch(`http://localhost:8000/api/enseignants/${idCoordinateur}`)
+        .then((response) => response.json())
+        .then((enseignant) => {
+          data[i].enseignant = enseignant;
+        });
+    }
+    setData(data);
+  }
+
+  useEffect(() => {
+    fetchData().catch(console.error);
+    // eslint-disable-next-line
+  }, []);
+
   const listParams = {
     title: "Modules",
     urlFetch: "http://localhost:8000/api/modules/",
     urlModify: "http://localhost:8000/api/modules/",
     type: "modules",
+    data: data,
+    fetchData: fetchData,
     item: {
       code: "",
       nom: "",
-      enseignant: "",
+      enseignant: {
+        id: "",
+        nom: "",
+        prenom: "",
+        departement: "",
+      },
       nb_heures_tp: 0,
       nb_heures_td: 0,
       nb_heures_be: 0,
@@ -21,7 +50,18 @@ function Modules() {
     columns: [
       { data: "code", width: "10%" },
       { data: "nom", width: "30%" },
-      { data: "enseignant", width: "10%" },
+      {
+        data: "enseignant",
+        width: "10%",
+        render: function (data) {
+          if (data) {
+            const { nom, prenom } = data;
+            return `${nom} ${prenom}`;
+          } else {
+            return "";
+          }
+        },
+      },
       { data: null, width: "20%" },
     ],
     nameColumns: ["Code", "Nom", "Coordinateur", "Actions"],

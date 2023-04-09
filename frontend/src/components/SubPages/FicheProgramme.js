@@ -1,22 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import FicheProgrammeContext from "../Assets/Contexte";
-import DataFetcher from "../Assets/DataFetcher";
 import Delete from "../Assets/Delete";
 import Module from "./Module";
 import Cours from "./Cours";
 
 function FicheProgramme() {
   const { id } = useParams();
-  const { data } = DataFetcher(`http://localhost:8000/api/modules/${id}`);
+  const [module, setModule] = useState([]);
+
+  async function fetchData() {
+    const raw_data = await fetch(`http://localhost:8000/api/modules/${id}`);
+    const data = await raw_data.json();
+    fetch(`http://localhost:8000/api/enseignants/${data.enseignant}`)
+      .then((response) => response.json())
+      .then((enseignant) => {
+        data.enseignant = enseignant;
+      });
+    setModule(data);
+  }
+
+  useEffect(() => {
+    fetchData().catch(console.error);
+    // eslint-disable-next-line
+  }, []);
 
   // Tant que les données ne sont pas récupérées, rien n'est affiché.
-  if (data.length === 0) {
+  if (module.length === 0) {
     return;
   }
 
   return (
-    <FicheProgrammeContext.Provider value={data}>
+    <FicheProgrammeContext.Provider value={module}>
       <Module />
       <hr className="mt-4 mb-0" />
       <Cours />

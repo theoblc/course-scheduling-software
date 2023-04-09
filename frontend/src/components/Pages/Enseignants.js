@@ -1,12 +1,19 @@
 import React from "react";
+import DataFetcher from "../Assets/DataFetcher";
 import PageGenerator from "../Assets/PageGenerator";
 
 function Enseignants() {
+  const { data, fetchData } = DataFetcher(
+    "http://localhost:8000/api/enseignants/"
+  );
+
   const listParams = {
     title: "Enseignants",
     urlFetch: "http://localhost:8000/api/enseignants/",
     urlModify: "http://localhost:8000/api/enseignants/",
     type: "enseignants",
+    data: data,
+    fetchData: fetchData,
     item: {
       nom: "",
       prenom: "",

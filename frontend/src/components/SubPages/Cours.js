@@ -1,14 +1,21 @@
 import React, { useContext } from "react";
 import FicheProgrammeContext from "../Assets/Contexte";
+import DataFetcher from "../Assets/DataFetcher";
 import PageGenerator from "../Assets/PageGenerator";
 
 function Cours() {
   const module = useContext(FicheProgrammeContext);
+  const { data, fetchData } = DataFetcher(
+    `http://localhost:8000/api/modules/${module.id}/cours/`
+  );
+
   const listParams = {
     title: "Liste des cours",
     urlFetch: `http://127.0.0.1:8000/api/modules/${module.id}/cours/`,
     urlModify: "http://localhost:8000/api/cours/",
     type: "cours",
+    data: data,
+    fetchData: fetchData,
     item: {
       nom: "",
       nb_heures: 0,

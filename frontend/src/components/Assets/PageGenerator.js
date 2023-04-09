@@ -1,10 +1,8 @@
 import React from "react";
 import DataTable from "./DataTable";
-import DataFetcher from "./DataFetcher";
 import Title from "./Title";
 
 function PageGenerator({ listParams }) {
-  const { data, fetchData } = DataFetcher(listParams.urlFetch);
 
   return (
     <main>
@@ -17,10 +15,10 @@ function PageGenerator({ listParams }) {
         baseURL={listParams.urlModify}
         fetchURL={listParams.urlFetch}
         // début bouton "ajouter"
-        fetchData={fetchData}
+        fetchData={listParams.fetchData}
         itemAdd={listParams.item}
         // fin   bouton "ajouter"
-        data={data}
+        data={listParams.data}
         type={listParams.type}
         buttons={listParams.buttons}
         ordering={listParams.ordering}

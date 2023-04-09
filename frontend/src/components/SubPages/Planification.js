@@ -1,17 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import PageGenerator from "../Assets/PageGenerator";
-import DataFetcher from "../Assets/DataFetcher";
 
 function Planification() {
   const { id } = useParams();
-  const { data } = DataFetcher(`http://localhost:8000/api/modules/${id}`);
+  const [data, setData] = useState([]);
+  const [module, setModule] = useState([]);
+
+  async function fetchData() {
+    const raw_data = await fetch(`http://localhost:8000/api/seances/`);
+    const res = await raw_data.json();
+    const data = [...res];
+
+    const raw_module = await fetch(`http://localhost:8000/api/modules/${id}`);
+    const module = await raw_module.json();
+    setModule(module);
+
+    for (let i = 0; i < res.length; i++) {
+      const idCours = res[i].cours;
+      fetch(`http://localhost:8000/api/cours/${idCours}`)
+        .then((response) => response.json())
+        .then((cours) => {
+          data[i].module = module;
+          data[i].cours = cours;
+        });
+    }
+    setData(data);
+  }
+
+  useEffect(() => {
+    fetchData().catch(console.error);
+    // eslint-disable-next-line
+  }, []);
 
   const listParams = {
-    title: `Planification de ${data.code}`,
+    title: `Planification de ${module.code}`,
     urlFetch: `http://127.0.0.1:8000/api/modules/${id}/seances/`,
     urlModify: `http://127.0.0.1:8000/api/seances/`,
     type: "seances",
+    data: data,
+    fetchData: fetchData,
     item: {
       date: "",
       heure_debut: "",
@@ -20,12 +48,24 @@ function Planification() {
       commentaire: null,
       numero_groupe_td: null,
       module: id,
-      cours: null,
+      cours: {
+        nom: "",
+        nb_heures: 0,
+        module: "",
+        nb_heures_hors_presentiel: 0,
+        type: "",
+      },
       enseignant: null,
       salle: null,
     },
     columns: [
-      { data: "cours" },
+      {
+        data: "cours",
+        render: function (data) {
+          const { nom } = data;
+          return `${nom}`;
+        },
+      },
       { data: "date" },
       { data: "heure_debut" },
       { data: "heure_fin" },
