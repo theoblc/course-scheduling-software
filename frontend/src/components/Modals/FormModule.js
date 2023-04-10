@@ -17,6 +17,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   const [enseignants, setEnseignants] = useState([]);
   const [nomError, setNomError] = useState(false);
   const [codeError, setCodeError] = useState(false);
+  const [coordinateurError, setCoordinateurError] = useState(false);
   const [messageError, setMessageError] = useState("Le champ est obligatoire.");
 
   const calculateSum = useCallback((item) => {
@@ -54,7 +55,8 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
     setCodeError(false);
     const code = item.code;
     const nom = item.nom;
-    if (!nom || !code) {
+    const enseignant = item.enseignant.id;
+    if (!nom || !code || enseignant === null) {
       // Afficher un message d'erreur pour chaque champ vide
       if (!nom) {
         setNomError(true);
@@ -62,19 +64,22 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
       if (!code) {
         setCodeError(true);
       }
-      return;
+      if (!enseignant) {
+        setCoordinateurError(true);
+      }
+      return false;
     }
     if (code.length > 7) {
       setMessageError("Le code d'un module ne peut pas excéder 7 caractères.");
       setCodeError(true);
-      return;
+      return false;
     }
     if (nom.length > 50) {
       setMessageError("Le nom d'un module ne peut pas excéder 50 caractères.");
       setNomError(true);
-      return;
+      return false;
     }
-    return onSave(item);
+    return true;
   }
 
   function generateOptionsCoordinateur() {
@@ -83,6 +88,14 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
         {enseignant.nom} {enseignant.prenom}
       </option>
     ));
+  }
+
+  function validateForm() {
+    if (testValid()) {
+      item.nb_heures_total = sum;
+      console.log(item);
+      return onSave(item);
+    }
   }
 
   return (
@@ -99,7 +112,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  testValid();
+                  validateForm();
                 }
               }}
               // Afficher une bordure rouge si le champ est vide
@@ -116,7 +129,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  testValid();
+                  validateForm();
                 }
               }}
               // Afficher une bordure rouge si le champ est vide
@@ -132,10 +145,14 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               value={item.enseignant}
               placeholder={item.enseignant}
+              style={{ borderColor: coordinateurError ? "red" : "" }}
             >
               <option hidden>Choix du coordinateur</option>
               {generateOptionsCoordinateur()}
             </select>
+            {coordinateurError && (
+              <p style={{ color: "red" }}>{messageError}</p>
+            )}
           </FormGroup>
           <FormGroup>
             <Label for="nb_heures_cm">Nombre d'heures de CM</Label>
@@ -148,7 +165,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  testValid();
+                  validateForm();
                 }
               }}
             />
@@ -164,7 +181,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  testValid();
+                  validateForm();
                 }
               }}
             />
@@ -180,7 +197,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  testValid();
+                  validateForm();
                 }
               }}
             />
@@ -196,7 +213,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  testValid();
+                  validateForm();
                 }
               }}
             />
@@ -212,7 +229,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  testValid();
+                  validateForm();
                 }
               }}
             />
@@ -224,8 +241,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
         <Button
           color="success"
           onClick={() => {
-            item.nb_heures_total = sum;
-            testValid();
+            validateForm();
           }}
         >
           Enregistrer

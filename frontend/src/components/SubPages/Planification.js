@@ -8,11 +8,11 @@ function Planification() {
   const [module, setModule] = useState({ code: "" });
 
   const fetchData = async () => {
-    const raw_data = await fetch(
+    const raw_seances = await fetch(
       `http://localhost:8000/api/modules/${id}/seances`
     );
-    const res = await raw_data.json();
-    setData(res);
+    const seances = await raw_seances.json();
+    setData(seances);
 
     const raw_module = await fetch(`http://localhost:8000/api/modules/${id}`);
     const res_module = await raw_module.json();
@@ -60,9 +60,31 @@ function Planification() {
       { data: "date" },
       { data: "heure_debut" },
       { data: "heure_fin" },
+      { data: "numero_groupe_td" },
+      {
+        data: "salle",
+        render: function (data) {
+          if (data) {
+            const { numero } = data;
+            return `${numero}`;
+          } else {
+            return "";
+          }
+        },
+      },
+      {
+        data: "enseignant",
+        render: function (data) {
+          if (data) {
+            const { nom, prenom } = data;
+            return `${nom} ${prenom}`;
+          } else {
+            return "";
+          }
+        },
+      },
       { data: "effectif" },
       { data: "commentaire" },
-      { data: "numero_groupe_td" },
       { data: null },
     ],
     nameColumns: [
@@ -70,10 +92,12 @@ function Planification() {
       "Date",
       "Heure de début",
       "Heure de fin",
+      "Groupe de TD",
+      "Salle",
+      "Enseignant",
       "Effectif",
       "Commentaire",
-      "Numéro groupe de TD",
-      "Actions",
+      "Action",
     ],
     dom:
       "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-5 d-flex justify-content-end'B>>" +

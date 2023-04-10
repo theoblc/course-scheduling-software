@@ -11,18 +11,12 @@ class EnseignantSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ModuleSerializer(serializers.ModelSerializer):
-    enseignant = serializers.SerializerMethodField()
-
     class Meta:
         model = Module
         fields = '__all__'
 
-    def get_enseignant(self, obj):
-        try:
-            enseignant = Enseignant.objects.get(id=obj.enseignant.id)
-            return EnseignantSerializer(enseignant).data
-        except Enseignant.DoesNotExist:
-            return None
+class ModuleReadSerializer(ModuleSerializer):
+     enseignant = EnseignantSerializer(read_only=True)
 
 class SalleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,18 +29,12 @@ class CoursSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class SeanceSerializer(serializers.ModelSerializer):
-    module = ModuleSerializer()
-    cours = CoursSerializer()
-    enseignant = EnseignantSerializer()
-    salle = SalleSerializer()
-
     class Meta:
         model = Seance
         fields = '__all__'
 
-    def get_enseignant(self, obj):
-        try:
-            enseignant = Enseignant.objects.get(id=obj.enseignant.id)
-            return EnseignantSerializer(enseignant).data
-        except Enseignant.DoesNotExist:
-            return None
+class SeanceReadSerializer(SeanceSerializer):
+     module = ModuleSerializer(read_only=True)
+     cours = CoursSerializer(read_only=True)
+     enseignant = EnseignantSerializer(read_only=True)
+     salle = SalleSerializer(read_only=True)
