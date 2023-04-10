@@ -40,6 +40,7 @@ function Planification() {
       numero_groupe_td: null,
       module: id,
       cours: {
+        id: 0,
         nom: "",
         nb_heures: 0,
         module: "",

@@ -106,16 +106,17 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     const { date, heure_debut, heure_fin } = item;
     var debut_avant_fin = heure_debut <= heure_fin;
     var date_valide = isValidDate(date);
+    var cours_valide = item.cours.id !== 0;
     if (
       !date ||
       !heure_debut ||
       !heure_fin ||
       !debut_avant_fin ||
       !date_valide ||
-      !item.cours
+      !cours_valide
     ) {
       // Afficher un message d'erreur pour chaque champ vide
-      if (!item.cours) {
+      if (!cours_valide) {
         setCoursError(true);
       }
       if (!date | !date_valide) {
