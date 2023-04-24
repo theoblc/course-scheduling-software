@@ -406,7 +406,7 @@
     "model": "app_seance.seance",
     "pk": 1,
     "fields": {
-      "date": "01/01/2023",
+      "date": "2023-01-01",
       "heure_debut": "10:00",
       "heure_fin": "12:00",
       "effectif": "Promo complète",
@@ -422,7 +422,7 @@
     "model": "app_seance.seance",
     "pk": 2,
     "fields": {
-      "date": "02/01/2023",
+      "date": "2023-02-01",
       "heure_debut": "14:00",
       "heure_fin": "16:00",
       "effectif": "Groupe de TP",
@@ -438,7 +438,7 @@
     "model": "app_seance.seance",
     "pk": 3,
     "fields": {
-      "date": "03/01/2023",
+      "date": "2023-03-01",
       "heure_debut": "9:00",
       "heure_fin": "11:00",
       "effectif": "1/2 Groupe de TD",
@@ -454,7 +454,7 @@
     "model": "app_seance.seance",
     "pk": 4,
     "fields": {
-      "date": "04/01/2023",
+      "date": "2023-04-01",
       "heure_debut": "16:00",
       "heure_fin": "18:00",
       "effectif": "1/2 Promo",
@@ -470,7 +470,7 @@
     "model": "app_seance.seance",
     "pk": 5,
     "fields": {
-      "date": "05/01/2023",
+      "date": "2023-05-01",
       "heure_debut": "11:00",
       "heure_fin": "13:00",
       "effectif": "Groupe de TD",
@@ -486,7 +486,7 @@
     "model": "app_seance.seance",
     "pk": 6,
     "fields": {
-      "date": "06/01/2023",
+      "date": "2023-06-01",
       "heure_debut": "14:00",
       "heure_fin": "16:00",
       "effectif": "Promo complète",
@@ -502,7 +502,7 @@
     "model": "app_seance.seance",
     "pk": 13,
     "fields": {
-      "date": "03/15/2023",
+      "date": "2023-03-15",
       "heure_debut": "14:00",
       "heure_fin": "16:00",
       "effectif": "Promo complète",
@@ -518,7 +518,7 @@
     "model": "app_seance.seance",
     "pk": 14,
     "fields": {
-      "date": "03/17/2023",
+      "date": "2023-03-17",
       "heure_debut": "08:00",
       "heure_fin": "10:00",
       "effectif": "Groupe de TP",
@@ -534,7 +534,7 @@
     "model": "app_seance.seance",
     "pk": 15,
     "fields": {
-      "date": "03/20/2023",
+      "date": "2023-03-20",
       "heure_debut": "10:00",
       "heure_fin": "12:00",
       "effectif": "1/2 Promo",
@@ -550,7 +550,7 @@
     "model": "app_seance.seance",
     "pk": 16,
     "fields": {
-      "date": "03/22/2023",
+      "date": "2023-03-22",
       "heure_debut": "16:00",
       "heure_fin": "18:00",
       "effectif": "Groupe de TD",
@@ -566,7 +566,7 @@
     "model": "app_seance.seance",
     "pk": 17,
     "fields": {
-      "date": "03/25/2023",
+      "date": "2023-03-25",
       "heure_debut": "14:00",
       "heure_fin": "16:00",
       "effectif": "1/2 Groupe de TD",
@@ -582,7 +582,7 @@
     "model": "app_seance.seance",
     "pk": 18,
     "fields": {
-      "date": "03/28/2023",
+      "date": "2023-03-28",
       "heure_debut": "10:00",
       "heure_fin": "12:00",
       "effectif": "Groupe de TP",

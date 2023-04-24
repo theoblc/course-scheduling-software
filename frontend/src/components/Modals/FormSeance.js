@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import $ from "jquery";
 import {
   Button,
   Modal,
@@ -135,6 +136,56 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
         setCoherenceError(true);
       }
     } else {
+      $(function () {
+        // Sélectionner les champs d'heure de début, heure de fin et salle du formulaire
+        var date_input = $("#date");
+        var heure_debut_input = $("#heure_debut");
+        var heure_fin_input = $("#heure_fin");
+        var salle_input = $("#salle");
+        var numero_groupe_td_input = $("#numero_groupe_td");
+
+        // Fonction à appeler lorsqu'un champ est modifié
+        function detecter_conflits() {
+          // Récupérer les valeurs des champs
+          var date = date_input.val();
+          var heure_debut = heure_debut_input.val();
+          var heure_fin = heure_fin_input.val();
+          var salle = salle_input.val();
+          var numero_groupe_td = numero_groupe_td_input.val();
+
+          // Envoyer une requête AJAX pour vérifier les conflits
+          $.ajax({
+            url: "/conflit_creation_salle/",
+            type: "POST",
+            data: {
+              id: "", // Mettez l'identifiant de la séance ici si vous voulez modifier une séance existante
+              date: date,
+              heure_debut: heure_debut,
+              heure_fin: heure_fin,
+              salle: salle,
+              numero_groupe_td: numero_groupe_td,
+              csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(), // Ajouter le jeton CSRF pour la sécurité
+            },
+            success: function (response) {
+              // Si la réponse indique un conflit, afficher un message d'erreur
+              if (response.error) {
+                alert(response.error);
+              }
+            },
+            error: function (xhr, status, error) {
+              // En cas d'erreur, afficher un message d'erreur générique
+              alert("Une erreur s'est produite. Veuillez réessayer.");
+            },
+          });
+        }
+
+        // Ajouter un événement de changement aux champs suivants
+        date_input.on("change", detecter_conflits);
+        heure_debut_input.on("change", detecter_conflits);
+        heure_fin_input.on("change", detecter_conflits);
+        salle_input.on("change", detecter_conflits);
+        numero_groupe_td_input.on("change", detecter_conflits);
+      });
       return onSave(item);
     }
   }
