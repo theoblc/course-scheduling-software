@@ -13,7 +13,7 @@ import {
 
 function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   const [sum, setSum] = useState(0);
-  const [item, setItem] = useState(activeItem);
+  const [item, setItem] = useState({ ...activeItem });
   const [enseignants, setEnseignants] = useState([]);
   const [nomError, setNomError] = useState(false);
   const [codeError, setCodeError] = useState(false);
@@ -46,6 +46,9 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
 
   function handleChange(e) {
     let { name, value } = e.target;
+    if (name === "enseignant") {
+      value = JSON.parse(value);
+    }
     const newItem = { ...item, [name]: value };
     setItem(newItem);
   }
@@ -84,7 +87,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
 
   function generateOptionsCoordinateur() {
     return enseignants.map((enseignant) => (
-      <option key={enseignant.id} value={enseignant.id}>
+      <option key={enseignant.id} value={JSON.stringify(enseignant)}>
         {enseignant.nom} {enseignant.prenom}
       </option>
     ));
@@ -93,7 +96,6 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   function validateForm() {
     if (testValid()) {
       item.nb_heures_total = sum;
-      console.log(item);
       return onSave(item);
     }
   }
@@ -143,8 +145,8 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               className="form-control"
               name="enseignant"
               onChange={handleChange}
-              value={item.enseignant}
-              placeholder={item.enseignant}
+              value={JSON.stringify(item.enseignant)}
+              placeholder={`${item.enseignant.nom} ${item.enseignant.prenom}`}
               style={{ borderColor: coordinateurError ? "red" : "" }}
             >
               <option hidden>Choix du coordinateur</option>

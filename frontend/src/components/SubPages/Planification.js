@@ -26,7 +26,7 @@ function Planification() {
 
   const listParams = {
     title: `Planification de ${module.code}`,
-    urlFetch: `http://127.0.0.1:8000/api/modules/${id}/seances/`,
+    urlFetch: `http://127.0.0.1:8000/api/seances/`,
     urlModify: `http://127.0.0.1:8000/api/seances/`,
     type: "seances",
     data: data,
@@ -38,7 +38,7 @@ function Planification() {
       effectif: null,
       commentaire: null,
       numero_groupe_td: null,
-      module: id,
+      module: module,
       cours: {
         id: 0,
         nom: "",
@@ -47,8 +47,8 @@ function Planification() {
         nb_heures_hors_presentiel: 0,
         type: "",
       },
-      enseignant: null,
-      salle: null,
+      enseignant: "",
+      salle: "",
     },
     columns: [
       {

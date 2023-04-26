@@ -1,6 +1,5 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
-from serializer.serializers import ModuleSerializer, ModuleReadSerializer, CoursSerializer, SeanceSerializer, SeanceReadSerializer
+from serializer.serializers import ModuleSerializer, CoursSerializer, SeanceSerializer, SeanceReadSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets      
@@ -11,11 +10,6 @@ from app_seance.models import Seance
 class ModuleView(viewsets.ModelViewSet):  
     serializer_class = ModuleSerializer   
     queryset = Module.objects.all()
-
-    def get_serializer_class(self):
-         if self.request.method in ['GET']:
-             return ModuleReadSerializer
-         return ModuleSerializer
 
 class ListeSeancesModule(APIView):
     def get(self, request, module_id):

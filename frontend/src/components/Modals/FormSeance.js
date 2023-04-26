@@ -26,7 +26,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   useEffect(() => {
     const fetchData = async () => {
       const raw_cours = await fetch(
-        `http://localhost:8000/api/modules/${item.module}/cours`
+        `http://localhost:8000/api/modules/${item.module.id}/cours`
       );
       const cours = await raw_cours.json();
       setCours(cours);
@@ -47,7 +47,10 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
 
   function handleChange(e) {
     let { name, value } = e.target;
-    let newItem = { ...item, [name]: value };
+    if (["cours", "salle", "enseignant"].includes(name)) {
+      value = JSON.parse(value);
+    }
+    const newItem = { ...item, [name]: value };
     setItem(newItem);
   }
 
@@ -69,7 +72,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
 
   function generateOptionsCours() {
     return cours.map((cours) => (
-      <option key={cours.id} value={cours.id}>
+      <option key={cours.id} value={JSON.stringify(cours)}>
         {cours.nom}
       </option>
     ));
@@ -77,7 +80,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
 
   function generateOptionsSalle() {
     return salles.map((salle) => (
-      <option key={salle.id} value={salle.id}>
+      <option key={salle.id} value={JSON.stringify(salle)}>
         {salle.numero}
       </option>
     ));
@@ -85,7 +88,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
 
   function generateOptionsEnseignant() {
     return enseignants.map((enseignant) => (
-      <option key={enseignant.id} value={enseignant.id}>
+      <option key={enseignant.id} value={JSON.stringify(enseignant)}>
         {enseignant.nom} {enseignant.prenom}
       </option>
     ));
@@ -142,13 +145,13 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
       <ModalBody>
         <Form>
           <FormGroup>
-            <Label for="salle">Cours</Label>
+            <Label for="cours">Cours</Label>
             <select
               className="form-control"
               name="cours"
               onChange={handleChange}
-              value={item.cours}
-              placeholder={item.cours}
+              value={JSON.stringify(item.cours)}
+              placeholder={item.cours.nom}
               style={{ borderColor: coursError ? "red" : "" }}
             >
               <option hidden>Choix du cours</option>
@@ -252,8 +255,8 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
               className="form-control"
               name="salle"
               onChange={handleChange}
-              value={item.salle}
-              placeholder={item.salle}
+              value={JSON.stringify(item.salle)}
+              placeholder={item.salle.numero}
             >
               <option hidden>Choix de la salle</option>
               {generateOptionsSalle()}
@@ -265,8 +268,8 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
               className="form-control"
               name="enseignant"
               onChange={handleChange}
-              value={item.enseignant}
-              placeholder={item.enseignant}
+              value={JSON.stringify(item.enseignant)}
+              placeholder={`${item.enseignant.nom} ${item.enseignant.prenom}`}
             >
               <option hidden>Choix de l'enseignant</option>
               {generateOptionsEnseignant()}
