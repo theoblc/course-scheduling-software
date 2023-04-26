@@ -2,13 +2,15 @@ import React, { useState, useContext } from "react";
 import FormModule from "../Modals/FormModule";
 import { Button, Table } from "reactstrap";
 import FicheProgrammeContext from "../Assets/Contexte";
+import CalculHeures from "../Assets/CalculHeures";
 import Title from "../Assets/Title";
 import axios from "axios";
 
 function Module() {
   const [module, setModule] = useState(useContext(FicheProgrammeContext));
-  const [modalEdit, setModalEdit] = useState(false);
   const baseURLModule = "http://localhost:8000/api/modules/";
+  const repartitionHeures = CalculHeures(module.id);
+  const [modalEdit, setModalEdit] = useState(false);
 
   function toggleModalEdit() {
     setModalEdit(!modalEdit);
@@ -54,6 +56,7 @@ function Module() {
             <th>Heures de TD</th>
             <th>Heures de TP</th>
             <th>Heures de BE</th>
+            <th>Heures HP</th>
             <th>Total</th>
           </tr>
         </thead>
@@ -64,12 +67,23 @@ function Module() {
             <td>
               {module.enseignant.nom} {module.enseignant.prenom}
             </td>
-            <td>{module.nb_heures_cm}</td>
-            <td>{module.nb_heures_ci}</td>
-            <td>{module.nb_heures_td}</td>
-            <td>{module.nb_heures_tp}</td>
-            <td>{module.nb_heures_be}</td>
-            <td>{module.nb_heures_total}</td>
+            <td>{`${repartitionHeures.nb_heures_cm}/${Number(
+              module.nb_heures_cm
+            )}`}</td>
+            <td>{`${repartitionHeures.nb_heures_ci}/${Number(
+              module.nb_heures_ci
+            )}`}</td>
+            <td>{`${repartitionHeures.nb_heures_td}/${Number(
+              module.nb_heures_td
+            )}`}</td>
+            <td>{`${repartitionHeures.nb_heures_tp}/${Number(
+              module.nb_heures_tp
+            )}`}</td>
+            <td>{`${repartitionHeures.nb_heures_be}/${Number(
+              module.nb_heures_be
+            )}`}</td>
+            <td></td>
+            <td>{`${repartitionHeures.nb_heures_total}/${module.nb_heures_total}`}</td>
           </tr>
         </tbody>
       </Table>

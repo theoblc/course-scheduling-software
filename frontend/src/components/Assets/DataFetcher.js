@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 function DataFetcher(urlFetch) {
   const [data, setData] = useState([]);
 
-  const fetchData = async () => {
+  async function fetchData() {
     const raw_data = await fetch(urlFetch);
     const res = await raw_data.json();
     setData(res);
-  };
+  }
 
   useEffect(() => {
     fetchData().catch(console.error);
