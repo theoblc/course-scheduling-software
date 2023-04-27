@@ -14,15 +14,23 @@ import {
 function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   const [item, setItem] = useState(activeItem);
   const [salles, setSalles] = useState([]);
+  const [cours, setCours] = useState([]);
   const [enseignants, setEnseignants] = useState([]);
+  const [coursError, setCoursError] = useState(false);
   const [dateError, setDateError] = useState(false);
   const [debutError, setDebutError] = useState(false);
   const [finError, setFinError] = useState(false);
-  const [numeroError, setNumeroError] = useState(false);
   const [coherenceError, setCoherenceError] = useState(false);
+  const messageError = "Le champ est obligatoire.";
 
   useEffect(() => {
     const fetchData = async () => {
+      const raw_cours = await fetch(
+        `http://localhost:8000/api/modules/${item.module.id}/cours`
+      );
+      const cours = await raw_cours.json();
+      setCours(cours);
+
       const raw_salles = await fetch("http://localhost:8000/api/salles/");
       const salles = await raw_salles.json();
       setSalles(salles);
@@ -35,11 +43,14 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     };
 
     fetchData().catch(console.error);
-  }, []);
+  }, [item.module]);
 
   function handleChange(e) {
     let { name, value } = e.target;
-    let newItem = { ...item, [name]: value };
+    if (["cours", "salle", "enseignant"].includes(name)) {
+      value = JSON.parse(value);
+    }
+    const newItem = { ...item, [name]: value };
     setItem(newItem);
   }
 
@@ -59,9 +70,17 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     ));
   }
 
+  function generateOptionsCours() {
+    return cours.map((cours) => (
+      <option key={cours.id} value={JSON.stringify(cours)}>
+        {cours.nom}
+      </option>
+    ));
+  }
+
   function generateOptionsSalle() {
     return salles.map((salle) => (
-      <option key={salle.id} value={salle.id}>
+      <option key={salle.id} value={JSON.stringify(salle)}>
         {salle.numero}
       </option>
     ));
@@ -69,24 +88,41 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
 
   function generateOptionsEnseignant() {
     return enseignants.map((enseignant) => (
-      <option key={enseignant.id} value={enseignant.id}>
+      <option key={enseignant.id} value={JSON.stringify(enseignant)}>
         {enseignant.nom} {enseignant.prenom}
       </option>
     ));
   }
 
+  function isValidDate(dateString) {
+    // Expression régulière pour vérifier le format dd/MM/yyyy
+    const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    return regex.test(dateString);
+  }
+
   function testValid() {
-    const { date, heure_debut, heure_fin, numero_groupe_td } = item;
+    setCoursError(false);
+    setDateError(false);
+    setDebutError(false);
+    setFinError(false);
+    setCoherenceError(false);
+    const { date, heure_debut, heure_fin } = item;
     var debut_avant_fin = heure_debut <= heure_fin;
+    var date_valide = isValidDate(date);
+    var cours_valide = item.cours.id !== 0;
     if (
       !date ||
       !heure_debut ||
       !heure_fin ||
-      !numero_groupe_td ||
-      !debut_avant_fin
+      !debut_avant_fin ||
+      !date_valide ||
+      !cours_valide
     ) {
       // Afficher un message d'erreur pour chaque champ vide
-      if (!date) {
+      if (!cours_valide) {
+        setCoursError(true);
+      }
+      if (!date | !date_valide) {
         setDateError(true);
       }
       if (!heure_debut) {
@@ -94,9 +130,6 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
       }
       if (!heure_fin) {
         setFinError(true);
-      }
-      if (!numero_groupe_td) {
-        setNumeroError(true);
       }
       if (!debut_avant_fin) {
         setCoherenceError(true);
@@ -112,12 +145,28 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
       <ModalBody>
         <Form>
           <FormGroup>
+            <Label for="cours">Cours</Label>
+            <select
+              className="form-control"
+              name="cours"
+              onChange={handleChange}
+              value={JSON.stringify(item.cours)}
+              placeholder={item.cours.nom}
+              style={{ borderColor: coursError ? "red" : "" }}
+            >
+              <option hidden>Choix du cours</option>
+              {generateOptionsCours()}
+            </select>
+            {coursError && <p style={{ color: "red" }}>{messageError}</p>}
+          </FormGroup>
+          <FormGroup>
             <Label for="date">Date</Label>
             <Input
-              type="date"
+              type="text"
               name="date"
-              value={item.date}
+              defaultValue={item.date}
               onChange={handleChange}
+              placeholder="dd/MM/yyyy"
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
                   testValid();
@@ -126,9 +175,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
               // Afficher une bordure rouge si le champ est vide
               style={{ borderColor: dateError ? "red" : "" }}
             />
-            {dateError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
+            {dateError && <p style={{ color: "red" }}>{messageError}</p>}
           </FormGroup>
           <FormGroup>
             <Label for="heure_debut">Heure Début</Label>
@@ -147,9 +194,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
                 borderColor: debutError || coherenceError ? "red" : "",
               }}
             />
-            {debutError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
+            {debutError && <p style={{ color: "red" }}>{messageError}</p>}
             {coherenceError && (
               <p style={{ color: "red" }}>
                 L'heure de début doit être avant l'heure de fin de séance
@@ -173,9 +218,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
                 borderColor: finError || coherenceError ? "red" : "",
               }}
             />
-            {finError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
+            {finError && <p style={{ color: "red" }}>{messageError}</p>}
             {coherenceError && (
               <p style={{ color: "red" }}>
                 L'heure de début doit être avant l'heure de fin de séance
@@ -186,20 +229,12 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
             <Label for="numero_groupe_td">Numéro Groupe TD</Label>
             <Input
               type="number"
+              min={0}
+              max={9}
               name="numero_groupe_td"
               value={item.numero_groupe_td}
               onChange={handleChange}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  testValid();
-                }
-              }}
-              // Afficher une bordure rouge si le champ est vide
-              style={{ borderColor: numeroError ? "red" : "" }}
             />
-            {numeroError && (
-              <p style={{ color: "red" }}>Ce champ est obligatoire</p>
-            )}
           </FormGroup>
           <FormGroup>
             <Label for="effectif">Effectif</Label>
@@ -220,8 +255,8 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
               className="form-control"
               name="salle"
               onChange={handleChange}
-              value={item.salle}
-              placeholder={item.salle}
+              value={JSON.stringify(item.salle)}
+              placeholder={item.salle.numero}
             >
               <option hidden>Choix de la salle</option>
               {generateOptionsSalle()}
@@ -233,8 +268,8 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
               className="form-control"
               name="enseignant"
               onChange={handleChange}
-              value={item.enseignant}
-              placeholder={item.enseignant}
+              value={JSON.stringify(item.enseignant)}
+              placeholder={`${item.enseignant.nom} ${item.enseignant.prenom}`}
             >
               <option hidden>Choix de l'enseignant</option>
               {generateOptionsEnseignant()}

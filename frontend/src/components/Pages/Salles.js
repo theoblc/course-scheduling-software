@@ -1,12 +1,17 @@
 import React from "react";
-import List from "../Assets/List";
+import DataFetcher from "../Assets/DataFetcher";
+import PageGenerator from "../Assets/PageGenerator";
 
 function Salles() {
+  const { data, fetchData } = DataFetcher("http://localhost:8000/api/salles/");
+
   const listParams = {
     title: "Salles",
     urlFetch: "http://localhost:8000/api/salles/",
     urlModify: "http://localhost:8000/api/salles/",
     type: "salles",
+    data: data,
+    fetchData: fetchData,
     item: {
       numero: "",
       description: "",
@@ -28,7 +33,7 @@ function Salles() {
 
   return (
     <main>
-      <List listParams={listParams} />
+      <PageGenerator listParams={listParams} />
     </main>
   );
 }

@@ -1,38 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext } from "react";
 import FormModule from "../Modals/FormModule";
 import { Button, Table } from "reactstrap";
+import FicheProgrammeContext from "../Assets/Contexte";
+import CalculHeures from "../Assets/CalculHeures";
 import Title from "../Assets/Title";
 import axios from "axios";
 
-function Module({ idModule }) {
-  const [module, setModule] = useState({
-    id: 0,
-    code: "",
-    nom: "",
-    nb_heures_tp: 0,
-    nb_heures_be: 0,
-    nb_heures_td: 0,
-    nb_heures_cm: 0,
-    nb_heures_ci: 0,
-    nb_heures_total: 0,
-    seances: null,
-    cours: null,
-  });
-  const [modalEdit, setModalEdit] = useState(false);
+function Module() {
+  const [module, setModule] = useState(useContext(FicheProgrammeContext));
   const baseURLModule = "http://localhost:8000/api/modules/";
+  const repartitionHeures = CalculHeures(module.id);
+  const [modalEdit, setModalEdit] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const urlModule = baseURLModule + idModule;
-      const dataModule = await fetch(urlModule);
-      const module = await dataModule.json();
-      let sum = calculSum(module);
-      module.nb_heures_total = sum;
-      setModule(module);
-    };
-
-    fetchData().catch(console.error);
-  }, [idModule]);
+  function toggleModalEdit() {
+    setModalEdit(!modalEdit);
+  }
 
   function calculSum(module) {
     let sum = [
@@ -45,11 +27,8 @@ function Module({ idModule }) {
     return sum;
   }
 
-  function toggleModalEdit() {
-    setModalEdit(!modalEdit);
-  }
-
   function editModule(itemModified) {
+    toggleModalEdit();
     let sum = calculSum(itemModified);
     itemModified.nb_heures_total = sum;
     setModule(itemModified);
@@ -72,11 +51,13 @@ function Module({ idModule }) {
           <tr>
             <th>Code</th>
             <th>Nom</th>
+            <th>Coordinateur</th>
             <th>Heures de CM</th>
             <th>Heures de CI</th>
             <th>Heures de TD</th>
             <th>Heures de TP</th>
             <th>Heures de BE</th>
+            <th>Heures HP</th>
             <th>Total</th>
           </tr>
         </thead>
@@ -84,12 +65,30 @@ function Module({ idModule }) {
           <tr>
             <td>{module.code}</td>
             <td>{module.nom}</td>
-            <td>{module.nb_heures_cm}</td>
-            <td>{module.nb_heures_ci}</td>
-            <td>{module.nb_heures_td}</td>
-            <td>{module.nb_heures_tp}</td>
-            <td>{module.nb_heures_be}</td>
-            <td>{module.nb_heures_total}</td>
+            <td>
+              {module.enseignant.nom} {module.enseignant.prenom}
+            </td>
+            <td>{`${repartitionHeures.nb_heures_cm}/${Number(
+              module.nb_heures_cm
+            )}`}</td>
+            <td>{`${repartitionHeures.nb_heures_ci}/${Number(
+              module.nb_heures_ci
+            )}`}</td>
+            <td>{`${repartitionHeures.nb_heures_td}/${Number(
+              module.nb_heures_td
+            )}`}</td>
+            <td>{`${repartitionHeures.nb_heures_tp}/${Number(
+              module.nb_heures_tp
+            )}`}</td>
+            <td>{`${repartitionHeures.nb_heures_be}/${Number(
+              module.nb_heures_be
+            )}`}</td>
+            <td>{`${repartitionHeures.nb_heures_hors_presentiel}/${Number(
+              module.nb_heures_hors_presentiel
+            )}`}</td>
+            <td>{`${repartitionHeures.nb_heures_total}/${Number(
+              module.nb_heures_total
+            )}`}</td>
           </tr>
         </tbody>
       </Table>

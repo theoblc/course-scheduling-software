@@ -46,9 +46,8 @@ function DataTable({
     setModalEdit(!modalEdit);
   }
 
-  function edit(itemModified, sum) {
+  function edit(itemModified) {
     toggleModalEdit(itemModified);
-    itemModified.nb_heures_total = sum;
     axios
       .patch(baseURL + itemModified.id + "/", itemModified)
       .then(() => {
@@ -68,10 +67,22 @@ function DataTable({
     setModalCreate(!modalCreate);
   }
 
-  function create(itemAdd) {
+  function create(item) {
     toggleModalCreate();
     axios
-      .post(fetchURL, itemAdd)
+      .post(fetchURL, item)
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function duplicate(item) {
+    delete item.id;
+    axios
+      .post(fetchURL, item)
       .then(() => {
         fetchData();
       })
@@ -143,19 +154,12 @@ function DataTable({
           else if ((type = "cours") && action === "btn btn-dark btn-sm w-70") {
             redirect(`/modules/${data.id}/Planification`);
           }
-          // Si c'est le bouton "Détails" de la liste des Séances
+          // Si c'est le bouton "Dupliquer" de la liste des séances
           else if (
-            (type = "recap_seances") &&
-            action === "rs btn btn-success btn-sm w-70"
+            (type = "seances") &&
+            action === "btn btn-success btn-sm w-70"
           ) {
-            redirect(`/modules/${data.module}/cours/${data.cours}/seances`);
-          }
-          // Si c'est le bouton "Séances" de la fiche programme d'un module
-          else if (
-            (type = "cours") &&
-            action === "c btn btn-success btn-sm w-70"
-          ) {
-            redirect(`/modules/${data.module}/cours/${data.id}/seances`);
+            duplicate(data);
           }
           // Si c'est bouton "modifier"
           else if (action === "btn btn-warning btn-sm w-70") {
@@ -173,7 +177,7 @@ function DataTable({
   return (
     <div className="container-fluid py-4">
       <div className="table-responsive p-0 pb-2">
-        <table id="datatable" className="display" width="100%">
+        <table id="datatable" className="display">
           <thead>
             <tr>
               {nameColumns.map((colonne) => (

@@ -1,44 +1,52 @@
 import React from "react";
-import List from "../Assets/List";
+import DataFetcher from "../Assets/DataFetcher";
+import PageGenerator from "../Assets/PageGenerator";
 
 function Modules() {
+  const { data, fetchData } = DataFetcher("http://localhost:8000/api/modules/");
+
   const listParams = {
     title: "Modules",
     urlFetch: "http://localhost:8000/api/modules/",
     urlModify: "http://localhost:8000/api/modules/",
     type: "modules",
+    data: data,
+    fetchData: fetchData,
     item: {
       code: "",
       nom: "",
+      enseignant: {
+        id: 0,
+        nom: "",
+        prenom: "",
+        departement: "",
+      },
       nb_heures_tp: 0,
       nb_heures_td: 0,
       nb_heures_be: 0,
       nb_heures_ci: 0,
       nb_heures_cm: 0,
+      nb_heures_hors_presentiel: 0,
       nb_heures_total: 0,
     },
     columns: [
-      { data: "code" },
-      { data: "nom" },
-      { data: "nb_heures_cm" },
-      { data: "nb_heures_ci" },
-      { data: "nb_heures_td" },
-      { data: "nb_heures_tp" },
-      { data: "nb_heures_be" },
-      { data: "nb_heures_total" },
-      { data: null },
+      { data: "code", width: "10%" },
+      { data: "nom", width: "30%" },
+      {
+        data: "enseignant",
+        width: "10%",
+        render: function (data) {
+          if (data) {
+            const { nom, prenom } = data;
+            return `${nom} ${prenom}`;
+          } else {
+            return "";
+          }
+        },
+      },
+      { data: null, width: "20%" },
     ],
-    nameColumns: [
-      "Code",
-      "Nom",
-      "Nombre d'heures de CM",
-      "Nombre d'heures de CI",
-      "Nombre d'heures de TD",
-      "Nombre d'heures de TP",
-      "Nombre d'heures de BE",
-      "Nombre heures total",
-      "Action",
-    ],
+    nameColumns: ["Code", "Nom", "Coordinateur", "Actions"],
     dom:
       "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-5 d-flex justify-content-end'B>>" +
       "<'row'<'col-sm-12'tr>>" +
@@ -56,7 +64,7 @@ function Modules() {
 
   return (
     <main>
-      <List listParams={listParams} />
+      <PageGenerator listParams={listParams} />
     </main>
   );
 }

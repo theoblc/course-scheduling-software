@@ -11,14 +11,33 @@ class EnseignantSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ModuleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Module   
-        fields = '__all__'
+    enseignant = EnseignantSerializer()
 
-class SeanceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Seance   
+        model = Module
         fields = '__all__'
+    
+    def create(self, validated_data):
+        enseignant_data = self.context['request'].data.get('enseignant')
+        enseignant_id = enseignant_data.get('id')
+        try:
+            enseignant = Enseignant.objects.get(id=enseignant_id)
+            validated_data['enseignant'] = enseignant
+        except Enseignant.DoesNotExist:
+            pass
+        return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        enseignant_data = self.context['request'].data.get('enseignant')
+        if enseignant_data:
+            enseignant_id = enseignant_data.get('id')
+            enseignant = Enseignant.objects.get(id=enseignant_id)
+            instance.enseignant = enseignant
+            validated_data['enseignant'] = enseignant
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
 
 class SalleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,3 +48,76 @@ class CoursSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cours
         fields = '__all__'
+
+class SeanceSerializer(serializers.ModelSerializer):
+    module = ModuleSerializer()
+    cours = CoursSerializer()
+    enseignant = EnseignantSerializer()
+    salle = SalleSerializer()
+
+    class Meta:
+        model = Seance
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        module_data = self.context['request'].data.get('module')
+        cours_data = self.context['request'].data.get('cours')
+        enseignant_data = self.context['request'].data.get('enseignant')
+        salle_data = self.context['request'].data.get('salle')
+        try:
+            module_id = module_data.get('id')
+            module = Module.objects.get(id=module_id)
+            validated_data['module'] = module
+
+            cours_id = cours_data.get('id')
+            cours = Cours.objects.get(id=cours_id)
+            validated_data['cours'] = cours
+
+            enseignant_id = enseignant_data.get('id')
+            enseignant = Enseignant.objects.get(id=enseignant_id)
+            validated_data['enseignant'] = enseignant
+
+            salle_id = salle_data.get('id')
+            salle = Salle.objects.get(id=salle_id)
+            validated_data['salle'] = salle
+        except Enseignant.DoesNotExist:
+            pass
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        module_data = self.context['request'].data.get('module')
+        cours_data = self.context['request'].data.get('cours')
+        enseignant_data = self.context['request'].data.get('enseignant')
+        salle_data = self.context['request'].data.get('salle')
+        try:
+            module_id = module_data.get('id')
+            module = Module.objects.get(id=module_id)
+            instance.module = module
+            validated_data['module'] = module
+        
+            cours_id = cours_data.get('id')
+            cours = Cours.objects.get(id=cours_id)
+            instance.cours = cours
+            validated_data['cours'] = cours
+        
+            enseignant_id = enseignant_data.get('id')
+            enseignant = Enseignant.objects.get(id=enseignant_id)
+            instance.enseignant = enseignant
+            validated_data['enseignant'] = enseignant
+
+            salle_id = salle_data.get('id')
+            salle = Salle.objects.get(id=salle_id)
+            instance.salle = salle
+            validated_data['salle'] = salle
+        except:
+            pass
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
+
+class SeanceReadSerializer(SeanceSerializer):
+     module = ModuleSerializer(read_only=True)
+     cours = CoursSerializer(read_only=True)
+     enseignant = EnseignantSerializer(read_only=True)
+     salle = SalleSerializer(read_only=True)

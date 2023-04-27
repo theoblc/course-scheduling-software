@@ -10,7 +10,6 @@ import Salles from "./components/Pages/Salles";
 import Seances from "./components/Pages/Seances";
 import FicheProgramme from "./components/SubPages/FicheProgramme";
 import Planification from "./components/SubPages/Planification";
-import SeancesCours from "./components/SubPages/SeancesCours";
 
 class App extends Component {
   render() {
@@ -27,10 +26,6 @@ class App extends Component {
             <Route
               path="/modules/:id/Planification"
               element={<Planification />}
-            />
-            <Route
-              path="/modules/:module_id/cours/:cours_id/seances"
-              element={<SeancesCours />}
             />
             <Route path="/modules" element={<Modules />} />
             <Route path="/salles" element={<Salles />} />
