@@ -213,7 +213,8 @@
       "nb_heures_td": 15,
       "nb_heures_be": 5,
       "nb_heures_ci": 10,
-      "nb_heures_cm": 10
+      "nb_heures_cm": 10,
+      "nb_heures_hors_presentiel": 0
     }
   },
   {
@@ -228,7 +229,8 @@
       "nb_heures_td": 12,
       "nb_heures_be": 4,
       "nb_heures_ci": 8,
-      "nb_heures_cm": 8
+      "nb_heures_cm": 8,
+      "nb_heures_hors_presentiel": 0
     }
   },
   {
@@ -243,7 +245,8 @@
       "nb_heures_td": 20,
       "nb_heures_be": 5,
       "nb_heures_ci": 10,
-      "nb_heures_cm": 10
+      "nb_heures_cm": 10,
+      "nb_heures_hors_presentiel": 0
     }
   },
   {
@@ -258,7 +261,8 @@
       "nb_heures_td": 15,
       "nb_heures_be": 5,
       "nb_heures_ci": 10,
-      "nb_heures_cm": 5
+      "nb_heures_cm": 5,
+      "nb_heures_hors_presentiel": 0
     }
   },
   {
@@ -273,7 +277,8 @@
       "nb_heures_td": 30,
       "nb_heures_be": 0,
       "nb_heures_ci": 15,
-      "nb_heures_cm": 15
+      "nb_heures_cm": 15,
+      "nb_heures_hors_presentiel": 0
     }
   },
   {
@@ -288,7 +293,8 @@
       "nb_heures_td": 30,
       "nb_heures_be": 0,
       "nb_heures_ci": 15,
-      "nb_heures_cm": 15
+      "nb_heures_cm": 15,
+      "nb_heures_hors_presentiel": 0
     }
   },
   {
@@ -303,7 +309,8 @@
       "nb_heures_td": 0,
       "nb_heures_be": 0,
       "nb_heures_ci": 30,
-      "nb_heures_cm": 0
+      "nb_heures_cm": 0,
+      "nb_heures_hors_presentiel": 0
     }
   },
   {
@@ -318,7 +325,8 @@
       "nb_heures_td": 20,
       "nb_heures_be": 0,
       "nb_heures_ci": 15,
-      "nb_heures_cm": 15
+      "nb_heures_cm": 15,
+      "nb_heures_hors_presentiel": 0
     }
   },
 

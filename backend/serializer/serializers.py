@@ -93,18 +93,22 @@ class SeanceSerializer(serializers.ModelSerializer):
             module_id = module_data.get('id')
             module = Module.objects.get(id=module_id)
             instance.module = module
+            validated_data['module'] = module
         
             cours_id = cours_data.get('id')
             cours = Cours.objects.get(id=cours_id)
             instance.cours = cours
+            validated_data['cours'] = cours
         
             enseignant_id = enseignant_data.get('id')
             enseignant = Enseignant.objects.get(id=enseignant_id)
             instance.enseignant = enseignant
+            validated_data['enseignant'] = enseignant
 
             salle_id = salle_data.get('id')
             salle = Salle.objects.get(id=salle_id)
             instance.salle = salle
+            validated_data['salle'] = salle
         except:
             pass
         for attr, value in validated_data.items():
