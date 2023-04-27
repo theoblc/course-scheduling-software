@@ -70,30 +70,43 @@ def envoyer_conflits(request):
     # Retourner la réponse HTTP avec la chaîne JSON
     return HttpResponse(json_response, content_type='application/json')
 
-def conflit_creation_salle(request):
-    date = request.POST.get('date')
-    heure_debut = request.POST.get('heure_debut')
-    heure_fin = request.POST.get('heure_fin')
-    salle = request.POST.get('salle')
-    numero_groupe_td = request.POST.get('numero_groupe_td')
 
-    # Vérifier s'il y a une séance qui utilise la même salle et qui se chevauche dans le temps
-    seances_en_conflit = Seance.objects.filter(
-        Q(date=date) & Q(salle=salle) &
-        ((Q(heure_debut__lt=heure_fin) & Q(heure_fin__gt=heure_debut)) | 
-        (Q(heure_debut__gte=heure_debut) & Q(heure_fin__lte=heure_fin)) |
-        (Q(heure_debut__lte=heure_debut) & Q(heure_fin__gte=heure_fin)))
-    )
+class Conflits(APIView):
+    def post(self, request):
+        id_seance = request.data.get('id') #Si c'est une modification ce champs est non vide
+        date = request.data.get('date')
+        heure_debut = request.data.get('heure_debut')
+        heure_fin = request.data.get('heure_fin')
+        salle = request.data.get('salle')
+        numero_groupe_td = request.data.get('numero_groupe_td')
 
-    # Si la vérification des chevauchements échoue, renvoyer une réponse HTTP avec un message d'erreur approprié
-    if seances_en_conflit.exists():
-        error_message = "Cette salle est déjà utilisée pour une autre séance à ce moment-là."
-        return JsonResponse({'error': error_message})
+        # Vérifier s'il y a une séance qui utilise la même salle et qui se chevauche dans le temps
+        seances_en_conflit = Seance.objects.filter(
+            Q(date=date) & Q(salle=salle) &
+            ((Q(heure_debut__lt=heure_fin) & Q(heure_fin__gt=heure_debut)) | 
+            (Q(heure_debut__gte=heure_debut) & Q(heure_fin__lte=heure_fin)) |
+            (Q(heure_debut__lte=heure_debut) & Q(heure_fin__gte=heure_fin)))
+        )
 
-    # Si la vérification des chevauchements est OK, créer une nouvelle instance de la classe Seance et sauvegarder dans la base de données
-    new_Seance = Seance(date=date, heure_debut=heure_debut, heure_fin=heure_fin, salle=salle)
-    new_Seance.save()
+        # Si la vérification des chevauchements échoue, renvoyer une réponse HTTP avec un message d'erreur approprié
+        if seances_en_conflit.exists():
+            error_message = "Cette salle est déjà utilisée pour une autre séance à ce moment-là."
+            return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Renvoyer une réponse HTTP avec les informations de la nouvelle séance créée
-    response_data = {'success': True, 'Seance_id': new_Seance.id, 'date': date, 'heure_debut': heure_debut, 'heure_fin': heure_fin, 'salle': salle, 'numero_groupe_td': numero_groupe_td}
-    return JsonResponse(response_data)
+        
+        if id_seance :
+            # Si c'est une modification (<=> si id_seance est non vide)
+            new_Seance = Seance.objects.get(id=id_seance)
+            new_Seance.date = date
+            new_Seance.heure_debut = heure_debut
+            new_Seance.heure_fin = heure_fin
+            new_Seance.salle = salle
+            new_Seance.numero_groupe_td = numero_groupe_td
+        else:       
+            # Si la vérification des chevauchements est OK, créer une nouvelle instance de la classe Seance et sauvegarder dans la base de données
+            new_Seance = Seance(date=date, heure_debut=heure_debut, heure_fin=heure_fin, numero_groupe_td=numero_groupe_td, salle=salle)
+        new_Seance.save()
+
+        # Renvoyer une réponse HTTP avec les informations de la nouvelle séance créée
+        response_data = {'success': True, 'Seance_id': new_Seance.id, 'date': date, 'heure_debut': heure_debut, 'heure_fin': heure_fin, 'salle': salle, 'numero_groupe_td': numero_groupe_td}
+        return Response(response_data, status=status.HTTP_201_CREATED)
