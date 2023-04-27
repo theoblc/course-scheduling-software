@@ -26,6 +26,7 @@ function Modules() {
       nb_heures_be: 0,
       nb_heures_ci: 0,
       nb_heures_cm: 0,
+      nb_heures_hors_presentiel: 0,
       nb_heures_total: 0,
     },
     columns: [

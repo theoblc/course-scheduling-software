@@ -28,6 +28,7 @@ function Module() {
   }
 
   function editModule(itemModified) {
+    toggleModalEdit();
     let sum = calculSum(itemModified);
     itemModified.nb_heures_total = sum;
     setModule(itemModified);
@@ -82,8 +83,12 @@ function Module() {
             <td>{`${repartitionHeures.nb_heures_be}/${Number(
               module.nb_heures_be
             )}`}</td>
-            <td></td>
-            <td>{`${repartitionHeures.nb_heures_total}/${module.nb_heures_total}`}</td>
+            <td>{`${repartitionHeures.nb_heures_hors_presentiel}/${Number(
+              module.nb_heures_hors_presentiel
+            )}`}</td>
+            <td>{`${repartitionHeures.nb_heures_total}/${Number(
+              module.nb_heures_total
+            )}`}</td>
           </tr>
         </tbody>
       </Table>

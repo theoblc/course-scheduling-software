@@ -33,6 +33,7 @@ class ModuleSerializer(serializers.ModelSerializer):
             enseignant_id = enseignant_data.get('id')
             enseignant = Enseignant.objects.get(id=enseignant_id)
             instance.enseignant = enseignant
+            validated_data['enseignant'] = enseignant
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()

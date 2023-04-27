@@ -27,6 +27,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
       Number(item.nb_heures_td),
       Number(item.nb_heures_cm),
       Number(item.nb_heures_ci),
+      Number(item.nb_heures_hors_presentiel),
     ].reduce((acc, val) => acc + val, 0);
     setSum(sum);
   }, []);
@@ -228,6 +229,24 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               max={999}
               name="nb_heures_be"
               value={item.nb_heures_be}
+              onChange={handleChange}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  validateForm();
+                }
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="nb_heures_hors_presentiel">
+              Nombre d'heures hors présentiel
+            </Label>
+            <Input
+              type="number"
+              min={0}
+              max={999}
+              name="nb_heures_hors_presentiel"
+              value={item.nb_heures_hors_presentiel}
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {

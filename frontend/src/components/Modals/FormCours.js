@@ -35,7 +35,7 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
   }
 
   function generateOptionsType() {
-    const types = ["CM", "CI", "TD", "TP", "BE", "AUTONOMIE"];
+    const types = ["CM", "CI", "TD", "TP", "BE"];
     return types.map((type) => (
       <option key={type} value={type}>
         {type}
