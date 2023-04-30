@@ -102,27 +102,41 @@ class Conflits(generics.CreateAPIView):
         
         # Vérifier s'il y a une séance qui utilise la même salle et qui se chevauche dans le temps
         if id_seance :
-            seances_en_conflit = Seance.objects.filter(
+            seances_en_conflit_salle = Seance.objects.filter(
             Q(date=date) & Q(salle=salle) &
             ((Q(heure_debut__lt=heure_fin) & Q(heure_fin__gt=heure_debut)) | 
             (Q(heure_debut__gte=heure_debut) & Q(heure_fin__lte=heure_fin)) |
             (Q(heure_debut__lte=heure_debut) & Q(heure_fin__gt=heure_debut) & ~Q(id=id_seance)) |
             (Q(heure_debut__lt=heure_fin) & Q(heure_fin__gte=heure_fin) & ~Q(id=id_seance)))
             ).exclude(id=id_seance)
-            print("modif," ,seances_en_conflit)
+            
+            seances_en_conflit_enseignant = Seance.objects.filter(
+            Q(date=date) & Q(enseignant=enseignant) &
+            ((Q(heure_debut__lt=heure_fin) & Q(heure_fin__gt=heure_debut)) | 
+            (Q(heure_debut__gte=heure_debut) & Q(heure_fin__lte=heure_fin)) |
+            (Q(heure_debut__lte=heure_debut) & Q(heure_fin__gt=heure_debut) & ~Q(id=id_seance)) |
+            (Q(heure_debut__lt=heure_fin) & Q(heure_fin__gte=heure_fin) & ~Q(id=id_seance)))
+            ).exclude(id=id_seance)
         else:
-            seances_en_conflit = Seance.objects.filter(
+            seances_en_conflit_salle = Seance.objects.filter(
             Q(date=date) & Q(salle=salle) &
             ((Q(heure_debut__lt=heure_fin) & Q(heure_fin__gt=heure_debut)) | 
             (Q(heure_debut__gte=heure_debut) & Q(heure_fin__lte=heure_fin)) |
             (Q(heure_debut__lte=heure_debut) & Q(heure_fin__gte=heure_fin)))
             )
-            print("creation,", seances_en_conflit)
-
+            seances_en_conflit_enseignant = Seance.objects.filter(
+            Q(date=date) & Q(enseignant=enseignant) &
+            ((Q(heure_debut__lt=heure_fin) & Q(heure_fin__gt=heure_debut)) | 
+            (Q(heure_debut__gte=heure_debut) & Q(heure_fin__lte=heure_fin)) |
+            (Q(heure_debut__lte=heure_debut) & Q(heure_fin__gte=heure_fin)))
+            )
 
         # Si la vérification des chevauchements échoue, renvoyer une réponse HTTP avec un message d'erreur approprié
-        if seances_en_conflit.exists():
-            error_message = "Cette salle est déjà utilisée pour une autre séance à ce moment-là."
+        if seances_en_conflit_salle.exists():
+            error_message = "Cette salle est déjà utilisée pour une autre séance."
+            return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
+        if seances_en_conflit_enseignant.exists():
+            error_message = "L'enseignant est déjà occupé pour une autre séance."
             return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
 
         
