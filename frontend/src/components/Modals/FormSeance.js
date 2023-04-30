@@ -22,6 +22,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   const [debutError, setDebutError] = useState(false);
   const [finError, setFinError] = useState(false);
   const [coherenceError, setCoherenceError] = useState(false);
+  const [chevauchError, setChevauchError] = useState(false);
   const messageError = "Le champ est obligatoire.";
 
   useEffect(() => {
@@ -101,42 +102,79 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     return regex.test(dateString);
   }
 
-  function detecter_conflits() {
-    // Récupérer les valeurs des champs
-    const { date, heure_debut, heure_fin, numero_groupe_td, salle } = item;
-    console.log("detecter_conflits, salle:", salle);
-    // Envoyer une requête AJAX pour vérifier les conflits
-    $.ajax({
-      url: "http://127.0.0.1:8000/api/seances/chevauchements/",
-      type: "POST",
-      data: {
-        id: "", // Mettez l'identifiant de la séance ici si vous voulez modifier une séance existante
-        date: date,
-        heure_debut: heure_debut,
-        heure_fin: heure_fin,
-        salle: salle,
-        numero_groupe_td: numero_groupe_td,
-        //csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(), // Ajouter le jeton CSRF pour la sécurité
-      },
-      success: function (response) {
-        // Si la réponse indique un conflit, afficher un message d'erreur
-        if (response.error) {
-          alert(response.error);
-        }
-      },
-      error: function (xhr, status, error) {
-        // En cas d'erreur, afficher un message d'erreur générique
-        alert("Une erreur s'est produite. Veuillez réessayer.");
-      },
+  async function detecter_conflits() {
+    const {
+      id,
+      date,
+      heure_debut,
+      heure_fin,
+      effectif,
+      commentaire,
+      module,
+      cours,
+      enseignant,
+      salle,
+      numero_groupe_td,
+    } = item;
+
+    const data = JSON.stringify({
+      id: id,
+      date: date,
+      heure_debut: heure_debut,
+      heure_fin: heure_fin,
+      effectif: effectif,
+      commentaire: commentaire,
+      module: module.id,
+      cours: cours.id,
+      enseignant: enseignant.id,
+      salle: salle.id,
+      numero_groupe_td: numero_groupe_td,
+      csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
     });
+
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/seances/chevauchements",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: data,
+        }
+      );
+
+      if (response.ok) {
+        setChevauchError(false);
+        return false;
+      } else if (response.status === 400) {
+        const json = await response.json();
+        const errorMessage = json.error;
+        if (errorMessage) {
+          alert(errorMessage);
+        }
+        setChevauchError(true);
+        return true;
+      } else {
+        alert("Une erreur s'est produite. Veuillez réessayer.");
+        setChevauchError(false);
+        return false;
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Une erreur s'est produite. Veuillez réessayer.");
+      setChevauchError(false);
+      return false;
+    }
   }
 
-  function testValid() {
+  async function testValid() {
     setCoursError(false);
     setDateError(false);
     setDebutError(false);
     setFinError(false);
     setCoherenceError(false);
+    setChevauchError(false);
     const { date, heure_debut, heure_fin } = item;
     var debut_avant_fin = heure_debut <= heure_fin;
     var date_valide = isValidDate(date);
@@ -166,9 +204,11 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
         setCoherenceError(true);
       }
     } else {
-      detecter_conflits();
-
-      return onSave(item);
+      const chevauchement = await detecter_conflits();
+      setChevauchError(chevauchement);
+      if (!chevauchement) {
+        return toggle(item);
+      }
     }
   }
 
@@ -324,6 +364,12 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
           </FormGroup>
         </Form>
       </ModalBody>
+      {chevauchError && (
+        <p style={{ color: "red", margin: "15px" }}>
+          Cette séance est en conflit avec une autre séance. Veuillez contacter
+          le responsable du module <b>{item.module.code}</b>.
+        </p>
+      )}
       <ModalFooter>
         <Button
           className="enregistrerButton"

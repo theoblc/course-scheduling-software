@@ -10,7 +10,6 @@ import Salles from "./components/Pages/Salles";
 import Seances from "./components/Pages/Seances";
 import FicheProgramme from "./components/SubPages/FicheProgramme";
 import Planification from "./components/SubPages/Planification";
-import SeancesCours from "./components/SubPages/SeancesCours";
 import Chevauchements from "./components/SubPages/Chevauchements";
 
 class App extends Component {
