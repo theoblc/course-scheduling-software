@@ -36,6 +36,11 @@ export default function Navbar() {
               Salles
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/chevauchements">
+              Chevauchements
+            </NavLink>
+          </li>
         </ul>
       </div>
     </nav>

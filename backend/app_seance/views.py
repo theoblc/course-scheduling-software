@@ -49,33 +49,41 @@ def detecter_conflits_salles():
     # itérer sur chaque séance
     for seance1 in seances:
         conflit = conflit_salle(seance1)
-        if (conflit != []):
-            conflits.add(tuple(sorted(conflit_salle(seance1))))
-    # convertir l'ensemble en une liste pour la compatibilité avec le code existant    
+        if conflit:
+            conflit = tuple(sorted(conflit))
+            # vérifier si la paire de conflits est déjà dans l'ensemble
+            conflits.add(conflit)
+    
+    # convertir l'ensemble en une liste pour la compatibilité avec le code existant
     conflits = list(conflits)
     # on aplatit la liste
-    flattened_list = [item for sublist in conflits for item in sublist]
+    conflits = [item for sublist in conflits for item in sublist]
+    # supprimer les doublons
+    conflits = sorted(list(set(conflits)))
     
-    return flattened_list
+    return conflits
 
-def envoyer_conflits(request):
-    chevauchements = detecter_conflits_salles()
-    # Créer un dictionnaire de réponse JSON
-    response_data = {}
-    response_data['nb_chevauchements'] = len(chevauchements)
-    response_data['chevauchements'] = chevauchements
-
-    # Convertir le dictionnaire en chaîne JSON
-    json_response = json.dumps(response_data)
-
-    # Retourner la réponse HTTP avec la chaîne JSON
-    return HttpResponse(json_response, content_type='application/json')
-
-
-class Conflits(generics.CreateAPIView):
+class Conflits(generics.ListAPIView):
+    serializer_class = SeanceSerializer
     # Ajout de la permission pour tous les utilisateurs
     permission_classes = [AllowAny] 
     
+    # Calcul de tous les conflits
+    def get(self, request):
+        chevauchements = detecter_conflits_salles()
+        # Créer un dictionnaire de réponse JSON
+        response_data = {}
+        response_data['nb_chevauchements'] = len(chevauchements)
+        response_data['chevauchements'] = chevauchements
+
+        # Convertir le dictionnaire en chaîne JSON
+        json_response = json.dumps(response_data)
+
+        # Retourner la réponse HTTP avec la chaîne JSON
+        return Response(json_response, status=status.HTTP_200_OK)
+    
+    
+    # Gestion des conflits via le formulaire
     def post(self, request):
         if not request.content_type == 'application/json':
             return Response({'error': 'Le type de données doit être JSON.'}, status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
