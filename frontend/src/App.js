@@ -10,7 +10,6 @@ import Salles from "./components/Pages/Salles";
 import Seances from "./components/Pages/Seances";
 import FicheProgramme from "./components/SubPages/FicheProgramme";
 import Planification from "./components/SubPages/Planification";
-import Chevauchements from "./components/SubPages/Chevauchements";
 
 class App extends Component {
   render() {
@@ -32,7 +31,6 @@ class App extends Component {
             <Route path="/salles" element={<Salles />} />
             <Route path="/seances" element={<Seances />} />
             <Route path="/enseignants" element={<Enseignants />} />
-            <Route path="/chevauchements" element={<Chevauchements />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div>
