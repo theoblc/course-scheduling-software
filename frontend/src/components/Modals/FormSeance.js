@@ -23,6 +23,8 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   const [finError, setFinError] = useState(false);
   const [coherenceError, setCoherenceError] = useState(false);
   const [chevauchError, setChevauchError] = useState(false);
+  const [salleConflit, setSalleConflit] = useState(false);
+  const [enseignantConflit, setEnseignantConflit] = useState(false);
   const messageError = "Le champ est obligatoire.";
 
   useEffect(() => {
@@ -102,6 +104,16 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     return regex.test(dateString);
   }
 
+  function onSaveWithConflict() {
+    if (salleConflit) {
+      item.salle = {};
+    }
+    if (enseignantConflit) {
+      item.enseignant = {};
+    }
+    onSave(item);
+  }
+
   async function detecter_conflits() {
     const {
       id,
@@ -150,8 +162,22 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
       } else if (response.status === 400) {
         const json = await response.json();
         const errorMessage = json.error;
+
         if (errorMessage) {
           alert(errorMessage);
+          // Si le message d'erreur est "Cette salle est déjà utilisée pour une autre séance."
+          if (errorMessage[0] === "C") {
+            setSalleConflit(true);
+          }
+          // Si le message d'erreur est "L'enseignant est déjà occupé pour une autre séance."
+          if (errorMessage[0] === "L") {
+            setEnseignantConflit(true);
+          }
+          // Si le message d'erreur est "Salle et enseignant sont déjà utilisés pour une autre séance."
+          if (errorMessage[0] === "S") {
+            setSalleConflit(true);
+            setEnseignantConflit(true);
+          }
         }
         setChevauchError(true);
         return true;
@@ -169,6 +195,8 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   }
 
   async function testValid() {
+    setEnseignantConflit(false);
+    setSalleConflit(false);
     setCoursError(false);
     setDateError(false);
     setDebutError(false);
@@ -206,6 +234,12 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     } else {
       const chevauchement = await detecter_conflits();
       setChevauchError(chevauchement);
+      console.log(
+        "salleConflit:",
+        salleConflit,
+        "enseignantConflit:",
+        enseignantConflit
+      );
       if (!chevauchement) {
         return toggle(item);
       }
@@ -365,10 +399,22 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
         </Form>
       </ModalBody>
       {chevauchError && (
-        <p style={{ color: "red", margin: "15px" }}>
-          Cette séance est en conflit avec une autre séance. Veuillez contacter
-          le responsable du module <b>{item.module.code}</b>.
-        </p>
+        <div style={{ textAlign: "center" }}>
+          <p style={{ color: "red", margin: "10px" }}>
+            Cette séance est en conflit avec une autre séance. Veuillez
+            contacter le responsable du module <b>{item.module.code}</b>.
+          </p>
+          <Button
+            color="secondary"
+            onClick={toggle}
+            style={{ marginRight: "10px" }}
+          >
+            Annuler
+          </Button>
+          <Button color="warning" onClick={onSaveWithConflict}>
+            Conserver avec conflit
+          </Button>
+        </div>
       )}
       <ModalFooter>
         <Button

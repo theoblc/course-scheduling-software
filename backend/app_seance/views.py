@@ -140,12 +140,16 @@ class Conflits(generics.ListAPIView):
             )
 
         # Si la vérification des chevauchements échoue, renvoyer une réponse HTTP avec un message d'erreur approprié
-        if seances_en_conflit_salle.exists():
-            error_message = "Cette salle est déjà utilisée pour une autre séance."
+        if (seances_en_conflit_salle.exists() and seances_en_conflit_enseignant.exists()):
+            error_message = "Salle et enseignant sont déjà utilisés pour une autre séance."
             return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
-        if seances_en_conflit_enseignant.exists():
-            error_message = "L'enseignant est déjà occupé pour une autre séance."
-            return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            if seances_en_conflit_salle.exists():
+                error_message = "Cette salle est déjà utilisée pour une autre séance."
+                return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
+            if seances_en_conflit_enseignant.exists():
+                error_message = "L'enseignant est déjà occupé pour une autre séance."
+                return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
 
         
         if id_seance :

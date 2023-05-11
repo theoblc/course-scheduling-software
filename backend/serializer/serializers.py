@@ -52,8 +52,8 @@ class CoursSerializer(serializers.ModelSerializer):
 class SeanceSerializer(serializers.ModelSerializer):
     module = ModuleSerializer()
     cours = CoursSerializer()
-    enseignant = EnseignantSerializer()
-    salle = SalleSerializer()
+    enseignant = EnseignantSerializer(required=False)
+    salle = SalleSerializer(required=False)
 
     class Meta:
         model = Seance
