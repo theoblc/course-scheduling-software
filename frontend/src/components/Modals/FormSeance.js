@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import $ from "jquery";
 import {
   Button,
   Modal,
@@ -106,44 +105,22 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
 
   function onSaveWithConflict() {
     if (salleConflit) {
-      item.salle = {};
+      item.salle = {
+        numero: "",
+        description: "",
+      };
     }
     if (enseignantConflit) {
-      item.enseignant = {};
+      item.enseignant = {
+        nom: "",
+        prenom: "",
+        departement: "EPH",
+      };
     }
     onSave(item);
   }
 
   async function detecter_conflits() {
-    const {
-      id,
-      date,
-      heure_debut,
-      heure_fin,
-      effectif,
-      commentaire,
-      module,
-      cours,
-      enseignant,
-      salle,
-      numero_groupe_td,
-    } = item;
-
-    const data = JSON.stringify({
-      id: id,
-      date: date,
-      heure_debut: heure_debut,
-      heure_fin: heure_fin,
-      effectif: effectif,
-      commentaire: commentaire,
-      module: module.id,
-      cours: cours.id,
-      enseignant: enseignant.id,
-      salle: salle.id,
-      numero_groupe_td: numero_groupe_td,
-      csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-    });
-
     try {
       const response = await fetch(
         "http://127.0.0.1:8000/api/seances/chevauchements",
@@ -152,7 +129,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: data,
+          body: item,
         }
       );
 
@@ -234,12 +211,6 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     } else {
       const chevauchement = await detecter_conflits();
       setChevauchError(chevauchement);
-      console.log(
-        "salleConflit:",
-        salleConflit,
-        "enseignantConflit:",
-        enseignantConflit
-      );
       if (!chevauchement) {
         return toggle(item);
       }
