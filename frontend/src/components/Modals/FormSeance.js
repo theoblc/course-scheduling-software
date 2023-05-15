@@ -21,6 +21,9 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   const [debutError, setDebutError] = useState(false);
   const [finError, setFinError] = useState(false);
   const [coherenceError, setCoherenceError] = useState(false);
+  const [chevauchError, setChevauchError] = useState(false);
+  const [salleConflit, setSalleConflit] = useState(false);
+  const [enseignantConflit, setEnseignantConflit] = useState(false);
   const messageError = "Le champ est obligatoire.";
 
   useEffect(() => {
@@ -100,12 +103,83 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     return regex.test(dateString);
   }
 
-  function testValid() {
+  function onSaveWithConflict() {
+    if (salleConflit) {
+      item.salle = {
+        numero: "",
+        description: "",
+      };
+    }
+    if (enseignantConflit) {
+      item.enseignant = {
+        nom: "",
+        prenom: "",
+        departement: "EPH",
+      };
+    }
+    onSave(item);
+  }
+
+  async function detecter_conflits() {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/seances/chevauchements",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: item,
+        }
+      );
+
+      if (response.ok) {
+        setChevauchError(false);
+        return false;
+      } else if (response.status === 400) {
+        const json = await response.json();
+        const errorMessage = json.error;
+
+        if (errorMessage) {
+          alert(errorMessage);
+          // Si le message d'erreur est "Cette salle est déjà utilisée pour une autre séance."
+          if (errorMessage[0] === "C") {
+            setSalleConflit(true);
+          }
+          // Si le message d'erreur est "L'enseignant est déjà occupé pour une autre séance."
+          if (errorMessage[0] === "L") {
+            setEnseignantConflit(true);
+          }
+          // Si le message d'erreur est "Salle et enseignant sont déjà utilisés pour une autre séance."
+          if (errorMessage[0] === "S") {
+            setSalleConflit(true);
+            setEnseignantConflit(true);
+          }
+        }
+        setChevauchError(true);
+        return true;
+      } else {
+        alert("Une erreur s'est produite. Veuillez réessayer.");
+        setChevauchError(false);
+        return false;
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Une erreur s'est produite. Veuillez réessayer.");
+      setChevauchError(false);
+      return false;
+    }
+  }
+
+  async function testValid() {
+    setEnseignantConflit(false);
+    setSalleConflit(false);
     setCoursError(false);
     setDateError(false);
     setDebutError(false);
     setFinError(false);
     setCoherenceError(false);
+    setChevauchError(false);
     const { date, heure_debut, heure_fin } = item;
     var debut_avant_fin = heure_debut <= heure_fin;
     var date_valide = isValidDate(date);
@@ -135,7 +209,11 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
         setCoherenceError(true);
       }
     } else {
-      return onSave(item);
+      const chevauchement = await detecter_conflits();
+      setChevauchError(chevauchement);
+      if (!chevauchement) {
+        return toggle(item);
+      }
     }
   }
 
@@ -143,7 +221,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle}>{title}</ModalHeader>
       <ModalBody>
-        <Form>
+        <Form className="formulaire">
           <FormGroup>
             <Label for="cours">Cours</Label>
             <select
@@ -291,8 +369,30 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
           </FormGroup>
         </Form>
       </ModalBody>
+      {chevauchError && (
+        <div style={{ textAlign: "center" }}>
+          <p style={{ color: "red", margin: "10px" }}>
+            Cette séance est en conflit avec une autre séance. Veuillez
+            contacter le responsable du module <b>{item.module.code}</b>.
+          </p>
+          <Button
+            color="secondary"
+            onClick={toggle}
+            style={{ marginRight: "10px" }}
+          >
+            Annuler
+          </Button>
+          <Button color="warning" onClick={onSaveWithConflict}>
+            Conserver avec conflit
+          </Button>
+        </div>
+      )}
       <ModalFooter>
-        <Button color="success" onClick={() => testValid()}>
+        <Button
+          className="enregistrerButton"
+          color="success"
+          onClick={() => testValid()}
+        >
           Enregistrer
         </Button>
       </ModalFooter>

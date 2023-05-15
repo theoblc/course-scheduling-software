@@ -32,6 +32,7 @@ function Planification() {
     data: data,
     fetchData: fetchData,
     item: {
+      id: 0,
       date: "",
       heure_debut: "",
       heure_fin: "",
