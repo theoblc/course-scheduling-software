@@ -10,6 +10,16 @@ class EnseignantSerializer(serializers.ModelSerializer):
         model = Enseignant   
         fields = '__all__'
 
+class SalleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Salle   
+        fields = '__all__'
+
+class CoursSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cours
+        fields = '__all__'
+
 class ModuleSerializer(serializers.ModelSerializer):
     enseignant = EnseignantSerializer()
 
@@ -38,16 +48,6 @@ class ModuleSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.save()
         return instance
-
-class SalleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Salle   
-        fields = '__all__'
-
-class CoursSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Cours
-        fields = '__all__'
 
 class SeanceSerializer(serializers.ModelSerializer):
     module = ModuleSerializer()
