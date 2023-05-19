@@ -7,7 +7,7 @@ import PageNotFound from "./components/Pages/PageNotFound";
 import Enseignants from "./components/Pages/Enseignants";
 import Modules from "./components/Pages/Modules";
 import Salles from "./components/Pages/Salles";
-import Seances from "./components/Pages/Seances";
+import PlanificationEPH from "./components/Pages/PlanificationEPH";
 import FicheProgramme from "./components/SubPages/FicheProgramme";
 import Planification from "./components/SubPages/Planification";
 
@@ -29,7 +29,7 @@ class App extends Component {
             />
             <Route path="/modules" element={<Modules />} />
             <Route path="/salles" element={<Salles />} />
-            <Route path="/seances" element={<Seances />} />
+            <Route path="/seances" element={<PlanificationEPH />} />
             <Route path="/enseignants" element={<Enseignants />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>

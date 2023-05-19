@@ -23,7 +23,7 @@ export default function Navbar() {
           </li>
           <li className="nav-item">
             <NavLink className="nav-link font-weight-bold" to="/seances">
-              Séances
+            Planification EPH
             </NavLink>
           </li>
           <li className="nav-item">

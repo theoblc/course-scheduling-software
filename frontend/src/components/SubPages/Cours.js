@@ -25,16 +25,16 @@ function Cours() {
     },
     columns: [
       { data: "nom" },
+      { data: "type" },
       { data: "nb_heures" },
       { data: "nb_heures_hors_presentiel" },
-      { data: "type" },
       { data: null },
     ],
     nameColumns: [
       "Nom",
+      "Type",
       "Nombre heures",
       "Nombre heures hors présentiel",
-      "Type",
       "Action",
     ],
     dom:

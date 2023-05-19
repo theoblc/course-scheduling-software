@@ -46,7 +46,7 @@ function Modules() {
       },
       { data: null, width: "20%" },
     ],
-    nameColumns: ["Code", "Nom", "Coordinateur", "Actions"],
+    nameColumns: ["Code", "Nom", "Coordonnateur", "Actions"],
     dom:
       "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-5 d-flex justify-content-end'B>>" +
       "<'row'<'col-sm-12'tr>>" +

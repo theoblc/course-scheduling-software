@@ -2,11 +2,11 @@ import React from "react";
 import DataFetcher from "../Assets/DataFetcher";
 import PageGenerator from "../Assets/PageGenerator";
 
-function Seances() {
+function PlanificationEPH() {
   const { data, fetchData } = DataFetcher("http://localhost:8000/api/seances/");
 
   const listParams = {
-    title: "Séances",
+    title: "Planification EPH",
     urlFetch: "http://localhost:8000/api/seances/",
     urlModify: undefined,
     type: "recap_seances",
@@ -120,4 +120,4 @@ function Seances() {
   );
 }
 
-export default Seances;
+export default PlanificationEPH;

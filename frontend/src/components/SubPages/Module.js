@@ -3,6 +3,7 @@ import FormModule from "../Modals/FormModule";
 import { Button, Table } from "reactstrap";
 import FicheProgrammeContext from "../Assets/Contexte";
 import CalculHeures from "../Assets/CalculHeures";
+import Delete from "../Assets/Delete";
 import Title from "../Assets/Title";
 import axios from "axios";
 
@@ -42,6 +43,9 @@ function Module() {
       });
   }
 
+  const numeratorExceedsDenominator = (numerator, denominator) =>
+    numerator > denominator;
+
   return (
     <main>
       <Title type={"Module"} />
@@ -68,34 +72,107 @@ function Module() {
             <td>
               {module.enseignant.nom} {module.enseignant.prenom}
             </td>
-            <td>{`${repartitionHeures.nb_heures_cm}/${Number(
-              module.nb_heures_cm
-            )}`}</td>
-            <td>{`${repartitionHeures.nb_heures_ci}/${Number(
+            <td
+              className={`${
+                numeratorExceedsDenominator(
+                  repartitionHeures.nb_heures_cm,
+                  module.nb_heures_cm
+                )
+                  ? "bg-danger text-white"
+                  : "bg-success text-white"
+              }`}
+            >
+              {`${repartitionHeures.nb_heures_cm}/${Number(
+                module.nb_heures_cm
+              )}`}
+            </td>
+            <td
+              className={`${
+                numeratorExceedsDenominator(
+                  repartitionHeures.nb_heures_ci,
+                  module.nb_heures_ci
+                )
+                  ? "bg-danger text-white"
+                  : "bg-success text-white"
+              }`}
+            >{`${repartitionHeures.nb_heures_ci}/${Number(
               module.nb_heures_ci
             )}`}</td>
-            <td>{`${repartitionHeures.nb_heures_td}/${Number(
+            <td
+              className={`${
+                numeratorExceedsDenominator(
+                  repartitionHeures.nb_heures_td,
+                  module.nb_heures_td
+                )
+                  ? "bg-danger text-white"
+                  : "bg-success text-white"
+              }`}
+            >{`${repartitionHeures.nb_heures_td}/${Number(
               module.nb_heures_td
             )}`}</td>
-            <td>{`${repartitionHeures.nb_heures_tp}/${Number(
+            <td
+              className={`${
+                numeratorExceedsDenominator(
+                  repartitionHeures.nb_heures_tp,
+                  module.nb_heures_tp
+                )
+                  ? "bg-danger text-white"
+                  : "bg-success text-white"
+              }`}
+            >{`${repartitionHeures.nb_heures_tp}/${Number(
               module.nb_heures_tp
             )}`}</td>
-            <td>{`${repartitionHeures.nb_heures_be}/${Number(
+            <td
+              className={`${
+                numeratorExceedsDenominator(
+                  repartitionHeures.nb_heures_be,
+                  module.nb_heures_be
+                )
+                  ? "bg-danger text-white"
+                  : "bg-success text-white"
+              }`}
+            >{`${repartitionHeures.nb_heures_be}/${Number(
               module.nb_heures_be
             )}`}</td>
-            <td>{`${repartitionHeures.nb_heures_hors_presentiel}/${Number(
+            <td
+              className={`${
+                numeratorExceedsDenominator(
+                  repartitionHeures.nb_heures_hors_presentiel,
+                  module.nb_heures_hors_presentiel
+                )
+                  ? "bg-danger text-white"
+                  : "bg-success text-white"
+              }`}
+            >{`${repartitionHeures.nb_heures_hors_presentiel}/${Number(
               module.nb_heures_hors_presentiel
             )}`}</td>
-            <td>{`${repartitionHeures.nb_heures_total}/${Number(
+            <td
+              className={`${
+                numeratorExceedsDenominator(
+                  repartitionHeures.nb_heures_total,
+                  module.nb_heures_total
+                )
+                  ? "bg-danger text-white"
+                  : "bg-success text-white"
+              }`}
+            >{`${repartitionHeures.nb_heures_total}/${Number(
               module.nb_heures_total
             )}`}</td>
           </tr>
         </tbody>
       </Table>
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-between">
         <Button className="btn btn-warning btn-lg" onClick={toggleModalEdit}>
           Modifier
         </Button>
+        <div>
+          <Delete
+            baseURL={"http://localhost:8000/api/modules/"}
+            id={module.id}
+            redirection="/modules"
+            message="Supprimer le module"
+          />
+        </div>
       </div>
 
       {modalEdit && (
