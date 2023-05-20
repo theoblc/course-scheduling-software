@@ -1,9 +1,10 @@
+// Bibliothèques
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
+// Code
 export default function Navbar() {
   const [expanded, setExpanded] = useState(false);
-
   const toggleNavbar = () => {
     setExpanded(!expanded);
   };
@@ -23,7 +24,7 @@ export default function Navbar() {
           </li>
           <li className="nav-item">
             <NavLink className="nav-link font-weight-bold" to="/seances">
-            Planification EPH
+              Planification EPH
             </NavLink>
           </li>
           <li className="nav-item">

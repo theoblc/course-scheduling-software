@@ -1,7 +1,11 @@
+// Bibliothèques
 import React from "react";
+
+// Composants
 import DataFetcher from "../Assets/DataFetcher";
 import PageGenerator from "../Assets/PageGenerator";
 
+// Code
 function PlanificationEPH() {
   const { data, fetchData } = DataFetcher("http://localhost:8000/api/seances/");
 

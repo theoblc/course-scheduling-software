@@ -1,10 +1,14 @@
+// Bibliothèques
 import React from "react";
 import { useParams } from "react-router-dom";
+
+// Composants
 import DataFetcher from "../Assets/DataFetcher";
 import FicheProgrammeContext from "../Assets/Contexte";
 import Module from "./Module";
 import Cours from "./Cours";
 
+// Code
 function FicheProgramme() {
   const { id } = useParams();
   const { data } = DataFetcher(`http://localhost:8000/api/modules/${id}`);

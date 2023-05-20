@@ -1,3 +1,4 @@
+// Bibliothèques
 import React, { useState, useEffect, useCallback } from "react";
 import {
   Button,
@@ -11,6 +12,7 @@ import {
   Label,
 } from "reactstrap";
 
+// Code
 function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   const [sum, setSum] = useState(0);
   const [item, setItem] = useState({ ...activeItem });

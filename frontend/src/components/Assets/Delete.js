@@ -1,9 +1,13 @@
+// Bibliothèques
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 import axios from "axios";
+
+// Composants
 import FormConfirmation from "../Modals/FormConfirmation";
 
+// Code
 function Delete({ baseURL, id, redirection, message }) {
   const [item, setItem] = useState(null);
   const [modalRemove, setModalRemove] = useState(false);

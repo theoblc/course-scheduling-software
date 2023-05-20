@@ -1,8 +1,12 @@
+// Bibliothèques
 import React, { useContext } from "react";
+
+// Composants
 import FicheProgrammeContext from "../Assets/Contexte";
 import DataFetcher from "../Assets/DataFetcher";
 import PageGenerator from "../Assets/PageGenerator";
 
+// Code
 function Cours() {
   const module = useContext(FicheProgrammeContext);
   const { data, fetchData } = DataFetcher(

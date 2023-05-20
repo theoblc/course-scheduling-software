@@ -1,8 +1,12 @@
+// Bibliothèques
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
+// Composants
 import PageGenerator from "../Assets/PageGenerator";
 
-function Planification() {
+// Code
+function PlanificationModule() {
   const { id } = useParams();
   const [data, setData] = useState({});
   const [module, setModule] = useState({ code: "" });
@@ -122,4 +126,4 @@ function Planification() {
   );
 }
 
-export default Planification;
+export default PlanificationModule;

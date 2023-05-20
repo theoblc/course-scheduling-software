@@ -1,3 +1,4 @@
+// Bibliothèques
 import React, { useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { useNavigate } from "react-router-dom";
@@ -5,19 +6,21 @@ import "../../style/jquery.dataTables.min.css";
 import language_fr from "../../style/language_fr";
 import $ from "jquery";
 import axios from "axios";
-import FormConfirmation from "../Modals/FormConfirmation";
-import FormEnseignant from "../Modals/FormEnseignant";
-import FormCours from "../Modals/FormCours";
-import FormSalle from "../Modals/FormSalle";
-import FormModule from "../Modals/FormModule";
-import FormSeance from "../Modals/FormSeance";
-
 import "jquery";
 import "datatable";
 import "datatables.net";
 import "datatables.net-dt";
 import "datatables.net-buttons";
 
+// Composants
+import FormSeance from "../Modals/FormSeance";
+import FormSalle from "../Modals/FormSalle";
+import FormCours from "../Modals/FormCours";
+import FormEnseignant from "../Modals/FormEnseignant";
+import FormModule from "../Modals/FormModule";
+import FormConfirmation from "../Modals/FormConfirmation";
+
+// Code
 function DataTable({
   baseURL,
   fetchData,
@@ -152,7 +155,7 @@ function DataTable({
           }
           // Si c'est le bouton "Planification" de la liste des modules
           else if ((type = "cours") && action === "btn btn-dark btn-sm w-70") {
-            redirect(`/modules/${data.id}/Planification`);
+            redirect(`/modules/${data.id}/PlanificationModule`);
           }
           // Si c'est le bouton "Dupliquer" de la liste des séances
           else if (

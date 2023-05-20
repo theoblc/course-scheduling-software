@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// Bibliothèques
+import React, { useEffect, useNavigate } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+// Code
 function PageNotFound() {
   const navigate = useNavigate();
   const message =

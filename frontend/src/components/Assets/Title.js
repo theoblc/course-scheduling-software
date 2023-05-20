@@ -1,5 +1,7 @@
+// Bibliothèques
 import React from "react";
 
+// Code
 function Titre(props) {
   return (
     <div style={{ paddingTop: "30px", paddingBottom: "10px" }}>

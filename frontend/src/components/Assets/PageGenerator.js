@@ -1,9 +1,12 @@
+// Bibliothèques
 import React from "react";
+
+// Composants
 import DataTable from "./DataTable";
 import Title from "./Title";
 
+// Code
 function PageGenerator({ listParams }) {
-
   return (
     <main>
       <Title type={listParams.title} />

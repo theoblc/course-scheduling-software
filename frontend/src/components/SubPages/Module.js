@@ -1,12 +1,16 @@
+// Bibliothèques
 import React, { useState, useContext } from "react";
-import FormModule from "../Modals/FormModule";
 import { Button, Table } from "reactstrap";
+import axios from "axios";
+
+// Composants
+import FormModule from "../Modals/FormModule";
 import FicheProgrammeContext from "../Assets/Contexte";
 import CalculHeures from "../Assets/CalculHeures";
 import Delete from "../Assets/Delete";
 import Title from "../Assets/Title";
-import axios from "axios";
 
+// Code
 function Module() {
   const [module, setModule] = useState(useContext(FicheProgrammeContext));
   const baseURLModule = "http://localhost:8000/api/modules/";

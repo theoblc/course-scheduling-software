@@ -1,5 +1,7 @@
+// Bibliothèques
 import { useEffect, useState } from "react";
 
+// Code
 function CalculHeures(id) {
   const [listeCours, setListeCours] = useState([]);
   const [result, setResult] = useState({

@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import Navbar from "./components/Assets/NavBar";
 import { Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
-import PageNotFound from "./components/Pages/PageNotFound";
-import Enseignants from "./components/Pages/Enseignants";
 import Modules from "./components/Pages/Modules";
-import Salles from "./components/Pages/Salles";
 import PlanificationEPH from "./components/Pages/PlanificationEPH";
+import Enseignants from "./components/Pages/Enseignants";
+import Salles from "./components/Pages/Salles";
+import PlanificationModule from "./components/SubPages/PlanificationModule";
 import FicheProgramme from "./components/SubPages/FicheProgramme";
-import Planification from "./components/SubPages/Planification";
+import PageNotFound from "./components/Pages/PageNotFound";
+import Navbar from "./components/Assets/NavBar";
 
 class App extends Component {
   render() {
@@ -24,8 +24,8 @@ class App extends Component {
               element={<FicheProgramme />}
             />
             <Route
-              path="/modules/:id/Planification"
-              element={<Planification />}
+              path="/modules/:id/PlanificationModule"
+              element={<PlanificationModule />}
             />
             <Route path="/modules" element={<Modules />} />
             <Route path="/salles" element={<Salles />} />

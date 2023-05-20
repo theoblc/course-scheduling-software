@@ -1,3 +1,4 @@
+// Bibliothèques
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -11,6 +12,7 @@ import {
   Label,
 } from "reactstrap";
 
+// Code
 function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   const [item, setItem] = useState(activeItem);
   const [salles, setSalles] = useState([]);

@@ -1,5 +1,7 @@
+// Bibliothèques
 import { useEffect, useState } from "react";
 
+// Code
 function DataFetcher(urlFetch) {
   const [data, setData] = useState([]);
 
