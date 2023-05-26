@@ -2,16 +2,16 @@
 import React from "react";
 
 // Composants
-import DataTable from "./DataTable";
-import Title from "./Title";
+import Tableau from "./Tableau";
+import Titre from "./Titre";
 
 // Code
-function PageGenerator({ listParams }) {
+function GenerateurPage({ listParams }) {
   return (
     <main>
-      <Title type={listParams.title} />
+      <Titre type={listParams.title} />
 
-      <DataTable
+      <Tableau
         dom={listParams.dom}
         columns={listParams.columns}
         nameColumns={listParams.nameColumns}
@@ -30,4 +30,4 @@ function PageGenerator({ listParams }) {
   );
 }
 
-export default PageGenerator;
+export default GenerateurPage;

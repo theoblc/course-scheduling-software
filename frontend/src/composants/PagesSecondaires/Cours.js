@@ -2,14 +2,14 @@
 import React, { useContext } from "react";
 
 // Composants
-import FicheProgrammeContext from "../Assets/Contexte";
-import DataFetcher from "../Assets/DataFetcher";
-import PageGenerator from "../Assets/PageGenerator";
+import FicheProgrammeContext from "../Outils/Contexte";
+import ChargeurDonnees from "../Outils/ChargeurDonnees";
+import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Cours() {
   const module = useContext(FicheProgrammeContext);
-  const { data, fetchData } = DataFetcher(
+  const { data, fetchData } = ChargeurDonnees(
     `http://localhost:8000/api/modules/${module.id}/cours/`
   );
 
@@ -56,7 +56,7 @@ function Cours() {
 
   return (
     <main>
-      <PageGenerator listParams={listParams} />
+      <GenerateurPage listParams={listParams} />
     </main>
   );
 }

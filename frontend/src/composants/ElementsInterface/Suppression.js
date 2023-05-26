@@ -5,7 +5,7 @@ import { Button } from "reactstrap";
 import axios from "axios";
 
 // Composants
-import FormConfirmation from "../Modals/FormConfirmation";
+import FormConfirmation from "../Formulaires/FormConfirmation";
 
 // Code
 function Delete({ baseURL, id, redirection, message }) {

@@ -1,12 +1,13 @@
 // Bibliothèques
-import React, { useEffect, useNavigate } from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // Code
-function PageNotFound() {
+function PageIntrouvable() {
   const navigate = useNavigate();
   const message =
-    "La page n'a pas été trouvée, vous allez être redirigé vers la page d'accueil.";
+    "La page demandée n'a pas été trouvée, vous allez être redirigé vers la page d'accueil.";
 
   useEffect(() => {
     async function wait() {
@@ -27,4 +28,4 @@ function PageNotFound() {
   );
 }
 
-export default PageNotFound;
+export default PageIntrouvable;

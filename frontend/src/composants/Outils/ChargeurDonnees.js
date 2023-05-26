@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // Code
-function DataFetcher(urlFetch) {
+function ChargeurDonnees(urlFetch) {
   const [data, setData] = useState([]);
 
   async function fetchData() {
@@ -19,4 +19,4 @@ function DataFetcher(urlFetch) {
   return { data, fetchData };
 }
 
-export default DataFetcher;
+export default ChargeurDonnees;

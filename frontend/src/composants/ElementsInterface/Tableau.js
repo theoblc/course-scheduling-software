@@ -13,15 +13,15 @@ import "datatables.net-dt";
 import "datatables.net-buttons";
 
 // Composants
-import FormSeance from "../Modals/FormSeance";
-import FormSalle from "../Modals/FormSalle";
-import FormCours from "../Modals/FormCours";
-import FormEnseignant from "../Modals/FormEnseignant";
-import FormModule from "../Modals/FormModule";
-import FormConfirmation from "../Modals/FormConfirmation";
+import FormSeance from "../Formulaires/FormSeance";
+import FormSalle from "../Formulaires/FormSalle";
+import FormCours from "../Formulaires/FormCours";
+import FormEnseignant from "../Formulaires/FormEnseignant";
+import FormModule from "../Formulaires/FormModule";
+import FormConfirmation from "../Formulaires/FormConfirmation";
 
 // Code
-function DataTable({
+function Tableau({
   baseURL,
   fetchData,
   fetchURL,
@@ -302,4 +302,4 @@ function DataTable({
     </div>
   );
 }
-export default DataTable;
+export default Tableau;

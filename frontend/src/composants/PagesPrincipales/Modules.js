@@ -2,8 +2,8 @@
 import React from "react";
 
 // Composants
-import DataFetcher from "../Assets/DataFetcher";
-import PageGenerator from "../Assets/PageGenerator";
+import DataFetcher from "../Outils/ChargeurDonnees";
+import PageGenerator from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Modules() {

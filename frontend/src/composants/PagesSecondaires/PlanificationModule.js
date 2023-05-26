@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // Composants
-import PageGenerator from "../Assets/PageGenerator";
+import PageGenerator from "../ElementsInterface/GenerateurPage";
 
 // Code
 function PlanificationModule() {

@@ -2,12 +2,12 @@
 import React from "react";
 
 // Composants
-import DataFetcher from "../Assets/DataFetcher";
-import PageGenerator from "../Assets/PageGenerator";
+import ChargeurDonnees from "../Outils/ChargeurDonnees";
+import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Enseignants() {
-  const { data, fetchData } = DataFetcher(
+  const { data, fetchData } = ChargeurDonnees(
     "http://localhost:8000/api/enseignants/"
   );
 
@@ -45,7 +45,7 @@ function Enseignants() {
 
   return (
     <main>
-      <PageGenerator listParams={listParams} />
+      <GenerateurPage listParams={listParams} />
     </main>
   );
 }

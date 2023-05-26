@@ -4,17 +4,17 @@ import { Button, Table } from "reactstrap";
 import axios from "axios";
 
 // Composants
-import FormModule from "../Modals/FormModule";
-import FicheProgrammeContext from "../Assets/Contexte";
-import CalculHeures from "../Assets/CalculHeures";
-import Delete from "../Assets/Delete";
-import Title from "../Assets/Title";
+import FormModule from "../Formulaires/FormModule";
+import FicheProgrammeContext from "../Outils/Contexte";
+import CalculateurHeures from "../Outils/CalculateurHeures";
+import Suppression from "../ElementsInterface/Suppression";
+import Titre from "../ElementsInterface/Titre";
 
 // Code
 function Module() {
   const [module, setModule] = useState(useContext(FicheProgrammeContext));
   const baseURLModule = "http://localhost:8000/api/modules/";
-  const repartitionHeures = CalculHeures(module.id);
+  const repartitionHeures = CalculateurHeures(module.id);
   const [modalEdit, setModalEdit] = useState(false);
 
   function toggleModalEdit() {
@@ -52,14 +52,14 @@ function Module() {
 
   return (
     <main>
-      <Title type={"Module"} />
+      <Titre type={"Module"} />
 
       <Table bordered>
         <thead>
           <tr>
             <th>Code</th>
             <th>Nom</th>
-            <th>Coordinateur</th>
+            <th>Coordonnateur</th>
             <th>Heures de CM</th>
             <th>Heures de CI</th>
             <th>Heures de TD</th>
@@ -170,7 +170,7 @@ function Module() {
           Modifier
         </Button>
         <div>
-          <Delete
+          <Suppression
             baseURL={"http://localhost:8000/api/modules/"}
             id={module.id}
             redirection="/modules"

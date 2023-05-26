@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 // Code
-export default function Navbar() {
+function BarreNavigation() {
   const [expanded, setExpanded] = useState(false);
   const toggleNavbar = () => {
     setExpanded(!expanded);
@@ -42,3 +42,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+export default BarreNavigation;

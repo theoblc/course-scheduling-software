@@ -2,12 +2,14 @@
 import React from "react";
 
 // Composants
-import DataFetcher from "../Assets/DataFetcher";
-import PageGenerator from "../Assets/PageGenerator";
+import ChargeurDonnees from "../Outils/ChargeurDonnees";
+import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
 function PlanificationEPH() {
-  const { data, fetchData } = DataFetcher("http://localhost:8000/api/seances/");
+  const { data, fetchData } = ChargeurDonnees(
+    "http://localhost:8000/api/seances/"
+  );
 
   const listParams = {
     title: "Planification EPH",
@@ -119,7 +121,7 @@ function PlanificationEPH() {
 
   return (
     <main>
-      <PageGenerator listParams={listParams} />
+      <GenerateurPage listParams={listParams} />
     </main>
   );
 }
