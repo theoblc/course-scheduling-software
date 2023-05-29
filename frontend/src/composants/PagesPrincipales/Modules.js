@@ -19,7 +19,13 @@ function Modules() {
     item: {
       code: "",
       nom: "",
-      enseignant: {
+      coordonnateur1: {
+        id: 0,
+        nom: "",
+        prenom: "",
+        departement: "",
+      },
+      coordonnateur2: {
         id: 0,
         nom: "",
         prenom: "",
@@ -37,7 +43,19 @@ function Modules() {
       { data: "code", width: "10%" },
       { data: "nom", width: "30%" },
       {
-        data: "enseignant",
+        data: "coordonnateur1",
+        width: "10%",
+        render: function (data) {
+          if (data) {
+            const { nom, prenom } = data;
+            return `${nom} ${prenom}`;
+          } else {
+            return "";
+          }
+        },
+      },
+      {
+        data: "coordonnateur2",
         width: "10%",
         render: function (data) {
           if (data) {
@@ -50,7 +68,7 @@ function Modules() {
       },
       { data: null, width: "20%" },
     ],
-    nameColumns: ["Code", "Nom", "Coordonnateur", "Actions"],
+    nameColumns: ["Code", "Nom", "Coordonnateur1", "Coordonnateur2", "Actions"],
     dom:
       "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-5 d-flex justify-content-end'B>>" +
       "<'row'<'col-sm-12'tr>>" +

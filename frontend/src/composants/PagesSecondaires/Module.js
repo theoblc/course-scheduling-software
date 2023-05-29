@@ -59,7 +59,8 @@ function Module() {
           <tr>
             <th>Code</th>
             <th>Nom</th>
-            <th>Coordonnateur</th>
+            <th>Coordonnateur 1</th>
+            <th>Coordonnateur 2</th>
             <th>Heures de CM</th>
             <th>Heures de CI</th>
             <th>Heures de TD</th>
@@ -74,7 +75,10 @@ function Module() {
             <td>{module.code}</td>
             <td>{module.nom}</td>
             <td>
-              {module.enseignant.nom} {module.enseignant.prenom}
+              {module.coordonnateur1.nom} {module.coordonnateur1.prenom}
+            </td>
+            <td>
+              {module.coordonnateur2.nom} {module.coordonnateur2.prenom}
             </td>
             <td
               className={`${

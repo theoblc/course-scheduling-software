@@ -19,7 +19,8 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   const [enseignants, setEnseignants] = useState([]);
   const [nomError, setNomError] = useState(false);
   const [codeError, setCodeError] = useState(false);
-  const [coordinateurError, setCoordinateurError] = useState(false);
+  const [coordonnateur1Error, setCoordonnateur1Error] = useState(false);
+  const [coordonnateur2Error, setCoordonnateur2Error] = useState(false);
   const [messageError, setMessageError] = useState("Le champ est obligatoire.");
 
   const calculateSum = useCallback((item) => {
@@ -49,7 +50,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
 
   function handleChange(e) {
     let { name, value } = e.target;
-    if (name === "enseignant") {
+    if (name === "coordonnateur1" || name === "coordonnateur2") {
       value = JSON.parse(value);
     }
     const newItem = { ...item, [name]: value };
@@ -61,8 +62,9 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
     setCodeError(false);
     const code = item.code;
     const nom = item.nom;
-    const enseignant = item.enseignant.id;
-    if (!nom || !code || enseignant === null) {
+    const coordonnateur1 = item.coordonnateur1.id;
+    const coordonnateur2 = item.coordonnateur2.id;
+    if (!nom || !code || coordonnateur1 === null || coordonnateur2 === null) {
       // Afficher un message d'erreur pour chaque champ vide
       if (!nom) {
         setNomError(true);
@@ -70,8 +72,11 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
       if (!code) {
         setCodeError(true);
       }
-      if (!enseignant) {
-        setCoordinateurError(true);
+      if (!coordonnateur1) {
+        setCoordonnateur1Error(true);
+      }
+      if (!coordonnateur2) {
+        setCoordonnateur2Error(true);
       }
       return false;
     }
@@ -88,7 +93,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
     return true;
   }
 
-  function generateOptionsCoordinateur() {
+  function generateOptionsCoordonnateur() {
     return enseignants.map((enseignant) => (
       <option key={enseignant.id} value={JSON.stringify(enseignant)}>
         {enseignant.nom} {enseignant.prenom}
@@ -143,19 +148,36 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
             {nomError && <p style={{ color: "red" }}>{messageError}</p>}
           </FormGroup>
           <FormGroup>
-            <Label for="enseignant">Coordinateur</Label>
+            <Label for="coordonnateur1">Coordonnateur 1</Label>
             <select
               className="form-control"
-              name="enseignant"
+              name="coordonnateur1"
               onChange={handleChange}
-              value={JSON.stringify(item.enseignant)}
-              placeholder={`${item.enseignant.nom} ${item.enseignant.prenom}`}
-              style={{ borderColor: coordinateurError ? "red" : "" }}
+              value={JSON.stringify(item.coordonnateur1)}
+              placeholder={`${item.coordonnateur1.nom} ${item.coordonnateur1.prenom}`}
+              style={{ borderColor: coordonnateur1Error ? "red" : "" }}
             >
-              <option hidden>Choix du coordinateur</option>
-              {generateOptionsCoordinateur()}
+              <option hidden>Choix du coordinateur 1</option>
+              {generateOptionsCoordonnateur()}
             </select>
-            {coordinateurError && (
+            {coordonnateur1Error && (
+              <p style={{ color: "red" }}>{messageError}</p>
+            )}
+          </FormGroup>
+          <FormGroup>
+            <Label for="coordonnateur2">Coordonnateur 2</Label>
+            <select
+              className="form-control"
+              name="coordonnateur2"
+              onChange={handleChange}
+              value={JSON.stringify(item.coordonnateur2)}
+              placeholder={`${item.coordonnateur2.nom} ${item.coordonnateur2.prenom}`}
+              style={{ borderColor: coordonnateur2Error ? "red" : "" }}
+            >
+              <option hidden>Choix du coordinateur 2</option>
+              {generateOptionsCoordonnateur()}
+            </select>
+            {coordonnateur2Error && (
               <p style={{ color: "red" }}>{messageError}</p>
             )}
           </FormGroup>
