@@ -1,29 +1,37 @@
 // Bibliothèques
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // Composants
-import ChargeurDonnees from "../Outils/ChargeurDonnees";
-import FicheProgrammeContext from "../Outils/Contexte";
 import Module from "./Module";
 import Cours from "./Cours";
 
 // Code
 function FicheProgramme() {
   const { id } = useParams();
-  const { data } = ChargeurDonnees(`http://localhost:8000/api/modules/${id}`);
+  const [data, setData] = useState(null);
 
-  // Tant que les données ne sont pas récupérées, rien n'est affiché.
-  if (data.length === 0) {
-    return;
+  useEffect(() => {
+    const fetchData = async () => {
+      const raw_data = await fetch(`http://localhost:8000/api/modules/${id}`);
+      const res = await raw_data.json();
+      setData(res);
+    };
+
+    fetchData();
+  }, [id]);
+
+  // Affiche un message de chargement pendant la récupération des données.
+  if (data === null) {
+    return <div>Chargement des données...</div>;
   }
 
   return (
-    <FicheProgrammeContext.Provider value={data}>
-      <Module />
+    <>
+      <Module data={data} />
       <hr className="mt-4 mb-0" />
-      <Cours />
-    </FicheProgrammeContext.Provider>
+      <Cours module={data} />
+    </>
   );
 }
 

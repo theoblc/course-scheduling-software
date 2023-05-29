@@ -1,14 +1,12 @@
 // Bibliothèques
-import React, { useContext } from "react";
+import React from "react";
 
 // Composants
-import FicheProgrammeContext from "../Outils/Contexte";
 import ChargeurDonnees from "../Outils/ChargeurDonnees";
 import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
-function Cours() {
-  const module = useContext(FicheProgrammeContext);
+function Cours({ module }) {
   const { data, fetchData } = ChargeurDonnees(
     `http://localhost:8000/api/modules/${module.id}/cours/`
   );

@@ -1,18 +1,17 @@
 // Bibliothèques
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Button, Table } from "reactstrap";
 import axios from "axios";
 
 // Composants
 import FormModule from "../Formulaires/FormModule";
-import FicheProgrammeContext from "../Outils/Contexte";
 import CalculateurHeures from "../Outils/CalculateurHeures";
 import Suppression from "../ElementsInterface/Suppression";
 import Titre from "../ElementsInterface/Titre";
 
 // Code
-function Module() {
-  const [module, setModule] = useState(useContext(FicheProgrammeContext));
+function Module({ data }) {
+  const [module, setModule] = useState(data);
   const baseURLModule = "http://localhost:8000/api/modules/";
   const repartitionHeures = CalculateurHeures(module.id);
   const [modalEdit, setModalEdit] = useState(false);
