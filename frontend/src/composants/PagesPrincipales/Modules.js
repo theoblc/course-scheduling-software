@@ -2,17 +2,18 @@
 import React from "react";
 
 // Composants
-import DataFetcher from "../Outils/ChargeurDonnees";
+import ChargeurDonnees from "../Outils/ChargeurDonnees";
 import PageGenerator from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Modules() {
-  const { data, fetchData } = DataFetcher("http://localhost:8000/api/modules/");
+  const { data, fetchData } = ChargeurDonnees(
+    "http://localhost:8000/api/modules/"
+  );
 
   const listParams = {
     title: "Modules",
-    urlFetch: "http://localhost:8000/api/modules/",
-    urlModify: "http://localhost:8000/api/modules/",
+    url: "http://localhost:8000/api/modules/",
     type: "modules",
     data: data,
     fetchData: fetchData,

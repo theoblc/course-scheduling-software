@@ -2,17 +2,18 @@
 import React from "react";
 
 // Composants
-import DataFetcher from "../Outils/ChargeurDonnees";
+import ChargeurDonnees from "../Outils/ChargeurDonnees";
 import PageGenerator from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Salles() {
-  const { data, fetchData } = DataFetcher("http://localhost:8000/api/salles/");
+  const { data, fetchData } = ChargeurDonnees(
+    "http://localhost:8000/api/salles/"
+  );
 
   const listParams = {
     title: "Salles",
-    urlFetch: "http://localhost:8000/api/salles/",
-    urlModify: "http://localhost:8000/api/salles/",
+    url: "http://localhost:8000/api/salles/",
     type: "salles",
     data: data,
     fetchData: fetchData,

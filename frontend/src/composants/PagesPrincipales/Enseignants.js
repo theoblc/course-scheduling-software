@@ -13,8 +13,7 @@ function Enseignants() {
 
   const listParams = {
     title: "Enseignants",
-    urlFetch: "http://localhost:8000/api/enseignants/",
-    urlModify: "http://localhost:8000/api/enseignants/",
+    url: "http://localhost:8000/api/enseignants/",
     type: "enseignants",
     data: data,
     fetchData: fetchData,

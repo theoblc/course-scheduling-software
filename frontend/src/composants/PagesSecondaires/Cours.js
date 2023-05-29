@@ -15,8 +15,7 @@ function Cours() {
 
   const listParams = {
     title: "Liste des cours",
-    urlFetch: `http://127.0.0.1:8000/api/modules/${module.id}/cours/`,
-    urlModify: "http://localhost:8000/api/cours/",
+    url: `http://127.0.0.1:8000/api/cours/`,
     type: "cours",
     data: data,
     fetchData: fetchData,

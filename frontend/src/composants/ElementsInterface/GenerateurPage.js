@@ -15,12 +15,9 @@ function GenerateurPage({ listParams }) {
         dom={listParams.dom}
         columns={listParams.columns}
         nameColumns={listParams.nameColumns}
-        baseURL={listParams.urlModify}
-        fetchURL={listParams.urlFetch}
-        // début bouton "ajouter"
+        url={listParams.url}
         fetchData={listParams.fetchData}
         itemAdd={listParams.item}
-        // fin   bouton "ajouter"
         data={listParams.data}
         type={listParams.type}
         buttons={listParams.buttons}

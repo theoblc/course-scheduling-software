@@ -13,9 +13,8 @@ function PlanificationEPH() {
 
   const listParams = {
     title: "Planification EPH",
-    urlFetch: "http://localhost:8000/api/seances/",
-    urlModify: undefined,
-    type: "recap_seances",
+    url: "http://localhost:8000/api/seances/",
+    type: "seances",
     data: data,
     fetchData: fetchData,
     item: {

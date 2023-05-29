@@ -12,7 +12,7 @@ import "datatables.net";
 import "datatables.net-dt";
 import "datatables.net-buttons";
 
-// Composants
+// Composantstype
 import FormSeance from "../Formulaires/FormSeance";
 import FormSalle from "../Formulaires/FormSalle";
 import FormCours from "../Formulaires/FormCours";
@@ -22,9 +22,8 @@ import FormConfirmation from "../Formulaires/FormConfirmation";
 
 // Code
 function Tableau({
-  baseURL,
+  url,
   fetchData,
-  fetchURL,
   itemAdd,
   data,
   type,
@@ -59,7 +58,7 @@ function Tableau({
   function edit(itemModified) {
     toggleModalEdit(itemModified);
     axios
-      .patch(baseURL + itemModified.id + "/", itemModified)
+      .patch(`${url}${itemModified.id}/`, itemModified)
       .then(() => {
         fetchData();
       })
@@ -88,7 +87,7 @@ function Tableau({
   function create(item) {
     toggleModalCreate();
     axios
-      .post(fetchURL, item)
+      .post(url, item)
       .then(() => {
         fetchData();
       })
@@ -101,7 +100,7 @@ function Tableau({
   function duplicate(item) {
     delete item.id;
     axios
-      .post(fetchURL, item)
+      .post(url, item)
       .then(() => {
         fetchData();
       })
@@ -117,7 +116,7 @@ function Tableau({
   function remove(id) {
     setModalRemove(!modalRemove);
     axios
-      .delete(`${baseURL}${id}/`)
+      .delete(`${url}${id}/`)
       .then(() => {
         fetchData();
       })

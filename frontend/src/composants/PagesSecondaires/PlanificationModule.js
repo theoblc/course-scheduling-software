@@ -30,8 +30,7 @@ function PlanificationModule() {
 
   const listParams = {
     title: `Planification de ${module.code}`,
-    urlFetch: `http://127.0.0.1:8000/api/seances/`,
-    urlModify: `http://127.0.0.1:8000/api/seances/`,
+    url: `http://127.0.0.1:8000/api/seances/`,
     type: "seances",
     data: data,
     fetchData: fetchData,
