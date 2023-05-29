@@ -25,10 +25,12 @@ function Cours() {
       module: module.id,
       nb_heures_hors_presentiel: 0,
       type: "",
+      effectif: "",
     },
     columns: [
       { data: "nom" },
       { data: "type" },
+      { data: "effectif" },
       { data: "nb_heures" },
       { data: "nb_heures_hors_presentiel" },
       { data: null },
@@ -36,6 +38,7 @@ function Cours() {
     nameColumns: [
       "Nom",
       "Type",
+      "Effectif",
       "Nombre heures",
       "Nombre heures hors présentiel",
       "Action",

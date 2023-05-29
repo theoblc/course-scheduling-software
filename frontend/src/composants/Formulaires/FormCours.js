@@ -36,6 +36,22 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
     }
   }
 
+  function generateOptionsEffectif() {
+    const choix_effectif = [
+      "1/2 Promo",
+      "Promo complète",
+      "Groupe de TP",
+      "1/2 Groupe de TP",
+      "Groupe de TD",
+      "1/2 Groupe de TD",
+    ];
+    return choix_effectif.map((effectif) => (
+      <option key={effectif} value={effectif}>
+        {effectif}
+      </option>
+    ));
+  }
+
   function generateOptionsType() {
     const types = ["CM", "CI", "TD", "TP", "BE"];
     return types.map((type) => (
@@ -113,6 +129,19 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
             >
               <option hidden>Type de cours</option>
               {generateOptionsType()}
+            </select>
+          </FormGroup>
+          <FormGroup>
+            <Label for="effectif">Effectif</Label>
+            <select
+              className="form-control"
+              name="effectif"
+              onChange={handleChange}
+              value={item.effectif}
+              placeholder={item.effectif}
+            >
+              <option hidden>Choix de l'effectif</option>
+              {generateOptionsEffectif()}
             </select>
           </FormGroup>
         </Form>

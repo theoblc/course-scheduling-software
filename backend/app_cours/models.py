@@ -5,6 +5,9 @@ from app_module.models import Module
 class Cours(models.Model):
    
    TYPES_COURS = [("CM","CM"), ("CI","CI"), ("TD","TD"), ("TP","TP"), ("BE","BE")]
+   EFFECTIF_CHOICES = [("1/2 Promo","1/2 Promo"), ("Promo complète","Promo complète"), ("Groupe de TP","Groupe de TP"),
+                       ("1/2 Groupe de TP","1/2 Groupe de TP"),("Groupe de TD","Groupe de TD"),("1/2 Groupe de TD","1/2 Groupe de TD")
+                       ]
 
    id = models.AutoField(primary_key=True)
    nom = models.CharField(max_length=50)
@@ -12,6 +15,7 @@ class Cours(models.Model):
    nb_heures = models.DecimalField(max_digits=4,decimal_places=1, validators=[MinValueValidator(0)])
    nb_heures_hors_presentiel = models.DecimalField(max_digits=4,decimal_places=1, validators=[MinValueValidator(0)])
    type = models.TextField(choices=TYPES_COURS)
+   effectif = models.TextField(choices=EFFECTIF_CHOICES, null=True)
 
    def _str_(self):
      return self.code

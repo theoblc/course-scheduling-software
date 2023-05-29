@@ -7,7 +7,8 @@
       "module": 1,
       "nb_heures": 20,
       "nb_heures_hors_presentiel": 10,
-      "type": "TP"
+      "type": "TP",
+      "effectif": "1/2 Promo"
     }
   },
   {
@@ -18,7 +19,8 @@
       "module": 2,
       "nb_heures": 15,
       "nb_heures_hors_presentiel": 5,
-      "type": "BE"
+      "type": "BE",
+      "effectif": "Promo complète"
     }
   },
   {
@@ -29,7 +31,8 @@
       "module": 1,
       "nb_heures": 30,
       "nb_heures_hors_presentiel": 10,
-      "type": "CM"
+      "type": "CM",
+      "effectif": "Groupe de TP"
     }
   },
   {
@@ -40,7 +43,8 @@
       "module": 1,
       "nb_heures": 25,
       "nb_heures_hors_presentiel": 5,
-      "type": "TD"
+      "type": "TD",
+      "effectif": "1/2 Groupe de TP"
     }
   },
   {
@@ -51,7 +55,8 @@
       "module": 1,
       "nb_heures": 20,
       "nb_heures_hors_presentiel": 10,
-      "type": "TP"
+      "type": "TP",
+      "effectif": "Groupe de TD"
     }
   },
   {
@@ -62,7 +67,8 @@
       "module": 2,
       "nb_heures": 30,
       "nb_heures_hors_presentiel": 10,
-      "type": "CM"
+      "type": "CM",
+      "effectif": "1/2 Groupe de TD"
     }
   },
   {
@@ -73,7 +79,8 @@
       "module": 2,
       "nb_heures": 25,
       "nb_heures_hors_presentiel": 5,
-      "type": "TD"
+      "type": "TD",
+      "effectif": "Promo complète"
     }
   },
   {
@@ -84,7 +91,8 @@
       "module": 3,
       "nb_heures": 20,
       "nb_heures_hors_presentiel": 10,
-      "type": "TP"
+      "type": "TP",
+      "effectif": "1/2 Groupe de TD"
     }
   },
   {
@@ -412,7 +420,6 @@
       "date": "01/01/2023",
       "heure_debut": "10:00",
       "heure_fin": "12:00",
-      "effectif": "Promo complète",
       "commentaire": "Séance 1",
       "numero_groupe_td": 3,
       "enseignant": 1,
@@ -428,7 +435,6 @@
       "date": "01/02/2023",
       "heure_debut": "14:00",
       "heure_fin": "16:00",
-      "effectif": "Groupe de TP",
       "commentaire": "Séance 2",
       "numero_groupe_td": 4,
       "enseignant": 2,
@@ -444,7 +450,6 @@
       "date": "01/03/2023",
       "heure_debut": "9:00",
       "heure_fin": "11:00",
-      "effectif": "1/2 Groupe de TD",
       "commentaire": "Séance 3",
       "numero_groupe_td": 1,
       "enseignant": 3,
@@ -460,7 +465,6 @@
       "date": "01/04/2023",
       "heure_debut": "16:00",
       "heure_fin": "18:00",
-      "effectif": "1/2 Promo",
       "commentaire": "Séance 4",
       "numero_groupe_td": 2,
       "enseignant": 1,
@@ -476,7 +480,6 @@
       "date": "01/05/2023",
       "heure_debut": "11:00",
       "heure_fin": "13:00",
-      "effectif": "Groupe de TD",
       "commentaire": "Séance 5",
       "numero_groupe_td": 3,
       "enseignant": 2,
@@ -492,7 +495,6 @@
       "date": "01/06/2023",
       "heure_debut": "14:00",
       "heure_fin": "16:00",
-      "effectif": "Promo complète",
       "commentaire": "Séance 6",
       "numero_groupe_td": 4,
       "enseignant": 3,
@@ -508,7 +510,6 @@
       "date": "15/03/2023",
       "heure_debut": "14:00",
       "heure_fin": "16:00",
-      "effectif": "Promo complète",
       "commentaire": "Séance 13",
       "numero_groupe_td": 4,
       "enseignant": 4,
@@ -524,7 +525,6 @@
       "date": "17/03/2023",
       "heure_debut": "08:00",
       "heure_fin": "10:00",
-      "effectif": "Groupe de TP",
       "commentaire": "Séance 14",
       "numero_groupe_td": 2,
       "enseignant": 2,
@@ -540,7 +540,6 @@
       "date": "20/03/2023",
       "heure_debut": "10:00",
       "heure_fin": "12:00",
-      "effectif": "1/2 Promo",
       "commentaire": "Séance 15",
       "numero_groupe_td": 1,
       "enseignant": 1,
@@ -556,7 +555,6 @@
       "date": "22/03/2023",
       "heure_debut": "16:00",
       "heure_fin": "18:00",
-      "effectif": "Groupe de TD",
       "commentaire": "Séance 16",
       "numero_groupe_td": 3,
       "enseignant": 3,
@@ -572,7 +570,6 @@
       "date": "25/03/2023",
       "heure_debut": "14:00",
       "heure_fin": "16:00",
-      "effectif": "1/2 Groupe de TD",
       "commentaire": "Séance 17",
       "numero_groupe_td": 2,
       "enseignant": 2,
@@ -588,7 +585,6 @@
       "date": "28/03/2023",
       "heure_debut": "10:00",
       "heure_fin": "12:00",
-      "effectif": "Groupe de TP",
       "commentaire": "Séance 18",
       "numero_groupe_td": 4,
       "enseignant": 4,

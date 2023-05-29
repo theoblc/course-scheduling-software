@@ -21,7 +21,6 @@ function PlanificationEPH() {
       date: "",
       heure_debut: "",
       heure_fin: "",
-      effectif: "",
       commentaire: "",
       numero_groupe_td: "",
       enseignant: {
@@ -46,6 +45,7 @@ function PlanificationEPH() {
         module: 0,
         nb_heures_hors_presentiel: 0,
         type: "",
+        effectif: "",
       },
       salle: {
         numero: "",
@@ -93,7 +93,6 @@ function PlanificationEPH() {
           }
         },
       },
-      { data: "effectif" },
       { data: "commentaire" },
       { data: null },
     ],
@@ -106,7 +105,6 @@ function PlanificationEPH() {
       "Groupe de TD",
       "Salle",
       "Enseignant",
-      "Effectif",
       "Commentaire",
       "Action",
     ],
