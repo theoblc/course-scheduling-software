@@ -40,15 +40,22 @@ function Tableau({
   const [modalRemove, setModalRemove] = useState(false);
   const navigate = useNavigate();
 
+  // Fonction permettant de rediriger l'utilisateur vers l'URL passée en paramètre.
   function redirect(url) {
     navigate(url);
   }
 
+  // Fonction permettant d'afficher ou de cacher le formulaire de suppression.
+  // Le formulaire affiché dépend du paramètre 'type' passé en paramètre du composant.
   function toggleModalEdit(item) {
     setItem(item);
     setModalEdit(!modalEdit);
   }
 
+  // Fonction permettant d'envoyer la modification de l'item dans la base de données.
+  // Cette fonction est appelée après l'affichage du formulaire, au moment où l'utilisateur
+  // appuie sur le bouton 'Enregistrer'. Remarquez que le formulaire est cachée au lancement
+  // de la fonction puis une requête PATCH est faite à l'API.
   function edit(itemModified) {
     toggleModalEdit(itemModified);
     axios
@@ -61,15 +68,23 @@ function Tableau({
       });
   }
 
+  // Fonction permettant d'afficher ou de cacher le formulaire de suppression.
+  // Le formulaire affiché dépend du paramètre 'type' passé en paramètre du composant.
   function toggleModalRemove(item) {
     setItem(item);
     setModalRemove(!modalRemove);
   }
 
+  // Fonction permettant d'afficher ou de cacher le formulaire de création.
+  // Le formulaire affiché dépend du paramètre 'type' passé en paramètre du composant.
   function toggleModalCreate() {
     setModalCreate(!modalCreate);
   }
 
+  // Fonction permettant d'envoyer la création de l'item dans la base de données.
+  // Cette fonction est appelée après l'affichage du formulaire, au moment où l'utilisateur
+  // appuie sur le bouton 'Enregistrer'. Remarquez que le formulaire est cachée au lancement
+  // de la fonction puis une requête PATCH est faite à l'API.
   function create(item) {
     toggleModalCreate();
     axios
@@ -82,6 +97,7 @@ function Tableau({
       });
   }
 
+  // Fonction permettant de dupliquer l'objet sélectionné.
   function duplicate(item) {
     delete item.id;
     axios
@@ -94,6 +110,10 @@ function Tableau({
       });
   }
 
+  // Fonction permettant d'envoyer la suppression de l'item dans la base de données.
+  // Cette fonction est appelée après l'affichage du formulaire, au moment où l'utilisateur
+  // appuie sur le bouton 'Enregistrer'. Remarquez que le formulaire est cachée au lancement
+  // de la fonction puis une requête PATCH est faite à l'API.
   function remove(id) {
     setModalRemove(!modalRemove);
     axios
@@ -106,7 +126,7 @@ function Tableau({
       });
   }
 
-  // Fonction qui lance l'API DataTable
+  // Fonction responsable de l'affichage du tableau (DataTable)
   $(function () {
     // Si la DataTable est déjà créée on l'écrase pour la mettre à jour
     if ($.fn.dataTable.isDataTable("#datatable")) {
@@ -143,6 +163,7 @@ function Tableau({
       ],
     });
 
+    // Paramètres du corps du tableau.
     $("#datatable tbody").on("click", "button", function () {
       var action = this.className;
       var data = new_table.row($(this).parents("tr")).data();
@@ -177,6 +198,11 @@ function Tableau({
     });
   });
 
+  // Code JSX du tableau + des formulaires qui peuvent être affichés.
+  // Il y a de nombreux formulaires car ce composant peut gérer tous les types
+  // d'entités de la base de données mais à chaque fois le fonctionnement est similaire :
+  // on détermine quel formulaire affiché avec le paramètre 'type' puis on appelle le composant
+  // en lui passant les paramètres adéquats.
   return (
     <div className="container-fluid py-4">
       <div className="table-responsive p-0 pb-2">
