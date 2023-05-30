@@ -15,6 +15,15 @@ function FicheProgramme() {
     const fetchData = async () => {
       const raw_data = await fetch(`http://localhost:8000/api/modules/${id}`);
       const res = await raw_data.json();
+
+      if (res.coordonnateur2 == null) {
+        res.coordonnateur2 = {
+          id: 0,
+          nom: "",
+          prenom: "",
+          departement: "",
+        };
+      }
       setData(res);
     };
 

@@ -20,7 +20,6 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   const [nomError, setNomError] = useState(false);
   const [codeError, setCodeError] = useState(false);
   const [coordonnateur1Error, setCoordonnateur1Error] = useState(false);
-  const [coordonnateur2Error, setCoordonnateur2Error] = useState(false);
   const [messageError, setMessageError] = useState("Le champ est obligatoire.");
 
   const calculateSum = useCallback((item) => {
@@ -60,11 +59,11 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   function testValid() {
     setNomError(false);
     setCodeError(false);
+    setCoordonnateur1Error(false);
     const code = item.code;
     const nom = item.nom;
     const coordonnateur1 = item.coordonnateur1.id;
-    const coordonnateur2 = item.coordonnateur2.id;
-    if (!nom || !code || coordonnateur1 === null || coordonnateur2 === null) {
+    if (!nom || !code || coordonnateur1 === 0) {
       // Afficher un message d'erreur pour chaque champ vide
       if (!nom) {
         setNomError(true);
@@ -74,9 +73,6 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
       }
       if (!coordonnateur1) {
         setCoordonnateur1Error(true);
-      }
-      if (!coordonnateur2) {
-        setCoordonnateur2Error(true);
       }
       return false;
     }
@@ -104,6 +100,9 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   function validateForm() {
     if (testValid()) {
       item.nb_heures_total = sum;
+      if (item.coordonnateur2.id === 0) {
+        item.coordonnateur2 = null;
+      }
       return onSave(item);
     }
   }
@@ -172,14 +171,10 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               value={JSON.stringify(item.coordonnateur2)}
               placeholder={`${item.coordonnateur2.nom} ${item.coordonnateur2.prenom}`}
-              style={{ borderColor: coordonnateur2Error ? "red" : "" }}
             >
               <option hidden>Choix du coordinateur 2</option>
               {generateOptionsCoordonnateur()}
             </select>
-            {coordonnateur2Error && (
-              <p style={{ color: "red" }}>{messageError}</p>
-            )}
           </FormGroup>
           <FormGroup>
             <Label for="nb_heures_cm">Nombre d'heures de CM</Label>

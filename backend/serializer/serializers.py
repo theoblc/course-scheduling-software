@@ -22,7 +22,7 @@ class CoursSerializer(serializers.ModelSerializer):
 
 class ModuleSerializer(serializers.ModelSerializer):
     coordonnateur1 = EnseignantSerializer()
-    coordonnateur2 = EnseignantSerializer()
+    coordonnateur2 = EnseignantSerializer(required=False, allow_null=True)
 
     class Meta:
         model = Module
@@ -31,17 +31,18 @@ class ModuleSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         coordonnateur1_data = self.context['request'].data.get('coordonnateur1')
         coordonnateur2_data = self.context['request'].data.get('coordonnateur2')
-    
-        coordonnateur1_id = coordonnateur1_data.get('id')
-        coordonnateur2_id = coordonnateur2_data.get('id')
         try:
+            coordonnateur1_id = coordonnateur1_data.get('id')
             coordonnateur1 = Enseignant.objects.get(id=coordonnateur1_id)
             validated_data['coordonnateur1'] = coordonnateur1
-
-            coordonnateur2 = Enseignant.objects.get(id=coordonnateur2_id)
-            validated_data['coordonnateur2'] = coordonnateur2
         except Enseignant.DoesNotExist:
             pass
+        if(coordonnateur2_data != None):
+            coordonnateur2_id = coordonnateur2_data.get('id')
+            coordonnateur2 = Enseignant.objects.get(id=coordonnateur2_id)
+            validated_data['coordonnateur2'] = coordonnateur2
+        else:
+            validated_data['coordonnateur2'] = None
         return super().create(validated_data)
     
     def update(self, instance, validated_data):
