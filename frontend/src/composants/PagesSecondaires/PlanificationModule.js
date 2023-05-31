@@ -51,8 +51,8 @@ function PlanificationModule() {
         type: "",
         effectif: "",
       },
-      enseignant: "",
-      salle: "",
+      enseignant: null,
+      salle: null,
     },
     columns: [
       {

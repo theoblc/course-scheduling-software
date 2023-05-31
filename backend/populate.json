@@ -448,7 +448,7 @@
     "pk": 3,
     "fields": {
       "date": "01/03/2023",
-      "heure_debut": "9:00",
+      "heure_debut": "09:00",
       "heure_fin": "11:00",
       "commentaire": "Séance 3",
       "numero_groupe_td": 1,

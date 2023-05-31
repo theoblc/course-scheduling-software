@@ -42,6 +42,15 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
     }
   }
 
+  function generateOptionsDepartement() {
+    const departements = ["EPH", "Vacataire", "Autre"];
+    return departements.map((departement) => (
+      <option key={departement} value={departement}>
+        {departement}
+      </option>
+    ));
+  }
+
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle}>{title}</ModalHeader>
@@ -94,11 +103,7 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
                 }
               }}
             >
-              <option value="EPH" defaultValue>
-                EPH
-              </option>
-              <option value="Vacataire">Vacataire</option>
-              <option value="Autre">Autre</option>
+              {generateOptionsDepartement()}
             </Input>
           </FormGroup>
         </Form>
