@@ -41,12 +41,14 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
 
       const raw_salles = await fetch("http://localhost:8000/api/salles/");
       const salles = await raw_salles.json();
+      salles.sort((a, b) => a.numero.localeCompare(b.numero));
       setSalles(salles);
 
       const raw_enseignants = await fetch(
         "http://localhost:8000/api/enseignants/"
       );
       const enseignants = await raw_enseignants.json();
+      enseignants.sort((a, b) => a.nom.localeCompare(b.nom));
       setEnseignants(enseignants);
     };
 

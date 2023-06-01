@@ -18,13 +18,15 @@ def conflit_salle(new_seance):
     # récupérer toutes les séances
     seances = Seance.objects.all()
     for seance in seances:
-        # si les deux séances ont lieu dans la même salle et ne sont pas identiques
-        if new_seance.salle == seance.salle:
-            # vérifier si les dates sont identiques
-            if (new_seance.date == seance.date):
-                # vérifier si les heures se chevauchent
-                if ((new_seance.heure_debut < seance.heure_fin) and (seance.heure_debut < new_seance.heure_fin)):
-                    conflits.append(seance)
+        # on vérifie que les deux séances ne sont pas identiques
+        if new_seance.pk != seance.pk:
+            # si les deux séances ont lieu dans la même salle et ne sont pas identiques
+            if new_seance.salle == seance.salle:
+                # vérifier si les dates sont identiques
+                if (new_seance.date == seance.date):
+                    # vérifier si les heures se chevauchent
+                    if ((new_seance.heure_debut < seance.heure_fin) and (seance.heure_debut < new_seance.heure_fin)):
+                        conflits.append(seance)
     return conflits
 
 def conflit_enseignant(new_seance):
@@ -34,13 +36,15 @@ def conflit_enseignant(new_seance):
     # récupérer toutes les séances
     seances = Seance.objects.all()
     for seance in seances:
-        # si les deux séances ont lieu avec le même enseignant et ne sont pas identiques
-        if new_seance.enseignant == seance.enseignant:
-            # vérifier si les dates sont identiques
-            if (new_seance.date == seance.date):
-                # vérifier si les heures se chevauchent
-                 if ((new_seance.heure_debut < seance.heure_fin) and (seance.heure_debut < new_seance.heure_fin)):
-                    conflits.append(seance)
+        # on vérifie que les deux séances ne sont pas identiques
+        if new_seance.pk != seance.pk:
+            # si les deux séances ont lieu avec le même enseignant et ne sont pas identiques
+            if new_seance.enseignant == seance.enseignant:
+                # vérifier si les dates sont identiques
+                if (new_seance.date == seance.date):
+                    # vérifier si les heures se chevauchent
+                    if ((new_seance.heure_debut < seance.heure_fin) and (seance.heure_debut < new_seance.heure_fin)):
+                        conflits.append(seance)
     return conflits
 
 class Conflits(generics.ListAPIView):
@@ -50,9 +54,14 @@ class Conflits(generics.ListAPIView):
 
     # Gestion des conflits via le formulaire
     def post(self, request):
+        # Si la séance a pour id 0, cela signifie que c'est une création de séance et non pas une modification
+        pk_seance = request.data['id']
         serializer = self.serializer_class(data=request.data, context={'request': request})
         if serializer.is_valid():
             new_seance = serializer.create_without_register(serializer.validated_data)
+            # On recopie le pk pour pouvoir identifier si la séance existe déjà dans la BDD ou non 
+            # et ainsi ne pas la comparer avec elle-même
+            new_seance.pk = pk_seance
             res_conflit_salle = conflit_salle(new_seance)
             res_conflit_enseignant = conflit_enseignant(new_seance)
             res_conflit_salle_json = []

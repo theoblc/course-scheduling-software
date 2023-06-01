@@ -38,12 +38,12 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
 
   function generateOptionsEffectif() {
     const choix_effectif = [
-      "1/2 Promo",
       "Promo complète",
-      "Groupe de TP",
-      "1/2 Groupe de TP",
+      "1/2 Promo",
       "Groupe de TD",
       "1/2 Groupe de TD",
+      "Groupe de TP",
+      "1/2 Groupe de TP",
     ];
     return choix_effectif.map((effectif) => (
       <option key={effectif} value={effectif}>
@@ -53,7 +53,7 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
   }
 
   function generateOptionsType() {
-    const types = ["CM", "CI", "TD", "TP", "BE"];
+    const types = ["BE", "CM", "CI", "TD", "TP"];
     return types.map((type) => (
       <option key={type} value={type}>
         {type}
