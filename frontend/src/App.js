@@ -1,21 +1,24 @@
+// Bibliothèques
 import React, { Component } from "react";
-import Navbar from "./components/Assets/NavBar";
 import { Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
-import Enseignants from "./components/Pages/Enseignants";
-import Modules from "./components/Pages/Modules";
-import Salles from "./components/Pages/Salles";
-import Seances from "./components/Pages/Seances";
-import FicheProgramme from "./components/SubPages/FicheProgramme";
-import Planification from "./components/SubPages/Planification";
-import SeancesCours from "./components/SubPages/SeancesCours";
+// Composants
+import Modules from "./composants/PagesPrincipales/Modules";
+import PlanificationEPH from "./composants/PagesPrincipales/PlanificationEPH";
+import Enseignants from "./composants/PagesPrincipales/Enseignants";
+import Salles from "./composants/PagesPrincipales/Salles";
+import PlanificationModule from "./composants/PagesSecondaires/PlanificationModule";
+import FicheProgramme from "./composants/PagesSecondaires/FicheProgramme";
+import PageIntrouvable from "./composants/PagesPrincipales/PageIntrouvable";
+import BarreNavigation from "./composants/ElementsInterface/BarreNavigation";
 
+// Code
 class App extends Component {
   render() {
     return (
       <>
-        <Navbar />
+        <BarreNavigation />
         <div className="container">
           <Routes>
             <Route exact path="/" element={<Modules />} />
@@ -24,18 +27,14 @@ class App extends Component {
               element={<FicheProgramme />}
             />
             <Route
-              path="/modules/:id/Planification"
-              element={<Planification />}
-            />
-            <Route
-              path="/modules/:module_id/cours/:cours_id/seances"
-              element={<SeancesCours />}
+              path="/modules/:id/PlanificationModule"
+              element={<PlanificationModule />}
             />
             <Route path="/modules" element={<Modules />} />
             <Route path="/salles" element={<Salles />} />
-            <Route path="/seances" element={<Seances />} />
+            <Route path="/seances" element={<PlanificationEPH />} />
             <Route path="/enseignants" element={<Enseignants />} />
-            <Route path="*" element={<Modules />} />
+            <Route path="*" element={<PageIntrouvable />} />
           </Routes>
         </div>
       </>
