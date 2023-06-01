@@ -192,16 +192,6 @@ function Tableau({
           },
         },
       ],
-      buttons: [
-        {
-          text: "Ajouter",
-          className: "btn btn-success",
-          action: function () {
-            // Action à exécuter lors du clic sur le bouton "Ajouter"
-            toggleModalCreate();
-          },
-        },
-      ],
     });
 
     // Paramètres du corps du tableau.
