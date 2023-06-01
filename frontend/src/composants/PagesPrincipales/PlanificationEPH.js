@@ -94,7 +94,6 @@ function PlanificationEPH() {
         },
       },
       { data: "commentaire" },
-      { data: null },
     ],
     nameColumns: [
       "Module",
@@ -106,7 +105,6 @@ function PlanificationEPH() {
       "Salle",
       "Enseignant",
       "Commentaire",
-      "Action",
     ],
     dom:
       "<'row'<'col-sm-12 col-md-7'f>>" +

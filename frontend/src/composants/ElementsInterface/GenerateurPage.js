@@ -21,7 +21,6 @@ function GenerateurPage({ listParams }) {
         data={listParams.data}
         type={listParams.type}
         buttons={listParams.buttons}
-        ordering={listParams.ordering}
       />
     </main>
   );

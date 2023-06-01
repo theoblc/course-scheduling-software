@@ -12,7 +12,7 @@ import "datatables.net";
 import "datatables.net-dt";
 import "datatables.net-buttons";
 
-// Composants
+// Composantstype
 import FormSeance from "../Formulaires/FormSeance";
 import FormSalle from "../Formulaires/FormSalle";
 import FormCours from "../Formulaires/FormCours";
@@ -21,7 +21,7 @@ import FormModule from "../Formulaires/FormModule";
 import FormConfirmation from "../Formulaires/FormConfirmation";
 
 // Code
-function Tableau({
+function TableauComplet({
   url,
   fetchData,
   itemAdd,
@@ -31,12 +31,87 @@ function Tableau({
   columns,
   nameColumns,
   buttons,
+  ordering,
 }) {
+  const tableRef = useRef(null);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalCreate, setModalCreate] = useState(false);
   const [item, setItem] = useState(null);
   const [modalRemove, setModalRemove] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    $(tableRef.current).DataTable({
+      dom: dom,
+      language: language_fr,
+      data: data,
+      columns: columns,
+      autoWidth: true,
+      order: [[0, "asc"]],
+      columnDefs: [
+        { orderable: ordering, targets: "_all" },
+        {
+          targets: -1,
+          render: function (data, type) {
+            if (buttons !== "") {
+              // Si des boutons sont précisés, on les affiche dans la dernière colonne
+              return ReactDOMServer.renderToString(buttons);
+            } else {
+              // Sinon on applique le comportement par défaut de DataTable
+              if (type === "display" || type === "filter") {
+                return data;
+              }
+              return "";
+            }
+          },
+        },
+      ],
+      buttons: [
+        {
+          text: "Ajouter",
+          className: "btn btn-success",
+          action: function (e, dt, node, config) {
+            // Action à exécuter lors du clic sur le bouton "Ajouter"
+            toggleModalCreate();
+          },
+        },
+      ],
+    });
+
+    // Paramètres du corps du tableau.
+    $(tableRef.current).on("click", "button", function () {
+      var action = this.className;
+      var data = new_table.row($(this).parents("tr")).data();
+
+      if (data !== undefined) {
+        if (action !== undefined) {
+          // Si c'est le bouton "Fiche Programme" de la liste des modules
+          if ((type = "cours") && action === "btn btn-secondary btn-sm w-70") {
+            redirect(`/modules/${data.id}/FicheProgramme`);
+          }
+          // Si c'est le bouton "Planification" de la liste des modules
+          else if ((type = "cours") && action === "btn btn-dark btn-sm w-70") {
+            redirect(`/modules/${data.id}/PlanificationModule`);
+          }
+          // Si c'est le bouton "Dupliquer" de la liste des séances
+          else if (
+            (type = "seances") &&
+            action === "btn btn-success btn-sm w-70"
+          ) {
+            duplicate(data);
+          }
+          // Si c'est bouton "modifier"
+          else if (action === "btn btn-warning btn-sm w-70") {
+            toggleModalEdit(data);
+          }
+          // Si c'est bouton "supprimer"
+          else if (action === "btn btn-danger btn-sm w-70") {
+            toggleModalRemove(data);
+          }
+        }
+      }
+    });
+  }, [data, columns]);
 
   // Fonction permettant de rediriger l'utilisateur vers l'URL passée en paramètre.
   function redirect(url) {
@@ -124,129 +199,10 @@ function Tableau({
       });
   }
 
-  // Fonction responsable de l'affichage du tableau (DataTable)
-  $(function () {
-    // Si la DataTable est déjà créée on l'écrase pour la mettre à jour
-    if ($.fn.dataTable.isDataTable("#datatable")) {
-      let table = $("#datatable").DataTable();
-      table.destroy();
-    }
-
-    // Vérifier si les filtres ont déjà été ajoutés
-    if ($("#datatable thead tr.filters").length === 0) {
-      $("#datatable thead tr")
-        .clone(true)
-        .addClass("filters")
-        .appendTo("#datatable thead");
-    }
-    //Création d'une nouvelle DataTable
-    let new_table = $("#datatable").DataTable({
-      dom: dom,
-      language: language_fr,
-      data: data,
-      columns: columns,
-      autoWidth: true,
-      order: [[0, "asc"]],
-      initComplete: function () {
-        var api = this.api();
-
-        api
-          .columns()
-          .eq(0)
-          .each(function (colIdx) {
-            var column = api.column(colIdx);
-
-            // Add the filter input element to the header cell
-            $(column.header())
-              .addClass("filter-header")
-              .html(
-                '<input type="text" class="form-control form-control-sm" placeholder="' +
-                  column.header().textContent +
-                  '" />'
-              );
-
-            // Apply the filtering on change
-            $(column.header())
-              .find("input")
-              .on("keyup change", function () {
-                column.search(this.value).draw();
-              });
-          });
-      },
-      columnDefs: [
-        { orderable: false, targets: "_all" },
-        {
-          targets: -1,
-          render: function (data, type) {
-            if (buttons !== "") {
-              // Si des boutons sont précisés, on les affiche dans la dernière colonne
-              return ReactDOMServer.renderToString(buttons);
-            } else {
-              // Sinon on applique le comportement par défaut de DataTable
-              if (type === "display" || type === "filter") {
-                return data;
-              }
-              return "";
-            }
-          },
-        },
-      ],
-      buttons: [
-        {
-          text: "Ajouter",
-          className: "btn btn-success",
-          action: function (e, dt, node, config) {
-            // Action à exécuter lors du clic sur le bouton "Ajouter"
-            toggleModalCreate();
-          },
-        },
-      ],
-    });
-
-    // Paramètres du corps du tableau.
-    $("#datatable tbody").on("click", "button", function () {
-      var action = this.className;
-      var data = new_table.row($(this).parents("tr")).data();
-
-      if (data !== undefined) {
-        if (action !== undefined) {
-          // Si c'est le bouton "Fiche Programme" de la liste des modules
-          if ((type = "cours") && action === "btn btn-secondary btn-sm w-70") {
-            redirect(`/modules/${data.id}/FicheProgramme`);
-          }
-          // Si c'est le bouton "Planification" de la liste des modules
-          else if ((type = "cours") && action === "btn btn-dark btn-sm w-70") {
-            redirect(`/modules/${data.id}/PlanificationModule`);
-          }
-          // Si c'est le bouton "Dupliquer" de la liste des séances
-          else if (
-            (type = "seances") &&
-            action === "btn btn-success btn-sm w-70"
-          ) {
-            duplicate(data);
-          }
-          // Si c'est bouton "modifier"
-          else if (action === "btn btn-warning btn-sm w-70") {
-            toggleModalEdit(data);
-          }
-          // Si c'est bouton "supprimer"
-          else if (action === "btn btn-danger btn-sm w-70") {
-            toggleModalRemove(data);
-          }
-        }
-      }
-    });
-  });
-
-  // Code JSX du tableau + des formulaires qui peuvent être affichés.
-  // Il y a de nombreux formulaires car ce composant peut gérer tous les types
-  // d'entités de la base de données mais à chaque fois le fonctionnement est similaire :
-  // on détermine quel formulaire affiché avec le paramètre 'type' puis on appelle le composant
-  // en lui passant les paramètres adéquats.
   return (
     <div className="container-fluid py-4">
       <div className="table-responsive p-0 pb-2">
-        <table id="datatable" className="display">
+        <table id="datatable" className="display" ref={tableRef}>
           <thead>
             <tr>
               {nameColumns.map((colonne) => (
@@ -368,4 +324,5 @@ function Tableau({
     </div>
   );
 }
-export default Tableau;
+
+export default TableauComplet;
