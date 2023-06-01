@@ -97,6 +97,9 @@ function Tableau({
   // Fonction permettant de dupliquer l'objet sélectionné.
   function duplicate(item) {
     delete item.id;
+    // On supprime les éléments qui vont causer des conflits
+    item.salle = null;
+    item.enseignant = null;
     axios
       .post(url, item)
       .then(() => {
