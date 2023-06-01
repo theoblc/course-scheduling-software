@@ -70,11 +70,6 @@ function Modules() {
       { data: null, width: "20%" },
     ],
     nameColumns: ["Code", "Nom", "Coordonnateur1", "Coordonnateur2", "Actions"],
-    dom:
-      "<'row'<'col-sm-12 col-md-7'f><'col-sm-12 col-md-5 d-flex justify-content-end'B>>" +
-      "<'row'<'col-sm-12'tr>>" +
-      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-    ordering: false,
     buttons: (
       <div className="btn-group" role="group">
         <button className="btn btn-secondary btn-sm w-70">

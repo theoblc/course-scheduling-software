@@ -12,7 +12,6 @@ function GenerateurPage({ listParams }) {
       <Titre type={listParams.title} />
 
       <Tableau
-        dom={listParams.dom}
         columns={listParams.columns}
         nameColumns={listParams.nameColumns}
         url={listParams.url}

@@ -27,7 +27,6 @@ function Tableau({
   itemAdd,
   data,
   type,
-  dom,
   columns,
   nameColumns,
   buttons,
@@ -132,16 +131,17 @@ function Tableau({
       table.destroy();
     }
 
-    // Vérifier si les filtres ont déjà été ajoutés
+    // Vérifier si les filtres ont déjà été ajoutés et sinon ajout des filtres
     if ($("#datatable thead tr.filters").length === 0) {
       $("#datatable thead tr")
         .clone(true)
         .addClass("filters")
         .appendTo("#datatable thead");
     }
+
     //Création d'une nouvelle DataTable
     let new_table = $("#datatable").DataTable({
-      dom: dom,
+      dom: "tpi",
       language: language_fr,
       data: data,
       columns: columns,
@@ -162,6 +162,7 @@ function Tableau({
               .html(
                 '<input type="text" class="form-control form-control-sm" placeholder="' +
                   column.header().textContent +
+                  "Filtre" +
                   '" />'
               );
 
@@ -195,7 +196,7 @@ function Tableau({
         {
           text: "Ajouter",
           className: "btn btn-success",
-          action: function (e, dt, node, config) {
+          action: function () {
             // Action à exécuter lors du clic sur le bouton "Ajouter"
             toggleModalCreate();
           },
