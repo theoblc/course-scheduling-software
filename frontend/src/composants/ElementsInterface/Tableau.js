@@ -2,15 +2,15 @@
 import React, { useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { useNavigate } from "react-router-dom";
-import "../../style/jquery.dataTables.min.css";
+import axios from "axios";
 import language_fr from "../../style/language_fr";
 import $ from "jquery";
-import axios from "axios";
-import "jquery";
-import "datatable";
+import "../../style/jquery.dataTables.min.css";
 import "datatables.net";
 import "datatables.net-dt";
 import "datatables.net-buttons";
+import "datatables.net-buttons-bs5";
+import "datatables.net-buttons/js/buttons.html5.min.js";
 
 // Composants
 import FormSeance from "../Formulaires/FormSeance";
@@ -20,19 +20,20 @@ import FormEnseignant from "../Formulaires/FormEnseignant";
 import FormModule from "../Formulaires/FormModule";
 import FormConfirmation from "../Formulaires/FormConfirmation";
 
+const jzip = require("jszip");
+window.JSZip = jzip;
+
 // Code
 function Tableau({
   url,
-  fetchData,
-  itemAdd,
-  data,
   type,
+  data,
+  fetchData,
   columns,
   nameColumns,
   buttons,
 }) {
   const [modalEdit, setModalEdit] = useState(false);
-  const [modalCreate, setModalCreate] = useState(false);
   const [item, setItem] = useState(null);
   const [modalRemove, setModalRemove] = useState(false);
   const navigate = useNavigate();
@@ -70,28 +71,6 @@ function Tableau({
   function toggleModalRemove(item) {
     setItem(item);
     setModalRemove(!modalRemove);
-  }
-
-  // Fonction permettant d'afficher ou de cacher le formulaire de création.
-  // Le formulaire affiché dépend du paramètre 'type' passé en paramètre du composant.
-  function toggleModalCreate() {
-    setModalCreate(!modalCreate);
-  }
-
-  // Fonction permettant d'envoyer la création de l'item dans la base de données.
-  // Cette fonction est appelée après l'affichage du formulaire, au moment où l'utilisateur
-  // appuie sur le bouton 'Enregistrer'. Remarquez que le formulaire est cachée au lancement
-  // de la fonction puis une requête PATCH est faite à l'API.
-  function create(item) {
-    toggleModalCreate();
-    axios
-      .post(url, item)
-      .then(() => {
-        fetchData();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   }
 
   // Fonction permettant de dupliquer l'objet sélectionné.
@@ -144,10 +123,17 @@ function Tableau({
 
     //Création d'une nouvelle DataTable
     let new_table = $("#datatable").DataTable({
-      dom: "tpi",
+      dom: "Btip",
       language: language_fr,
       data: data,
       columns: columns,
+      buttons: [
+        {
+          extend: "excel",
+          text: "Exporter",
+          filename: "peph",
+        },
+      ],
       autoWidth: true,
       order: [[0, "asc"]],
       initComplete: function () {
@@ -163,10 +149,7 @@ function Tableau({
             $(column.header())
               .addClass("filter-header")
               .html(
-                '<input type="text" class="form-control form-control-sm" placeholder="' +
-                  column.header().textContent +
-                  "Filtre" +
-                  '" />'
+                '<input type="text" class="form-control form-control-sm" placeholder=Filtre />'
               );
 
             // Apply the filtering on change
@@ -307,56 +290,6 @@ function Tableau({
           activeItem={item}
           onSave={edit}
           title="Modification d'une séance"
-        />
-      )}
-
-      {type === "cours" && modalCreate && (
-        <FormCours
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={itemAdd}
-          onSave={create}
-          title="Ajout d'un cours"
-        />
-      )}
-
-      {type === "enseignants" && modalCreate && (
-        <FormEnseignant
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={itemAdd}
-          onSave={create}
-          title="Ajout d'un enseignant"
-        />
-      )}
-
-      {type === "modules" && modalCreate && (
-        <FormModule
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={itemAdd}
-          onSave={create}
-          title="Ajout d'un module"
-        />
-      )}
-
-      {type === "salles" && modalCreate && (
-        <FormSalle
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={itemAdd}
-          onSave={create}
-          title="Ajout d'une salle"
-        />
-      )}
-
-      {type === "seances" && modalCreate && (
-        <FormSeance
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={itemAdd}
-          onSave={create}
-          title="Ajout d'une séance"
         />
       )}
     </div>

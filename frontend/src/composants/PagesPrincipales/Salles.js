@@ -7,16 +7,16 @@ import PageGenerator from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Salles() {
-  const { data, fetchData } = ChargeurDonnees(
-    "http://localhost:8000/api/salles/"
-  );
+  const API_URL_SALLES = "http://localhost:8000/api/salles/";
+  const { data, fetchData } = ChargeurDonnees(API_URL_SALLES);
 
   const listParams = {
     title: "Salles",
-    url: "http://localhost:8000/api/salles/",
+    url: API_URL_SALLES,
     type: "salles",
     data: data,
     fetchData: fetchData,
+    boutonAjout: true,
     item: {
       numero: "",
       description: "",

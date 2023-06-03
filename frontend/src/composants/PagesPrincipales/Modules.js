@@ -7,16 +7,16 @@ import PageGenerator from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Modules() {
-  const { data, fetchData } = ChargeurDonnees(
-    "http://localhost:8000/api/modules/"
-  );
+  const API_URL_MODULES = "http://localhost:8000/api/modules/";
+  const { data, fetchData } = ChargeurDonnees(API_URL_MODULES);
 
   const listParams = {
     title: "Modules",
-    url: "http://localhost:8000/api/modules/",
+    url: API_URL_MODULES,
     type: "modules",
     data: data,
     fetchData: fetchData,
+    boutonAjout: true,
     item: {
       code: "",
       nom: "",
