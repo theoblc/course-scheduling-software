@@ -2,15 +2,15 @@
 import React, { useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { useNavigate } from "react-router-dom";
-import "../../style/jquery.dataTables.min.css";
+import axios from "axios";
 import language_fr from "../../style/language_fr";
 import $ from "jquery";
-import axios from "axios";
-import "jquery";
-import "datatable";
+import "../../style/jquery.dataTables.min.css";
 import "datatables.net";
 import "datatables.net-dt";
 import "datatables.net-buttons";
+import "datatables.net-buttons-bs5";
+import "datatables.net-buttons/js/buttons.html5.min.js";
 
 // Composants
 import FormSeance from "../Formulaires/FormSeance";
@@ -19,6 +19,9 @@ import FormCours from "../Formulaires/FormCours";
 import FormEnseignant from "../Formulaires/FormEnseignant";
 import FormModule from "../Formulaires/FormModule";
 import FormConfirmation from "../Formulaires/FormConfirmation";
+
+const jzip = require("jszip");
+window.JSZip = jzip;
 
 // Code
 function Tableau({
@@ -120,10 +123,17 @@ function Tableau({
 
     //Création d'une nouvelle DataTable
     let new_table = $("#datatable").DataTable({
-      dom: "tpi",
+      dom: "Btip",
       language: language_fr,
       data: data,
       columns: columns,
+      buttons: [
+        {
+          extend: "excel",
+          text: "Exporter",
+          filename: "peph",
+        },
+      ],
       autoWidth: true,
       order: [[0, "asc"]],
       initComplete: function () {
@@ -139,10 +149,7 @@ function Tableau({
             $(column.header())
               .addClass("filter-header")
               .html(
-                '<input type="text" class="form-control form-control-sm" placeholder="' +
-                  column.header().textContent +
-                  "Filtre" +
-                  '" />'
+                '<input type="text" class="form-control form-control-sm" placeholder=Filtre />'
               );
 
             // Apply the filtering on change
