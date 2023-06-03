@@ -12,12 +12,14 @@ function GenerateurPage({ listParams }) {
     <main>
       <Titre type={listParams.title} />
 
-      <Ajout
-        type={listParams.type}
-        item={listParams.item}
-        fetchData={listParams.fetchData}
-        url={listParams.url}
-      />
+      {listParams.boutonAjout && (
+        <Ajout
+          type={listParams.type}
+          item={listParams.item}
+          fetchData={listParams.fetchData}
+          url={listParams.url}
+        />
+      )}
 
       <Tableau
         columns={listParams.columns}

@@ -17,6 +17,7 @@ function Modules() {
     type: "modules",
     data: data,
     fetchData: fetchData,
+    boutonAjout: true,
     item: {
       code: "",
       nom: "",

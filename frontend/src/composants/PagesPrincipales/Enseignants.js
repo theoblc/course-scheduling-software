@@ -17,6 +17,7 @@ function Enseignants() {
     type: "enseignants",
     data: data,
     fetchData: fetchData,
+    boutonAjout: true,
     item: {
       nom: "",
       prenom: "",

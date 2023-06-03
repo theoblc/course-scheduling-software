@@ -17,6 +17,7 @@ function PlanificationEPH() {
     type: "seances",
     data: data,
     fetchData: fetchData,
+    boutonAjout: false,
     item: {
       date: "",
       heure_debut: "",

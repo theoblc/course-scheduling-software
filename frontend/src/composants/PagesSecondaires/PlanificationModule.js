@@ -34,6 +34,7 @@ function PlanificationModule() {
     type: "seances",
     data: data,
     fetchData: fetchData,
+    boutonAjout: true,
     item: {
       id: 0,
       date: "",

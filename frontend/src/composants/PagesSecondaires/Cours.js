@@ -17,6 +17,7 @@ function Cours({ module }) {
     type: "cours",
     data: data,
     fetchData: fetchData,
+    boutonAjout: true,
     item: {
       nom: "",
       nb_heures: 0,

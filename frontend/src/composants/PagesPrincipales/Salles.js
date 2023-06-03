@@ -17,6 +17,7 @@ function Salles() {
     type: "salles",
     data: data,
     fetchData: fetchData,
+    boutonAjout: true,
     item: {
       numero: "",
       description: "",
