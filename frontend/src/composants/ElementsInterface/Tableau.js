@@ -23,16 +23,14 @@ import FormConfirmation from "../Formulaires/FormConfirmation";
 // Code
 function Tableau({
   url,
-  fetchData,
-  itemAdd,
-  data,
   type,
+  data,
+  fetchData,
   columns,
   nameColumns,
   buttons,
 }) {
   const [modalEdit, setModalEdit] = useState(false);
-  const [modalCreate, setModalCreate] = useState(false);
   const [item, setItem] = useState(null);
   const [modalRemove, setModalRemove] = useState(false);
   const navigate = useNavigate();
@@ -70,28 +68,6 @@ function Tableau({
   function toggleModalRemove(item) {
     setItem(item);
     setModalRemove(!modalRemove);
-  }
-
-  // Fonction permettant d'afficher ou de cacher le formulaire de création.
-  // Le formulaire affiché dépend du paramètre 'type' passé en paramètre du composant.
-  function toggleModalCreate() {
-    setModalCreate(!modalCreate);
-  }
-
-  // Fonction permettant d'envoyer la création de l'item dans la base de données.
-  // Cette fonction est appelée après l'affichage du formulaire, au moment où l'utilisateur
-  // appuie sur le bouton 'Enregistrer'. Remarquez que le formulaire est cachée au lancement
-  // de la fonction puis une requête PATCH est faite à l'API.
-  function create(item) {
-    toggleModalCreate();
-    axios
-      .post(url, item)
-      .then(() => {
-        fetchData();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   }
 
   // Fonction permettant de dupliquer l'objet sélectionné.
@@ -307,56 +283,6 @@ function Tableau({
           activeItem={item}
           onSave={edit}
           title="Modification d'une séance"
-        />
-      )}
-
-      {type === "cours" && modalCreate && (
-        <FormCours
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={itemAdd}
-          onSave={create}
-          title="Ajout d'un cours"
-        />
-      )}
-
-      {type === "enseignants" && modalCreate && (
-        <FormEnseignant
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={itemAdd}
-          onSave={create}
-          title="Ajout d'un enseignant"
-        />
-      )}
-
-      {type === "modules" && modalCreate && (
-        <FormModule
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={itemAdd}
-          onSave={create}
-          title="Ajout d'un module"
-        />
-      )}
-
-      {type === "salles" && modalCreate && (
-        <FormSalle
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={itemAdd}
-          onSave={create}
-          title="Ajout d'une salle"
-        />
-      )}
-
-      {type === "seances" && modalCreate && (
-        <FormSeance
-          isOpen={modalCreate}
-          toggle={toggleModalCreate}
-          activeItem={itemAdd}
-          onSave={create}
-          title="Ajout d'une séance"
         />
       )}
     </div>

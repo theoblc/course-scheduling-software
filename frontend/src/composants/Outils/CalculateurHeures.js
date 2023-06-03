@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 function CalculHeures(id) {
   const [listeCours, setListeCours] = useState([]);
   const [result, setResult] = useState({
-    nb_heures_be: 0,
-    nb_heures_tp: 0,
-    nb_heures_td: 0,
-    nb_heures_cm: 0,
-    nb_heures_ci: 0,
-    nb_heures_hors_presentiel: 0,
-    nb_heures_total: 0,
+    nb_heures_be: 0.0,
+    nb_heures_tp: 0.0,
+    nb_heures_td: 0.0,
+    nb_heures_cm: 0.0,
+    nb_heures_ci: 0.0,
+    nb_heures_hors_presentiel: 0.0,
+    nb_heures_total: 0.0,
   });
 
   useEffect(() => {
@@ -28,28 +28,28 @@ function CalculHeures(id) {
   useEffect(() => {
     function calcul() {
       let res = {
-        nb_heures_be: 0,
-        nb_heures_tp: 0,
-        nb_heures_td: 0,
-        nb_heures_cm: 0,
-        nb_heures_ci: 0,
-        nb_heures_hors_presentiel: 0,
-        nb_heures_total: 0,
+        nb_heures_be: 0.0,
+        nb_heures_tp: 0.0,
+        nb_heures_td: 0.0,
+        nb_heures_cm: 0.0,
+        nb_heures_ci: 0.0,
+        nb_heures_hors_presentiel: 0.0,
+        nb_heures_total: 0.0,
       };
       listeCours.forEach((cours) => {
-        res.nb_heures_hors_presentiel += Number(
+        res.nb_heures_hors_presentiel += Number.parseFloat(
           cours.nb_heures_hors_presentiel
         );
         if (cours.type === "CM") {
-          res.nb_heures_cm += Number(cours.nb_heures);
+          res.nb_heures_cm += Number.parseFloat(cours.nb_heures);
         } else if (cours.type === "CI") {
-          res.nb_heures_ci += Number(cours.nb_heures);
+          res.nb_heures_ci += Number.parseFloat(cours.nb_heures);
         } else if (cours.type === "TD") {
-          res.nb_heures_td += Number(cours.nb_heures);
+          res.nb_heures_td += Number.parseFloat(cours.nb_heures);
         } else if (cours.type === "TP") {
-          res.nb_heures_tp += Number(cours.nb_heures);
+          res.nb_heures_tp += Number.parseFloat(cours.nb_heures);
         } else if (cours.type === "BE") {
-          res.nb_heures_be += Number(cours.nb_heures);
+          res.nb_heures_be += Number.parseFloat(cours.nb_heures);
         }
       });
       res.nb_heures_total =

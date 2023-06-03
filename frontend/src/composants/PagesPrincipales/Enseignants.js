@@ -7,13 +7,12 @@ import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Enseignants() {
-  const { data, fetchData } = ChargeurDonnees(
-    "http://localhost:8000/api/enseignants/"
-  );
+  const API_URL_ENSEIGNANTS = "http://localhost:8000/api/enseignants/";
+  const { data, fetchData } = ChargeurDonnees(API_URL_ENSEIGNANTS);
 
   const listParams = {
     title: "Enseignants",
-    url: "http://localhost:8000/api/enseignants/",
+    url: API_URL_ENSEIGNANTS,
     type: "enseignants",
     data: data,
     fetchData: fetchData,

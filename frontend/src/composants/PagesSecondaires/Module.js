@@ -12,9 +12,9 @@ import Titre from "../ElementsInterface/Titre";
 // Code
 function Module({ data }) {
   const [module, setModule] = useState(data);
-  const baseURLModule = "http://localhost:8000/api/modules/";
   const repartitionHeures = CalculateurHeures(module.id);
   const [modalEdit, setModalEdit] = useState(false);
+  const API_URL_MODULES = "http://localhost:8000/api/modules/";
 
   function toggleModalEdit() {
     setModalEdit(!modalEdit);
@@ -37,7 +37,7 @@ function Module({ data }) {
     itemModified.nb_heures_total = sum;
     setModule(itemModified);
     axios
-      .patch(`${baseURLModule}${itemModified.id}/`, itemModified)
+      .patch(`${API_URL_MODULES}${itemModified.id}/`, itemModified)
       .then(() => {
         toggleModalEdit();
       })
@@ -46,8 +46,10 @@ function Module({ data }) {
       });
   }
 
-  const numeratorExceedsDenominator = (numerator, denominator) =>
-    numerator > denominator;
+  function couleurCase(numerateur, denominateur) {
+    const estSuperieur = numerateur > denominateur;
+    return estSuperieur ? "bg-danger text-white" : "bg-success text-white";
+  }
 
   return (
     <main>
@@ -80,91 +82,47 @@ function Module({ data }) {
               {module.coordonnateur2.nom} {module.coordonnateur2.prenom}
             </td>
             <td
-              className={`${
-                numeratorExceedsDenominator(
-                  repartitionHeures.nb_heures_cm,
-                  module.nb_heures_cm
-                )
-                  ? "bg-danger text-white"
-                  : "bg-success text-white"
-              }`}
-            >
-              {`${repartitionHeures.nb_heures_cm}/${Number(
+              className={couleurCase(
+                repartitionHeures.nb_heures_cm,
                 module.nb_heures_cm
-              )}`}
-            </td>
+              )}
+            >{`${repartitionHeures.nb_heures_cm}/${module.nb_heures_cm}`}</td>
             <td
-              className={`${
-                numeratorExceedsDenominator(
-                  repartitionHeures.nb_heures_ci,
-                  module.nb_heures_ci
-                )
-                  ? "bg-danger text-white"
-                  : "bg-success text-white"
-              }`}
-            >{`${repartitionHeures.nb_heures_ci}/${Number(
-              module.nb_heures_ci
-            )}`}</td>
+              className={couleurCase(
+                repartitionHeures.nb_heures_ci,
+                module.nb_heures_ci
+              )}
+            >{`${repartitionHeures.nb_heures_ci}/${module.nb_heures_ci}`}</td>
             <td
-              className={`${
-                numeratorExceedsDenominator(
-                  repartitionHeures.nb_heures_td,
-                  module.nb_heures_td
-                )
-                  ? "bg-danger text-white"
-                  : "bg-success text-white"
-              }`}
-            >{`${repartitionHeures.nb_heures_td}/${Number(
-              module.nb_heures_td
-            )}`}</td>
+              className={couleurCase(
+                repartitionHeures.nb_heures_td,
+                module.nb_heures_td
+              )}
+            >{`${repartitionHeures.nb_heures_td}/${module.nb_heures_td}`}</td>
             <td
-              className={`${
-                numeratorExceedsDenominator(
-                  repartitionHeures.nb_heures_tp,
-                  module.nb_heures_tp
-                )
-                  ? "bg-danger text-white"
-                  : "bg-success text-white"
-              }`}
-            >{`${repartitionHeures.nb_heures_tp}/${Number(
-              module.nb_heures_tp
-            )}`}</td>
+              className={couleurCase(
+                repartitionHeures.nb_heures_tp,
+                module.nb_heures_tp
+              )}
+            >{`${repartitionHeures.nb_heures_tp}/${module.nb_heures_tp}`}</td>
             <td
-              className={`${
-                numeratorExceedsDenominator(
-                  repartitionHeures.nb_heures_be,
-                  module.nb_heures_be
-                )
-                  ? "bg-danger text-white"
-                  : "bg-success text-white"
-              }`}
-            >{`${repartitionHeures.nb_heures_be}/${Number(
-              module.nb_heures_be
-            )}`}</td>
+              className={couleurCase(
+                repartitionHeures.nb_heures_be,
+                module.nb_heures_be
+              )}
+            >{`${repartitionHeures.nb_heures_be}/${module.nb_heures_be}`}</td>
             <td
-              className={`${
-                numeratorExceedsDenominator(
-                  repartitionHeures.nb_heures_hors_presentiel,
-                  module.nb_heures_hors_presentiel
-                )
-                  ? "bg-danger text-white"
-                  : "bg-success text-white"
-              }`}
-            >{`${repartitionHeures.nb_heures_hors_presentiel}/${Number(
-              module.nb_heures_hors_presentiel
-            )}`}</td>
+              className={couleurCase(
+                repartitionHeures.nb_heures_hors_presentiel,
+                module.nb_heures_hors_presentiel
+              )}
+            >{`${repartitionHeures.nb_heures_hors_presentiel}/${module.nb_heures_hors_presentiel}`}</td>
             <td
-              className={`${
-                numeratorExceedsDenominator(
-                  repartitionHeures.nb_heures_total,
-                  module.nb_heures_total
-                )
-                  ? "bg-danger text-white"
-                  : "bg-success text-white"
-              }`}
-            >{`${repartitionHeures.nb_heures_total}/${Number(
-              module.nb_heures_total
-            )}`}</td>
+              className={couleurCase(
+                repartitionHeures.nb_heures_total,
+                module.nb_heures_total
+              )}
+            >{`${repartitionHeures.nb_heures_total}/${module.nb_heures_total}`}</td>
           </tr>
         </tbody>
       </Table>

@@ -7,13 +7,12 @@ import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
 function PlanificationEPH() {
-  const { data, fetchData } = ChargeurDonnees(
-    "http://localhost:8000/api/seances/"
-  );
+  const API_URL_SEANCES = "http://localhost:8000/api/seances/";
+  const { data, fetchData } = ChargeurDonnees(API_URL_SEANCES);
 
   const listParams = {
     title: "Planification EPH",
-    url: "http://localhost:8000/api/seances/",
+    url: API_URL_SEANCES,
     type: "seances",
     data: data,
     fetchData: fetchData,

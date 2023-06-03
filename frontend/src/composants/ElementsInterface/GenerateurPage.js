@@ -8,28 +8,35 @@ import Ajout from "./Ajout";
 
 // Code
 function GenerateurPage({ listParams }) {
+  const {
+    title,
+    url,
+    type,
+    data,
+    fetchData,
+    boutonAjout,
+    item,
+    columns,
+    nameColumns,
+    buttons,
+  } = listParams;
+
   return (
     <main>
-      <Titre type={listParams.title} />
+      <Titre type={title} />
 
-      {listParams.boutonAjout && (
-        <Ajout
-          type={listParams.type}
-          item={listParams.item}
-          fetchData={listParams.fetchData}
-          url={listParams.url}
-        />
+      {boutonAjout && (
+        <Ajout type={type} item={item} fetchData={fetchData} url={url} />
       )}
 
       <Tableau
-        columns={listParams.columns}
-        nameColumns={listParams.nameColumns}
-        url={listParams.url}
-        fetchData={listParams.fetchData}
-        itemAdd={listParams.item}
-        data={listParams.data}
-        type={listParams.type}
-        buttons={listParams.buttons}
+        url={url}
+        type={type}
+        data={data}
+        fetchData={fetchData}
+        columns={columns}
+        nameColumns={nameColumns}
+        buttons={buttons}
       />
     </main>
   );

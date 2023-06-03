@@ -18,6 +18,7 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
   const [nomError, setNomError] = useState(false);
   const [prenomError, setPrenomError] = useState(false);
   const messageError = "Le champ est obligatoire.";
+  const departements = ["EPH", "Vacataire", "Autre"];
 
   function handleChange(e) {
     let { name, value } = e.target;
@@ -43,7 +44,6 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
   }
 
   function generateOptionsDepartement() {
-    const departements = ["EPH", "Vacataire", "Autre"];
     return departements.map((departement) => (
       <option key={departement} value={departement}>
         {departement}

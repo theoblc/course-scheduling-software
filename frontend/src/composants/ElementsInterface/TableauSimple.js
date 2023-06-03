@@ -1,3 +1,4 @@
+// Bibliothèques
 import React, { useEffect, useRef } from "react";
 import "../../style/jquery.dataTables.min.css";
 import language_fr from "../../style/language_fr";
@@ -8,6 +9,7 @@ import "datatables.net";
 import "datatables.net-dt";
 import "datatables.net-buttons";
 
+// Code
 function TableauSimple({ data, columns, nameColumns }) {
   const tableRef = useRef(null);
 

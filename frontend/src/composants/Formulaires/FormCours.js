@@ -16,7 +16,17 @@ import {
 function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
   const [item, setItem] = useState(activeItem);
   const [nomError, setNomError] = useState(false);
+  const [typeError, setTypeError] = useState(false);
   const [messageError, setMessageError] = useState("Le champ est obligatoire.");
+  const types = ["BE", "CM", "CI", "TD", "TP"];
+  const choix_effectif = [
+    "Promo complète",
+    "1/2 Promo",
+    "Groupe de TD",
+    "1/2 Groupe de TD",
+    "Groupe de TP",
+    "1/2 Groupe de TP",
+  ];
 
   const handleChange = (e) => {
     let { name, value } = e.target;
@@ -31,20 +41,14 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
     } else if (nom.length > 50) {
       setMessageError("Le nom d'un cours ne peut pas excéder 50 caractères.");
       setNomError(true);
+    } else if (item.type === null) {
+      setTypeError(true);
     } else {
       return onSave(item);
     }
   }
 
   function generateOptionsEffectif() {
-    const choix_effectif = [
-      "Promo complète",
-      "1/2 Promo",
-      "Groupe de TD",
-      "1/2 Groupe de TD",
-      "Groupe de TP",
-      "1/2 Groupe de TP",
-    ];
     return choix_effectif.map((effectif) => (
       <option key={effectif} value={effectif}>
         {effectif}
@@ -53,7 +57,6 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
   }
 
   function generateOptionsType() {
-    const types = ["BE", "CM", "CI", "TD", "TP"];
     return types.map((type) => (
       <option key={type} value={type}>
         {type}
@@ -125,11 +128,13 @@ function FormCours({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               value={item.type}
               placeholder={item.type}
+              style={{ borderColor: typeError ? "red" : "" }}
               required
             >
               <option hidden>Type de cours</option>
               {generateOptionsType()}
             </select>
+            {typeError && <p style={{ color: "red" }}>{messageError}</p>}
           </FormGroup>
           <FormGroup>
             <Label for="effectif">Effectif</Label>

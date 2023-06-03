@@ -10,6 +10,7 @@ function PlanificationModule() {
   const { id } = useParams();
   const [data, setData] = useState({});
   const [module, setModule] = useState({ code: "" });
+  const API_URL_SEANCES = "http://localhost:8000/api/seances/";
 
   const fetchData = async () => {
     const raw_seances = await fetch(
@@ -30,7 +31,7 @@ function PlanificationModule() {
 
   const listParams = {
     title: `Planification de ${module.code}`,
-    url: `http://127.0.0.1:8000/api/seances/`,
+    url: API_URL_SEANCES,
     type: "seances",
     data: data,
     fetchData: fetchData,
