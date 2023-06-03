@@ -3,7 +3,7 @@ import React from "react";
 
 // Composants
 import ChargeurDonnees from "../Outils/ChargeurDonnees";
-import PageGenerator from "../ElementsInterface/GenerateurPage";
+import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Modules() {
@@ -82,7 +82,7 @@ function Modules() {
 
   return (
     <main>
-      <PageGenerator listParams={listParams} />
+      <GenerateurPage listParams={listParams} />
     </main>
   );
 }

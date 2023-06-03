@@ -3,7 +3,7 @@ import React from "react";
 
 // Composants
 import ChargeurDonnees from "../Outils/ChargeurDonnees";
-import PageGenerator from "../ElementsInterface/GenerateurPage";
+import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Salles() {
@@ -33,7 +33,7 @@ function Salles() {
 
   return (
     <main>
-      <PageGenerator listParams={listParams} />
+      <GenerateurPage listParams={listParams} />
     </main>
   );
 }

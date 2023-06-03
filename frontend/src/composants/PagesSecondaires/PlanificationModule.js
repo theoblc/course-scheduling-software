@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // Composants
-import PageGenerator from "../ElementsInterface/GenerateurPage";
+import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
 function PlanificationModule() {
@@ -115,7 +115,7 @@ function PlanificationModule() {
 
   return (
     <main>
-      <PageGenerator listParams={listParams} />
+      <GenerateurPage listParams={listParams} />
     </main>
   );
 }
