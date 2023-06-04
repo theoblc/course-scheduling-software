@@ -15,6 +15,11 @@ import axios from "axios";
 
 // Composants
 import TableauSimple from "../ElementsInterface/TableauSimple";
+import {
+  getModuleCoursURL,
+  getEnseignantsURL,
+  getSallesURL,
+} from "../Outils/Urls";
 
 // Code
 function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
@@ -33,20 +38,19 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const raw_cours = await fetch(
-        `http://157.159.52.53:8000/api/modules/${item.module.id}/cours`
-      );
+      const API_URL_MODULE_COURS = getModuleCoursURL(item.module.id);
+      const raw_cours = await fetch(API_URL_MODULE_COURS);
       const cours = await raw_cours.json();
       setCours(cours);
 
-      const raw_salles = await fetch("http://157.159.52.53:8000/api/salles/");
+      const API_URL_SALLES = getSallesURL();
+      const raw_salles = await fetch(API_URL_SALLES);
       const salles = await raw_salles.json();
       salles.sort((a, b) => a.numero.localeCompare(b.numero));
       setSalles(salles);
 
-      const raw_enseignants = await fetch(
-        "http://157.159.52.53:8000/api/enseignants/"
-      );
+      const API_URL_ENSEIGNANTS = getEnseignantsURL();
+      const raw_enseignants = await fetch(API_URL_ENSEIGNANTS);
       const enseignants = await raw_enseignants.json();
       enseignants.sort((a, b) => a.nom.localeCompare(b.nom));
       setEnseignants(enseignants);

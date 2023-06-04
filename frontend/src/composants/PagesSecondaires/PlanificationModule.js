@@ -4,24 +4,29 @@ import { useParams } from "react-router-dom";
 
 // Composants
 import GenerateurPage from "../ElementsInterface/GenerateurPage";
+import {
+  getModuleSeancesURL,
+  getSeancesURL,
+  getModuleURL,
+} from "../Outils/Urls";
 
 // Code
 function PlanificationModule() {
   const { id } = useParams();
   const [data, setData] = useState({});
   const [module, setModule] = useState({ code: "" });
-  const API_URL_SEANCES = "http://157.159.52.53:8000/api/seances/";
+  const API_URL_SEANCES = getSeancesURL();
 
   const fetchData = async () => {
-    const raw_seances = await fetch(
-      `http://157.159.52.53:8000/api/modules/${id}/seances`
-    );
+    // On récupère les séances du module.
+    const API_URL_MODULE_SEANCES = getModuleSeancesURL(id);
+    const raw_seances = await fetch(API_URL_MODULE_SEANCES);
     const seances = await raw_seances.json();
     setData(seances);
 
-    const raw_module = await fetch(
-      `http://157.159.52.53:8000/api/modules/${id}`
-    );
+    // On récupère les informations sur le module.
+    const API_URL_MODULE = getModuleURL(id);
+    const raw_module = await fetch(API_URL_MODULE);
     const res_module = await raw_module.json();
     setModule(res_module);
   };

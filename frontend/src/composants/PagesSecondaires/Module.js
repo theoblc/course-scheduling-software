@@ -8,13 +8,14 @@ import FormModule from "../Formulaires/FormModule";
 import CalculateurHeures from "../Outils/CalculateurHeures";
 import Suppression from "../ElementsInterface/Suppression";
 import Titre from "../ElementsInterface/Titre";
+import { getModulesURL } from "../Outils/Urls";
 
 // Code
 function Module({ data }) {
   const [module, setModule] = useState(data);
   const repartitionHeures = CalculateurHeures(module.id);
   const [modalEdit, setModalEdit] = useState(false);
-  const API_URL_MODULES = "http://157.159.52.53:8000/api/modules/";
+  const API_URL_MODULES = getModulesURL();
 
   function toggleModalEdit() {
     setModalEdit(!modalEdit);

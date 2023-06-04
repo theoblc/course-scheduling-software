@@ -4,10 +4,11 @@ import React from "react";
 // Composants
 import ChargeurDonnees from "../Outils/ChargeurDonnees";
 import GenerateurPage from "../ElementsInterface/GenerateurPage";
+import { getSallesURL } from "../Outils/Urls";
 
 // Code
 function Salles() {
-  const API_URL_SALLES = "http://157.159.52.53:8000/api/salles/";
+  const API_URL_SALLES = getSallesURL();
   const { data, fetchData } = ChargeurDonnees(API_URL_SALLES);
 
   const listParams = {

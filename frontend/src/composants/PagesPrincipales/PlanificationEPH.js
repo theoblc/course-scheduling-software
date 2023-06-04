@@ -4,10 +4,11 @@ import React from "react";
 // Composants
 import ChargeurDonnees from "../Outils/ChargeurDonnees";
 import GenerateurPage from "../ElementsInterface/GenerateurPage";
+import { getSeancesURL } from "../Outils/Urls";
 
 // Code
 function PlanificationEPH() {
-  const API_URL_SEANCES = "http://157.159.52.53:8000/api/seances/";
+  const API_URL_SEANCES = getSeancesURL();
   const { data, fetchData } = ChargeurDonnees(API_URL_SEANCES);
 
   const listParams = {

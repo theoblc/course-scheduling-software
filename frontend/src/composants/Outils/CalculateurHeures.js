@@ -1,5 +1,6 @@
 // Bibliothèques
 import { useEffect, useState } from "react";
+import { getModuleCoursURL } from "./Urls";
 
 // Code
 function CalculHeures(id) {
@@ -16,9 +17,8 @@ function CalculHeures(id) {
 
   useEffect(() => {
     async function fetchData() {
-      const raw_data = await fetch(
-        `http://157.159.52.53:8000/api/modules/${id}/cours/`
-      );
+      const API_URL_MODULE_COURS = getModuleCoursURL(id);
+      const raw_data = await fetch(API_URL_MODULE_COURS);
       const data = await raw_data.json();
       setListeCours(data);
     }
