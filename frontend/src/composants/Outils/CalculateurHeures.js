@@ -17,7 +17,7 @@ function CalculHeures(id) {
   useEffect(() => {
     async function fetchData() {
       const raw_data = await fetch(
-        `http://localhost:8000/api/modules/${id}/cours/`
+        `http://157.159.52.53:8000/api/modules/${id}/cours/`
       );
       const data = await raw_data.json();
       setListeCours(data);

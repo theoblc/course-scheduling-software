@@ -7,8 +7,8 @@ import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Cours({ module }) {
-  const API_URL_MODULE_COURS = `http://localhost:8000/api/modules/${module.id}/cours/`;
-  const API_URL_COURS = "http://localhost:8000/api/cours/";
+  const API_URL_MODULE_COURS = `http://157.159.52.53:8000/api/modules/${module.id}/cours/`;
+  const API_URL_COURS = "http://157.159.52.53:8000/api/cours/";
   const { data, fetchData } = ChargeurDonnees(API_URL_MODULE_COURS);
 
   const listParams = {

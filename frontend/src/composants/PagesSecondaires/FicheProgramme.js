@@ -13,7 +13,9 @@ function FicheProgramme() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const raw_data = await fetch(`http://localhost:8000/api/modules/${id}`);
+      const raw_data = await fetch(
+        `http://157.159.52.53:8000/api/modules/${id}`
+      );
       const res = await raw_data.json();
 
       if (res.coordonnateur2 == null) {

@@ -7,7 +7,7 @@ import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Modules() {
-  const API_URL_MODULES = "http://localhost:8000/api/modules/";
+  const API_URL_MODULES = "http://157.159.52.53:8000/api/modules/";
   const { data, fetchData } = ChargeurDonnees(API_URL_MODULES);
 
   const listParams = {

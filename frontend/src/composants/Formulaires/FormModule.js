@@ -38,7 +38,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
     calculateSum(item);
     const fetchData = async () => {
       const raw_enseignants = await fetch(
-        "http://localhost:8000/api/enseignants/"
+        "http://157.159.52.53:8000/api/enseignants/"
       );
       const enseignants = await raw_enseignants.json();
       setEnseignants(enseignants);

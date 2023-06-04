@@ -14,7 +14,7 @@ function Module({ data }) {
   const [module, setModule] = useState(data);
   const repartitionHeures = CalculateurHeures(module.id);
   const [modalEdit, setModalEdit] = useState(false);
-  const API_URL_MODULES = "http://localhost:8000/api/modules/";
+  const API_URL_MODULES = "http://157.159.52.53:8000/api/modules/";
 
   function toggleModalEdit() {
     setModalEdit(!modalEdit);
@@ -132,7 +132,7 @@ function Module({ data }) {
         </Button>
         <div>
           <Suppression
-            baseURL={"http://localhost:8000/api/modules/"}
+            baseURL={"http://157.159.52.53:8000/api/modules/"}
             id={module.id}
             redirection="/modules"
             message="Supprimer le module"

@@ -7,7 +7,7 @@ import GenerateurPage from "../ElementsInterface/GenerateurPage";
 
 // Code
 function Salles() {
-  const API_URL_SALLES = "http://localhost:8000/api/salles/";
+  const API_URL_SALLES = "http://157.159.52.53:8000/api/salles/";
   const { data, fetchData } = ChargeurDonnees(API_URL_SALLES);
 
   const listParams = {

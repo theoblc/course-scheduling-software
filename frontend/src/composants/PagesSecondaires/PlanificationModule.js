@@ -10,16 +10,18 @@ function PlanificationModule() {
   const { id } = useParams();
   const [data, setData] = useState({});
   const [module, setModule] = useState({ code: "" });
-  const API_URL_SEANCES = "http://localhost:8000/api/seances/";
+  const API_URL_SEANCES = "http://157.159.52.53:8000/api/seances/";
 
   const fetchData = async () => {
     const raw_seances = await fetch(
-      `http://localhost:8000/api/modules/${id}/seances`
+      `http://157.159.52.53:8000/api/modules/${id}/seances`
     );
     const seances = await raw_seances.json();
     setData(seances);
 
-    const raw_module = await fetch(`http://localhost:8000/api/modules/${id}`);
+    const raw_module = await fetch(
+      `http://157.159.52.53:8000/api/modules/${id}`
+    );
     const res_module = await raw_module.json();
     setModule(res_module);
   };
