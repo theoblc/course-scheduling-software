@@ -23,19 +23,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-s47pf+fj@_baqny0=39xbuh2&$k9iknc2o1j(#o(hy4llm5yc#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['157.159.52.53']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'app_enseignant.apps.AppEnseignantConfig', 
-    'app_module.apps.AppModuleConfig', 
+    'app_enseignant.apps.AppEnseignantConfig',
+    'app_module.apps.AppModuleConfig',
     'app_seance.apps.AppSeanceConfig',
-    'app_salle.apps.AppSalleConfig', 
-    'app_cours.apps.AppCoursConfig', 
+    'app_salle.apps.AppSalleConfig',
+    'app_cours.apps.AppCoursConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,17 +61,17 @@ ROOT_URLCONF = 'root.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
+   	 'BACKEND': 'django.template.backends.django.DjangoTemplates',
+   	 'DIRS': [],
+   	 'APP_DIRS': True,
+   	 'OPTIONS': {
+   		 'context_processors': [
+       		 'django.template.context_processors.debug',
+       		 'django.template.context_processors.request',
+       		 'django.contrib.auth.context_processors.auth',
+       		 'django.contrib.messages.context_processors.messages',
+   		 ],
+   	 },
     },
 ]
 
@@ -83,15 +83,15 @@ WSGI_APPLICATION = 'root.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cassiopee',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'OPTIONS': {  
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"  
-        }  
+   	 'ENGINE': 'django.db.backends.mysql',
+   	 'NAME': 'cassiopee',
+   	 'USER': 'peph',
+   	 'PASSWORD': 'peph',
+   	 'HOST': '127.0.0.1',
+   	 'PORT': '3306',
+   	 'OPTIONS': {  
+   		 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"  
+   	 }  
     }
 }
 
@@ -100,16 +100,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+   	 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+   	 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+   	 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+   	 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -128,8 +128,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = '/home/peph/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -140,7 +140,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Désactivation du CORS pour toutes les adresses pour limiter les domaines qui peuvent accéder à l'API
 CORS_ORIGIN_ALLOW_ALL = False
 
-# Liste des domaines qui peuvent voir accès à l'API
+# Liste des domaines qui peuvent avoir accès à l'API
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
+    	'http://157.159.52.53:3000',
+    ]
