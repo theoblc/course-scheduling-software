@@ -11,6 +11,7 @@ import {
   Input,
   Label,
 } from "reactstrap";
+import { getEnseignantsURL } from "../Outils/Urls";
 
 // Code
 function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
@@ -37,9 +38,8 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   useEffect(() => {
     calculateSum(item);
     const fetchData = async () => {
-      const raw_enseignants = await fetch(
-        "http://localhost:8000/api/enseignants/"
-      );
+      const API_URL_ENSEIGNANTS = getEnseignantsURL();
+      const raw_enseignants = await fetch(API_URL_ENSEIGNANTS);
       const enseignants = await raw_enseignants.json();
       setEnseignants(enseignants);
     };

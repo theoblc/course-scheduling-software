@@ -4,10 +4,11 @@ import React from "react";
 // Composants
 import ChargeurDonnees from "../Outils/ChargeurDonnees";
 import GenerateurPage from "../ElementsInterface/GenerateurPage";
+import { getEnseignantsURL } from "../Outils/Urls";
 
 // Code
 function Enseignants() {
-  const API_URL_ENSEIGNANTS = "http://localhost:8000/api/enseignants/";
+  const API_URL_ENSEIGNANTS = getEnseignantsURL();
   const { data, fetchData } = ChargeurDonnees(API_URL_ENSEIGNANTS);
 
   const listParams = {

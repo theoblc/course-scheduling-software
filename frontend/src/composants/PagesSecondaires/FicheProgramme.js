@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 // Composants
 import Module from "./Module";
 import Cours from "./Cours";
+import { getModuleURL } from "../Outils/Urls";
 
 // Code
 function FicheProgramme() {
@@ -13,7 +14,8 @@ function FicheProgramme() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const raw_data = await fetch(`http://localhost:8000/api/modules/${id}`);
+      const API_URL_MODULE = getModuleURL(id);
+      const raw_data = await fetch(API_URL_MODULE);
       const res = await raw_data.json();
 
       if (res.coordonnateur2 == null) {

@@ -4,11 +4,12 @@ import React from "react";
 // Composants
 import ChargeurDonnees from "../Outils/ChargeurDonnees";
 import GenerateurPage from "../ElementsInterface/GenerateurPage";
+import { getModuleCoursURL, getCoursURL } from "../Outils/Urls";
 
 // Code
 function Cours({ module }) {
-  const API_URL_MODULE_COURS = `http://localhost:8000/api/modules/${module.id}/cours/`;
-  const API_URL_COURS = "http://localhost:8000/api/cours/";
+  const API_URL_MODULE_COURS = getModuleCoursURL(module.id);
+  const API_URL_COURS = getCoursURL();
   const { data, fetchData } = ChargeurDonnees(API_URL_MODULE_COURS);
 
   const listParams = {
