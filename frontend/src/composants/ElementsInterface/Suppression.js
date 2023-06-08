@@ -7,7 +7,11 @@ import axios from "axios";
 // Composants
 import FormConfirmation from "../Formulaires/FormConfirmation";
 
-// Code
+/**
+ * Le rôle de ce composant est de gérer la suppression d'un élément dans PEPH.
+ * Il affiche un bouton "Supprimer" qui, lorsqu'il est cliqué, ouvre un formulaire de confirmation.
+ * Lorsque la fenêtre de confirmation est validée, une requête DELETE est envoyée à l'API.
+ */
 function Delete({ baseURL, id, redirection, message }) {
   const [item, setItem] = useState(null);
   const [modalRemove, setModalRemove] = useState(false);

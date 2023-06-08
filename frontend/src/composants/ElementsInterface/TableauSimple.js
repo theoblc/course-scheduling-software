@@ -9,7 +9,10 @@ import "datatables.net";
 import "datatables.net-dt";
 import "datatables.net-buttons";
 
-// Code
+/**
+ * Le rôle de ce composant est de générer un tableau de données.
+ * Contrairement au composant Tableau, il ne contient aucune autre fonctionnalité.
+ */
 function TableauSimple({ data, columns, nameColumns }) {
   const tableRef = useRef(null);
 

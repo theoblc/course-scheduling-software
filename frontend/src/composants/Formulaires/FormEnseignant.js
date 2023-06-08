@@ -12,13 +12,18 @@ import {
   Label,
 } from "reactstrap";
 
-// Code
+/**
+ * Le rôle de ce composant est d'afficher un formulaire pour rentrer des informations sur un enseignant.
+ * Il est utilisé aussi bien pour ajouter un nouvel enseignant que pour modifier un enseignant existant.
+ */
 function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
   const [item, setItem] = useState(activeItem);
+  const departements = ["EPH", "Vacataire", "Autre"];
+  // Gestion des erreurs
   const [nomError, setNomError] = useState(false);
   const [prenomError, setPrenomError] = useState(false);
+  // Gestion des messages d'erreur
   const messageError = "Le champ est obligatoire.";
-  const departements = ["EPH", "Vacataire", "Autre"];
 
   function handleChange(e) {
     let { name, value } = e.target;
@@ -26,19 +31,28 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
     setItem(newItem);
   }
 
+  function resetError() {
+    setNomError(false);
+    setPrenomError(false);
+  }
+
   function testValid() {
-    const nom = item.nom;
-    const prenom = item.prenom;
-    if (!nom || !prenom) {
-      // Afficher un message d'erreur pour chaque champ vide
-      if (!nom) {
+    resetError();
+    // Afficher un message d'erreur pour chaque champ invalide
+    if (!item.nom || !item.prenom) {
+      if (!item.nom) {
         setNomError(true);
       }
-      if (!prenom) {
+      if (!item.prenom) {
         setPrenomError(true);
       }
-      return;
-    } else {
+      return false;
+    }
+    return true;
+  }
+
+  function validateForm() {
+    if (testValid()) {
       return onSave(item);
     }
   }
@@ -65,7 +79,7 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  testValid();
+                  validateForm();
                 }
               }}
               // Afficher une bordure rouge si le champ est vide
@@ -82,7 +96,7 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  testValid();
+                  validateForm();
                 }
               }}
               // Afficher une bordure rouge si le champ est vide
@@ -99,7 +113,7 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  testValid();
+                  validateForm();
                 }
               }}
             >
@@ -109,7 +123,7 @@ function FormEnseignant({ isOpen, toggle, activeItem, onSave, title }) {
         </Form>
       </ModalBody>
       <ModalFooter>
-        <Button color="success" onClick={() => testValid()}>
+        <Button color="success" onClick={() => validateForm()}>
           Enregistrer
         </Button>
       </ModalFooter>

@@ -2,7 +2,12 @@
 import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-// Code
+/**
+ * Le rôle de ce composant est d'afficher une boîte de dialogue de confirmation
+ * avec un message de confirmation et deux boutons, "Annuler" et "Valider".
+ * Il est utilisé pour demander une confirmation à l'utilisateur avant d'effectuer une action.
+ * Dans PEPH, il est utilisé uniquement pour les suppressions.
+ */
 function FormConfirmation({ isOpen, toggle, onSave }) {
   return (
     <Modal isOpen={isOpen} toggle={toggle}>

@@ -3,7 +3,10 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-// Code
+/**
+ * Le rôle de ce composant est d'afficher un message lorsqu'une page introuvable est demandée.
+ * Il redirige automatiquement l'utilisateur vers la page d'accueil après un certain délai.
+ */
 function PageIntrouvable() {
   const navigate = useNavigate();
   const message =

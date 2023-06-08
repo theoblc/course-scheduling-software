@@ -1,4 +1,8 @@
-const baseURL = "http://157.159.52.53:8000/api";
+/**
+ *  Ce fichier définit les URL de l'API utilisée dans PEPH.
+ */
+
+const baseURL = "http://127.0.0.1:8000/api";
 
 export const getModulesURL = () => `${baseURL}/modules/`;
 export const getModuleURL = (module_id) => `${baseURL}/modules/${module_id}/`;
@@ -10,3 +14,4 @@ export const getEnseignantsURL = () => `${baseURL}/enseignants/`;
 export const getSallesURL = () => `${baseURL}/salles/`;
 export const getSeancesURL = () => `${baseURL}/seances/`;
 export const getCoursURL = () => `${baseURL}/cours/`;
+export const getConflitsURL = () => `${baseURL}/seances/chevauchements`;

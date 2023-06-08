@@ -7,7 +7,9 @@ import Module from "./Module";
 import Cours from "./Cours";
 import { getModuleURL } from "../Outils/Urls";
 
-// Code
+/**
+ * Le rôle de ce composant est d'afficher la page "FicheProgramme" d'un module.
+ */
 function FicheProgramme() {
   const { id } = useParams();
   const [data, setData] = useState(null);
@@ -17,15 +19,6 @@ function FicheProgramme() {
       const API_URL_MODULE = getModuleURL(id);
       const raw_data = await fetch(API_URL_MODULE);
       const res = await raw_data.json();
-
-      if (res.coordonnateur2 == null) {
-        res.coordonnateur2 = {
-          id: 0,
-          nom: "",
-          prenom: "",
-          departement: "",
-        };
-      }
       setData(res);
     };
 

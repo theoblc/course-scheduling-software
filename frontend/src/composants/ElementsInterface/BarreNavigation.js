@@ -2,7 +2,11 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-// Code
+/**
+ * Le rôle de ce composant est de créer une barre de navigation pour PEPH.
+ * La barre de navigation utilise la bibliothèque react-router-dom pour gérer la navigation
+ * entre les différentes pages de l'application.
+ */
 function BarreNavigation() {
   const [expanded, setExpanded] = useState(false);
   const toggleNavbar = () => {

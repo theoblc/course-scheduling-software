@@ -10,7 +10,9 @@ import Suppression from "../ElementsInterface/Suppression";
 import Titre from "../ElementsInterface/Titre";
 import { getModulesURL } from "../Outils/Urls";
 
-// Code
+/**
+ * Le rôle de composant est d'afficher les informations sur le module dans la FicheProgramme d'un module.
+ */
 function Module({ data }) {
   const [module, setModule] = useState(data);
   const repartitionHeures = CalculateurHeures(module.id);
@@ -34,9 +36,9 @@ function Module({ data }) {
 
   function editModule(itemModified) {
     toggleModalEdit();
-    let sum = calculSum(itemModified);
-    itemModified.nb_heures_total = sum;
+    itemModified.nb_heures_total = calculSum(itemModified);
     setModule(itemModified);
+
     axios
       .patch(`${API_URL_MODULES}${itemModified.id}/`, itemModified)
       .then(() => {
@@ -77,10 +79,15 @@ function Module({ data }) {
             <td>{module.code}</td>
             <td>{module.nom}</td>
             <td>
-              {module.coordonnateur1.nom} {module.coordonnateur1.prenom}
+              {module.coordonnateur1
+                ? `${module.coordonnateur1.nom} ${module.coordonnateur1.prenom}`
+                : ""}
             </td>
+
             <td>
-              {module.coordonnateur2.nom} {module.coordonnateur2.prenom}
+              {module.coordonnateur2
+                ? `${module.coordonnateur2.nom} ${module.coordonnateur2.prenom}`
+                : ""}
             </td>
             <td
               className={couleurCase(
@@ -133,7 +140,7 @@ function Module({ data }) {
         </Button>
         <div>
           <Suppression
-            baseURL={"http://157.159.52.53:8000/api/modules/"}
+            baseURL={API_URL_MODULES}
             id={module.id}
             redirection="/modules"
             message="Supprimer le module"

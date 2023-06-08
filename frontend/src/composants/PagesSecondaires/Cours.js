@@ -6,7 +6,9 @@ import ChargeurDonnees from "../Outils/ChargeurDonnees";
 import GenerateurPage from "../ElementsInterface/GenerateurPage";
 import { getModuleCoursURL, getCoursURL } from "../Outils/Urls";
 
-// Code
+/**
+ * Le rôle de composant est d'afficher la liste des cours dans la FicheProgramme d'un module.
+ */
 function Cours({ module }) {
   const API_URL_MODULE_COURS = getModuleCoursURL(module.id);
   const API_URL_COURS = getCoursURL();

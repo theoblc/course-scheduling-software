@@ -23,7 +23,10 @@ import FormConfirmation from "../Formulaires/FormConfirmation";
 const jzip = require("jszip");
 window.JSZip = jzip;
 
-// Code
+/**
+ * Le rôle de ce composant est de générer un tableau de données.
+ * Les fonctionnalités du tableau sont la pagination, le filtre et l'édition/suppression des éléments.
+ */
 function Tableau({
   url,
   type,

@@ -2,7 +2,10 @@
 import { useEffect, useState } from "react";
 import { getModuleCoursURL } from "./Urls";
 
-// Code
+/**
+ * Le rôle de ce composant est de calculer et de retourner les heures totales d'un module.
+ * Le composant récupère la liste des cours du module d'identifiant "id" puis somme les heures.
+ */
 function CalculHeures(id) {
   const [listeCours, setListeCours] = useState([]);
   const [result, setResult] = useState({

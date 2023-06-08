@@ -13,15 +13,25 @@ import {
 } from "reactstrap";
 import { getEnseignantsURL } from "../Outils/Urls";
 
-// Code
+/**
+ * Le rôle de ce composant est d'afficher un formulaire pour rentrer des informations sur un module.
+ * Il est utilisé aussi bien pour ajouter un nouveau module que pour modifier un module existant.
+ */
 function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
   const [sum, setSum] = useState(0);
   const [item, setItem] = useState({ ...activeItem });
   const [enseignants, setEnseignants] = useState([]);
+  // Gestion des erreurs
   const [nomError, setNomError] = useState(false);
   const [codeError, setCodeError] = useState(false);
+  const [nombreHeuresError, setNombreHeuresError] = useState(false);
   const [coordonnateur1Error, setCoordonnateur1Error] = useState(false);
-  const [messageError, setMessageError] = useState("Le champ est obligatoire.");
+  // Gestion des messages d'erreur
+  const [messageNomError, setMessageNomError] = useState("");
+  const [messageCodeError, setMessageCodeError] = useState("");
+  const [messageHeuresError, setMessageHeuresError] = useState("");
+  const [messageCoordonnateurError, setMessageCoordonnateurError] =
+    useState("");
 
   const calculateSum = useCallback((item) => {
     const sum = [
@@ -56,39 +66,6 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
     setItem(newItem);
   }
 
-  function testValid() {
-    setNomError(false);
-    setCodeError(false);
-    setCoordonnateur1Error(false);
-    const code = item.code;
-    const nom = item.nom;
-    const coordonnateur1 = item.coordonnateur1.id;
-    if (!nom || !code || coordonnateur1 === 0) {
-      // Afficher un message d'erreur pour chaque champ vide
-      if (!nom) {
-        setNomError(true);
-      }
-      if (!code) {
-        setCodeError(true);
-      }
-      if (!coordonnateur1) {
-        setCoordonnateur1Error(true);
-      }
-      return false;
-    }
-    if (code.length > 7) {
-      setMessageError("Le code d'un module ne peut pas excéder 7 caractères.");
-      setCodeError(true);
-      return false;
-    }
-    if (nom.length > 50) {
-      setMessageError("Le nom d'un module ne peut pas excéder 50 caractères.");
-      setNomError(true);
-      return false;
-    }
-    return true;
-  }
-
   function generateOptionsCoordonnateur() {
     return enseignants.map((enseignant) => (
       <option key={enseignant.id} value={JSON.stringify(enseignant)}>
@@ -97,12 +74,82 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
     ));
   }
 
+  function nombreValide(nombre) {
+    return !(nombre < 0 || nombre > 999);
+  }
+
+  function validation_nombre() {
+    return (
+      nombreValide(item.nb_heures_be) &&
+      nombreValide(item.nb_heures_tp) &&
+      nombreValide(item.nb_heures_td) &&
+      nombreValide(item.nb_heures_cm) &&
+      nombreValide(item.nb_heures_ci) &&
+      nombreValide(item.nb_heures_hors_presentiel)
+    );
+  }
+
+  function resetError() {
+    setNomError(false);
+    setCodeError(false);
+    setCoordonnateur1Error(false);
+    setNombreHeuresError(false);
+  }
+
+  function testValid() {
+    resetError();
+    const code = item.code;
+    const nom = item.nom;
+    const valid_coordonnateur1 = item.coordonnateur1;
+    const valid_nombre = validation_nombre();
+    if (
+      !code ||
+      !nom ||
+      nom.length > 50 ||
+      code.length > 7 ||
+      !valid_coordonnateur1 ||
+      !valid_nombre
+    ) {
+      // Afficher un message d'erreur pour chaque champ invalide
+      if (!nom) {
+        setMessageNomError("Le champ est obligatoire.");
+        setNomError(true);
+      }
+      if (nom.length > 50) {
+        setMessageNomError(
+          "Le nom d'un module ne peut pas excéder 50 caractères."
+        );
+        setNomError(true);
+      }
+      if (!code) {
+        console.log(code);
+        setMessageCodeError("Le champ est obligatoire.");
+        setCodeError(true);
+      }
+      if (code.length > 7) {
+        setMessageCodeError(
+          "Le code d'un module ne peut pas excéder 7 caractères."
+        );
+        setCodeError(true);
+      }
+      if (!valid_coordonnateur1) {
+        setMessageCoordonnateurError("Le champ est obligatoire.");
+        setCoordonnateur1Error(true);
+      }
+      if (!valid_nombre) {
+        setMessageHeuresError(
+          "Le nombre d'heures doit être compris entre 0 et 999"
+        );
+        setNombreHeuresError(true);
+      }
+      return false;
+    }
+    return true;
+  }
+
   function validateForm() {
     if (testValid()) {
       item.nb_heures_total = sum;
-      if (item.coordonnateur2.id === 0) {
-        item.coordonnateur2 = null;
-      }
       return onSave(item);
     }
   }
@@ -127,7 +174,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               // Afficher une bordure rouge si le champ est vide
               style={{ borderColor: codeError ? "red" : "" }}
             />
-            {codeError && <p style={{ color: "red" }}>{messageError}</p>}
+            {codeError && <p style={{ color: "red" }}>{messageCodeError}</p>}
           </FormGroup>
           <FormGroup>
             <Label for="nom">Nom</Label>
@@ -144,7 +191,7 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               // Afficher une bordure rouge si le champ est vide
               style={{ borderColor: nomError ? "red" : "" }}
             />
-            {nomError && <p style={{ color: "red" }}>{messageError}</p>}
+            {nomError && <p style={{ color: "red" }}>{messageNomError}</p>}
           </FormGroup>
           <FormGroup>
             <Label for="coordonnateur1">Coordonnateur 1</Label>
@@ -153,14 +200,18 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               name="coordonnateur1"
               onChange={handleChange}
               value={JSON.stringify(item.coordonnateur1)}
-              placeholder={`${item.coordonnateur1.nom} ${item.coordonnateur1.prenom}`}
+              placeholder={
+                module.coordonnateur1
+                  ? `${item.coordonnateur1.nom} ${item.coordonnateur1.prenom}`
+                  : ""
+              }
               style={{ borderColor: coordonnateur1Error ? "red" : "" }}
             >
               <option hidden>Choix du coordinateur 1</option>
               {generateOptionsCoordonnateur()}
             </select>
             {coordonnateur1Error && (
-              <p style={{ color: "red" }}>{messageError}</p>
+              <p style={{ color: "red" }}>{messageCoordonnateurError}</p>
             )}
           </FormGroup>
           <FormGroup>
@@ -170,7 +221,11 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
               name="coordonnateur2"
               onChange={handleChange}
               value={JSON.stringify(item.coordonnateur2)}
-              placeholder={`${item.coordonnateur2.nom} ${item.coordonnateur2.prenom}`}
+              placeholder={
+                module.coordonnateur2
+                  ? `${item.coordonnateur2.nom} ${item.coordonnateur2.prenom}`
+                  : ""
+              }
             >
               <option hidden>Choix du coordinateur 2</option>
               {generateOptionsCoordonnateur()}
@@ -191,6 +246,9 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
                 }
               }}
             />
+            {nombreHeuresError && (
+              <p style={{ color: "red" }}>{messageHeuresError}</p>
+            )}
           </FormGroup>
           <FormGroup>
             <Label for="nb_heures_ci">Nombre d'heures de CI</Label>
@@ -207,6 +265,9 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
                 }
               }}
             />
+            {nombreHeuresError && (
+              <p style={{ color: "red" }}>{messageHeuresError}</p>
+            )}
           </FormGroup>
           <FormGroup>
             <Label for="nb_heures_td">Nombre d'heures de TD</Label>
@@ -223,6 +284,9 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
                 }
               }}
             />
+            {nombreHeuresError && (
+              <p style={{ color: "red" }}>{messageHeuresError}</p>
+            )}
           </FormGroup>
           <FormGroup>
             <Label for="nb_heures_tp">Nombre d'heures de TP</Label>
@@ -239,6 +303,9 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
                 }
               }}
             />
+            {nombreHeuresError && (
+              <p style={{ color: "red" }}>{messageHeuresError}</p>
+            )}
           </FormGroup>
           <FormGroup>
             <Label for="nb_heures_be">Nombre d'heures de BE</Label>
@@ -255,6 +322,9 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
                 }
               }}
             />
+            {nombreHeuresError && (
+              <p style={{ color: "red" }}>{messageHeuresError}</p>
+            )}
           </FormGroup>
           <FormGroup>
             <Label for="nb_heures_hors_presentiel">
@@ -273,6 +343,9 @@ function FormModule({ isOpen, toggle, activeItem, onSave, title }) {
                 }
               }}
             />
+            {nombreHeuresError && (
+              <p style={{ color: "red" }}>{messageHeuresError}</p>
+            )}
           </FormGroup>
           <p>Nombre d'heures total : {sum}</p>
         </Form>

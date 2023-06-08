@@ -1,7 +1,9 @@
 // Bibliothèques
 import { useEffect, useState } from "react";
 
-// Code
+/**
+ * Le rôle de ce composant est de charger des données à partir d'une URL spécifiée.
+ */
 function ChargeurDonnees(urlFetch) {
   const [data, setData] = useState([]);
 

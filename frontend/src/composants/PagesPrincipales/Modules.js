@@ -6,7 +6,10 @@ import ChargeurDonnees from "../Outils/ChargeurDonnees";
 import GenerateurPage from "../ElementsInterface/GenerateurPage";
 import { getModulesURL } from "../Outils/Urls";
 
-// Code
+/**
+ * Le rôle de ce composant est d'afficher la page "Modules" de PEPH.
+ * Pour cela, il récupère les données de l'API grâce au composant "ChargeurDonnees".
+ */
 function Modules() {
   const API_URL_MODULES = getModulesURL();
   const { data, fetchData } = ChargeurDonnees(API_URL_MODULES);
@@ -21,18 +24,8 @@ function Modules() {
     item: {
       code: "",
       nom: "",
-      coordonnateur1: {
-        id: 0,
-        nom: "",
-        prenom: "",
-        departement: "",
-      },
-      coordonnateur2: {
-        id: 0,
-        nom: "",
-        prenom: "",
-        departement: "",
-      },
+      coordonnateur1: null,
+      coordonnateur2: null,
       nb_heures_tp: 0,
       nb_heures_td: 0,
       nb_heures_be: 0,

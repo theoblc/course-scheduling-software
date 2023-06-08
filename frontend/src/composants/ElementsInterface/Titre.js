@@ -1,7 +1,9 @@
 // Bibliothèques
 import React from "react";
 
-// Code
+/**
+ * Le rôle de ce composant est d'afficher un titre centré sur la page.
+ */
 function Titre({ type }) {
   return (
     <div style={{ paddingTop: "30px", paddingBottom: "10px" }}>

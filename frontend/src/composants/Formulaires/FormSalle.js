@@ -12,10 +12,15 @@ import {
   Label,
 } from "reactstrap";
 
-// Code
+/**
+ * Le rôle de ce composant est d'afficher un formulaire pour rentrer des informations sur une salle.
+ * Il est utilisé aussi bien pour ajouter une nouvelle salle que pour modifier une salle existante.
+ */
 function FormSalle({ isOpen, toggle, activeItem, onSave, title }) {
   const [item, setItem] = useState(activeItem);
+  // Gestion des erreurs
   const [numeroError, setNumeroError] = useState(false);
+  // Gestion des messages d'erreur
   const [messageError, setMessageError] = useState("Le champ est obligatoire.");
 
   function handleChange(e) {
@@ -24,18 +29,32 @@ function FormSalle({ isOpen, toggle, activeItem, onSave, title }) {
     setItem(newItem);
   }
 
+  function resetError() {
+    setNumeroError(false);
+    setMessageError(false);
+  }
+
   function testValid() {
-    const numero = item.numero;
-    // Afficher un message d'erreur pour chaque champ vide
-    if (!numero) {
-      setMessageError("Le champ est obligatoire.");
-      setNumeroError(true);
-    } else if (numero.length !== 4) {
-      setMessageError(
-        "Le numéro d'une salle ne peut pas excéder 4 caractères."
-      );
-      setNumeroError(true);
-    } else {
+    resetError();
+    // Afficher un message d'erreur pour chaque champ invalide
+    if (!item.numero || item.numero.length !== 4) {
+      if (!item.numero) {
+        setMessageError("Le champ est obligatoire.");
+        setNumeroError(true);
+      }
+      if (item.numero.length !== 4) {
+        setMessageError(
+          "Le numéro d'une salle doit faire exactement 4 caractères."
+        );
+        setNumeroError(true);
+      }
+      return false;
+    }
+    return true;
+  }
+
+  function validateForm() {
+    if (testValid()) {
       return onSave(item);
     }
   }
@@ -54,12 +73,7 @@ function FormSalle({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  if (!item.numero) {
-                    event.preventDefault();
-                    setNumeroError(true);
-                  } else {
-                    testValid();
-                  }
+                  validateForm();
                 }
               }}
               // Afficher une bordure rouge si le champ est vide
@@ -76,7 +90,7 @@ function FormSalle({ isOpen, toggle, activeItem, onSave, title }) {
               onChange={handleChange}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
-                  testValid();
+                  validateForm();
                 }
               }}
             />
@@ -84,7 +98,7 @@ function FormSalle({ isOpen, toggle, activeItem, onSave, title }) {
         </Form>
       </ModalBody>
       <ModalFooter>
-        <Button color="success" onClick={() => testValid()}>
+        <Button color="success" onClick={() => validateForm()}>
           Enregistrer
         </Button>
       </ModalFooter>

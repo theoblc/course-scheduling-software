@@ -10,7 +10,10 @@ import {
   getModuleURL,
 } from "../Outils/Urls";
 
-// Code
+/**
+ * Le rôle de ce composant est d'afficher la page "Planification" d'un module.
+ * Il commence par récupérer la liste complète des séances puis les informations sur le module.
+ */
 function PlanificationModule() {
   const { id } = useParams();
   const [data, setData] = useState({});

@@ -6,7 +6,10 @@ import ChargeurDonnees from "../Outils/ChargeurDonnees";
 import GenerateurPage from "../ElementsInterface/GenerateurPage";
 import { getSallesURL } from "../Outils/Urls";
 
-// Code
+/**
+ * Le rôle de ce composant est d'afficher la page "Salles" de PEPH.
+ * Pour cela, il récupère les données de l'API grâce au composant "ChargeurDonnees".
+ */
 function Salles() {
   const API_URL_SALLES = getSallesURL();
   const { data, fetchData } = ChargeurDonnees(API_URL_SALLES);

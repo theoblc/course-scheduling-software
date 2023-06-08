@@ -6,7 +6,11 @@ import Tableau from "./Tableau";
 import Titre from "./Titre";
 import Ajout from "./Ajout";
 
-// Code
+/**
+ * Le rôle de ce composant, appelé "GenerateurPage", est de générer une page.
+ * Cette page contient un titre, un tableau et un bouton d'ajout.
+ * La page est spécialisée grâce aux paramètres passés en tant que prop.
+ */
 function GenerateurPage({ listParams }) {
   const {
     title,

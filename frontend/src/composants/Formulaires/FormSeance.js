@@ -19,22 +19,30 @@ import {
   getModuleCoursURL,
   getEnseignantsURL,
   getSallesURL,
+  getConflitsURL,
 } from "../Outils/Urls";
 
-// Code
+/**
+ * Le rôle de ce composant est d'afficher un formulaire pour rentrer des informations sur une seance.
+ * Il est utilisé aussi bien pour ajouter une nouvelle seance que pour modifier une seance existante.
+ */
 function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   const [item, setItem] = useState(activeItem);
   const [salles, setSalles] = useState([]);
   const [cours, setCours] = useState([]);
   const [enseignants, setEnseignants] = useState([]);
+  const [listeConflits, setListeConflits] = useState([]);
+  // Gestion des erreurs
   const [coursError, setCoursError] = useState(false);
   const [dateError, setDateError] = useState(false);
   const [debutError, setDebutError] = useState(false);
   const [finError, setFinError] = useState(false);
+  const [groupeError, setGroupError] = useState(false);
   const [coherenceError, setCoherenceError] = useState(false);
   const [chevauchError, setChevauchError] = useState(false);
+  // Gestion des messages d'erreur
+  const messageGroupError = "Le numéro doit être compris entre 0 et 9";
   const messageError = "Le champ est obligatoire.";
-  const [listeConflits, setListeConflits] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,10 +107,8 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
   }
 
   async function testConflits() {
-    const response = await axios.post(
-      "http://127.0.0.1:8000/api/seances/chevauchements",
-      item
-    );
+    const API_URL_CONFLITS = getConflitsURL();
+    const response = await axios.post(API_URL_CONFLITS, item);
     if (!response.data.conflit) {
       setChevauchError(false);
       return false;
@@ -112,24 +118,35 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
     return true;
   }
 
-  function testChamps() {
+  function nombreValide(nombre) {
+    return !(nombre < 0 || nombre > 9);
+  }
+
+  function resetError() {
     setCoursError(false);
     setDateError(false);
     setDebutError(false);
     setFinError(false);
     setCoherenceError(false);
     setChevauchError(false);
+  }
+
+  function testValid() {
+    resetError();
+    console.log(item);
     const { date, heure_debut, heure_fin } = item;
     var debut_avant_fin = heure_debut <= heure_fin;
     var date_valide = testDate(date);
     var cours_valide = item.cours.id !== 0;
+    var valid_group = nombreValide(item.numero_groupe_td);
     if (
       !date ||
       !heure_debut ||
       !heure_fin ||
       !debut_avant_fin ||
       !date_valide ||
-      !cours_valide
+      !cours_valide ||
+      !valid_group
     ) {
       // Afficher un message d'erreur pour chaque champ vide
       if (!cours_valide) {
@@ -147,13 +164,16 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
       if (!debut_avant_fin) {
         setCoherenceError(true);
       }
+      if (!valid_group) {
+        setGroupError(true);
+      }
       return false;
     }
     return true;
   }
 
   async function validateForm() {
-    if (testChamps()) {
+    if (testValid()) {
       const chevauchement = await testConflits();
       if (!chevauchement) {
         return onSave(item);
@@ -198,7 +218,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
                 placeholder="dd/MM/yyyy"
                 onKeyPress={(event) => {
                   if (event.key === "Enter") {
-                    testChamps();
+                    validateForm();
                   }
                 }}
                 // Afficher une bordure rouge si le champ est vide
@@ -215,7 +235,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
                 onChange={handleChange}
                 onKeyPress={(event) => {
                   if (event.key === "Enter") {
-                    testChamps();
+                    validateForm();
                   }
                 }}
                 // Afficher une bordure rouge si le champ est vide
@@ -239,7 +259,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
                 onChange={handleChange}
                 onKeyPress={(event) => {
                   if (event.key === "Enter") {
-                    testChamps();
+                    validateForm();
                   }
                 }}
                 // Afficher une bordure rouge si le champ est vide
@@ -264,6 +284,9 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
                 value={item.numero_groupe_td}
                 onChange={handleChange}
               />
+              {groupeError && (
+                <p style={{ color: "red" }}>{messageGroupError}</p>
+              )}
             </FormGroup>
             <FormGroup>
               <Label for="salle">Salle</Label>
@@ -304,7 +327,7 @@ function FormSeance({ isOpen, toggle, activeItem, onSave, title }) {
                 onChange={handleChange}
                 onKeyPress={(event) => {
                   if (event.key === "Enter") {
-                    testChamps();
+                    validateForm();
                   }
                 }}
               />
